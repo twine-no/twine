@@ -1,0 +1,6 @@
+@import "custom/animations.tailwind.css";
+@import "custom/navigation.tailwind.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
