@@ -1,0 +1,15 @@
+.mobile-sidebar {
+    @apply relative z-50 lg:hidden;
+}
+
+.mobile-sidebar-menu {
+    @apply relative mr-16 flex w-full max-w-xs flex-1 transition ease-in-out duration-300 transform;
+}
+
+.mobile-sidebar-backdrop {
+    @apply fixed inset-0 bg-gray-900/80 transition-opacity ease-linear duration-300;
+}
+
+.mobile-sidebar-close-button {
+    @apply transition-opacity ease-linear duration-50;
+}

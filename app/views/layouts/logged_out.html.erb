@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-full bg-white">
+<html>
 <head>
   <title><%= content_for(:title) || 'Milkshake' %></title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -23,20 +23,9 @@
   <%= javascript_importmap_tags %>
 </head>
 
-<body class="h-full">
-<div data-controller="sidebar">
-  <%= render 'navigation/mobile_menu' %>
-  <%= render 'navigation/desktop_sidebar' %>
-
-  <div class="lg:pl-72">
-    <%= render 'navigation/top_bar' %>
-
-    <main class="py-10">
-      <div class="px-4 sm:px-6 lg:px-8">
-        <%= yield %>
-      </div>
-    </main>
-  </div>
+<body class="bg-gray-100 h-screen flex">
+<div class="flex-1">
+  <%= yield %>
 </div>
 </body>
 </html>

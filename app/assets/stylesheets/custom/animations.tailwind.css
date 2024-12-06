@@ -1,0 +1,17 @@
+/* On an element with transition-opacity */
+.fade-in {
+    opacity: 1;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+/* On an element with transition and transform */
+.slide-in {
+    @apply translate-x-0;
+}
+
+.slide-out {
+    @apply -translate-x-full;
+}
