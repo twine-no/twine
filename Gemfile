@@ -51,6 +51,9 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Store environment variables in a .env file in the project root folder
+  gem 'dotenv-rails', require: 'dotenv/rails-now'
 end
 
 group :development do

@@ -1,0 +1,11 @@
+club:
+  name:
+  category: 0
+
+company:
+  name: Datablock AS
+  category: 1
+
+political_chapter:
+  name: Labour Party
+  category: 2

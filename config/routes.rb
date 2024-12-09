@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resource :session, except: [:show, :update]
+  resource :session, except: [ :show, :update ]
   resource :dashboard
   resources :passwords, param: :token
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
