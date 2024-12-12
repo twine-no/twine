@@ -1,10 +1,14 @@
-<% password_digest = BCrypt::Password.create("password") %>
-<% email = ENV.fetch() %>
+<% test_user_email = ENV.fetch('TEST_USER_EMAIL', 'example@mail.com') %>
+<% test_user_password_digest = BCrypt::Password.create(ENV.fetch('TEST_USER_PASSWORD', 'password')) %>
+<% password_digest = BCrypt::Password.create('password') %>
 
-me:
-  email:
-  password_digest: <%= password_digest %>
+# You're an active person who's managing a company, a political chapter, and a football meetup
+# You've created accounts for all of these, that's how you stay on top of everything.
+you:
+  email: <%= test_user_email %>
+  password_digest: <%= test_user_password_digest %>
 
-user:
-  email: tomas.veiden@gmail.com
+# Dave is a good friend. He supports you in everything you do.
+dave:
+  email: dave@mail.com
   password_digest: <%= password_digest %>

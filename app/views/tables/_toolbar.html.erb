@@ -1,0 +1,28 @@
+<%# locals: (table:) %>
+
+<div class="flex flex-col xl:flex-row xl:items-center mb-3">
+  <div class="n-table__toolbar__title">
+    <span class="text-3xl">
+      <%= table.title %>
+    </span>
+  </div>
+
+  <div class="flex flex-col xl:flex-row xl:items-center xl:ml-auto gap-x-4 h-full">
+    <% if table.searchable? %>
+      <%= render('tables/search_field', table: table) %>
+    <% end %>
+    <div class="flex w-full xl:w-fit items-center xl:items-start justify-center xl:justify-start gap-x-2 h-full">
+      <% if table.exportable? %>
+        <%= link_to url_for(
+                      format: :xls,
+                      sort_by: table.sort_by,
+                      sort_direction: table.sort_direction,
+                      search_term: table.search_term,
+                      timestamp: Time.current # prevents file caching
+                    ), data: { turbo: false } do %>
+          Export
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

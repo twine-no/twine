@@ -1,0 +1,23 @@
+<%# locals: (table:) %>
+
+<div
+  data-controller="tables--search"
+  data-tables--search-table-guid-value="<%= table.turbo_frame_id %>"
+  data-tables--search-last-search-identifier-value=""
+  data-tables--search-last-search-term-value="<%= search_term %>"
+  class="n-table-search"
+>
+  <div
+    data-tables--search-target="searchInputContainer"
+    class="flex xl:ml-2 mb-6 xl:mb-0">
+    <%= text_field :search, nil,
+                   value:       table.search_term,
+                   placeholder: table.search_placeholder,
+                   autocomplete: 'off',
+                   id:          "table-search-field-#{table.html_id}",
+                   class:       'w-full xl:w-64',
+                   data:        {
+                     action:                  'keyup->tables--search#handleNewSearchTerm paste->tables--search#handleNewSearchTerm'
+                   } %>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+you_manage_the_coffee_shop:
+  user: you
+  platform: coffee_shop
+  role: owner
+
+you_sit_on_the_political_chapter_board:
+  user: you
+  platform: political_chapter
+  role: owner
+
+you_organise_the_football_meetup:
+  user: you
+  platform: football_meetup
+  role: owner
+
+dave_is_a_coffee_shop_shareholder:
+  user: dave
+  platform: coffee_shop
+  role: member
+
+dave_sits_on_the_political_chapter_board:
+  user: dave
+  platform: political_chapter
+  role: admin
+
+dave_plays_football:
+  user: dave
+  platform: football_meetup
+  role: member

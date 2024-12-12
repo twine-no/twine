@@ -1,0 +1,21 @@
+<%# locals: (table:) %>
+
+<thead>
+<tr>
+  <% if table.multi_select? %>
+    <th scope="col" class="border-b border-stroke relative px-7 xl:w-12 xl:px-6">
+      <%=
+        # TODO: Make multi select generic
+        check_box_tag nil, nil, false,
+                      class: 'absolute left-4 top-1/2 -mt-2',
+                      data: { action: "change->tables--multi-select#selectAll", tables__multi_select_target: 'selectAllCheckbox' } %>
+    </th>
+  <% end %>
+  <% table.headers.each_with_index do |header, index| %>
+    <%= render 'tables/header',
+               header: header,
+               table: table,
+               column_index: index %>
+  <% end %>
+</tr>
+</thead>

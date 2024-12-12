@@ -1,0 +1,4 @@
+<%= turbo_frame_tag :flash_messages %>
+<% flash.each do |_type, msg| %>
+  <div data-controller="flashes" data-flashes-message-value="<%= msg %>"></div>
+<% end %>

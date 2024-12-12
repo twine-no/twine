@@ -11,5 +11,13 @@
 }
 
 .mobile-sidebar-close-button {
-    @apply transition-opacity ease-linear duration-50;
+    @apply transition-opacity ease-linear duration-100;
+}
+
+.sidebar-link {
+    @apply flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white;
+}
+
+.sidebar-link.active {
+    @apply bg-indigo-700;
 }

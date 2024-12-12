@@ -1,4 +1,5 @@
 @import "custom/animations.tailwind.css";
+@import "custom/flashes.tailwind.css";
 @import "custom/navigation.tailwind.css";
 
 @tailwind base;

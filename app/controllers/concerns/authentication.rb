@@ -33,20 +33,30 @@ module Authentication
 
     def request_authentication
       session[:return_to_after_authenticating] = request.url
-      redirect_to new_session_path
+      redirect_to admin_new_session_path
     end
 
     def after_authentication_url
-      session.delete(:return_to_after_authenticating) || dashboard_url
+      session.delete(:return_to_after_authenticating) || admin_dashboard_url
     end
 
 
     def start_new_session_for(user)
-      user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
+      user.sessions.create!(
+        user_agent: request.user_agent,
+        ip_address: request.remote_ip,
+        platform: user.default_platform
+      ).tap do |session|
         Current.session = session
         cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
       end
     end
+
+  def switch_platform_to(platform)
+    return false unless platform.users.include?(Current.session.user)
+
+    Current.session.update(platform: platform)
+  end
 
     def terminate_session
       Current.session.destroy

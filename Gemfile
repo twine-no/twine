@@ -42,6 +42,9 @@ gem "thruster", require: false
 
 gem "tailwindcss-rails"
 
+# Paginate records and load them automatically as you scroll
+gem "geared_pagination"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -53,7 +56,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   # Store environment variables in a .env file in the project root folder
-  gem 'dotenv-rails', require: 'dotenv/rails-now'
+  gem "dotenv-rails", require: "dotenv/load"
 end
 
 group :development do

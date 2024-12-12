@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/bord.iml" filepath="$PROJECT_DIR$/.idea/bord.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/milkshake.iml" filepath="$PROJECT_DIR$/.idea/milkshake.iml" />
     </modules>
   </component>
 </project>
