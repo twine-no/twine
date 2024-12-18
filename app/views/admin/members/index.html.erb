@@ -1,0 +1,33 @@
+<%= card do %>
+  <%=
+    table_of @page,
+             searchable: true,
+             update_address_bar: true,
+             links: [
+               link_to('Import', root_path, class: 'button button-secondary'),
+               link_to('New member', root_path, class: 'button button-primary')
+             ],
+             columns: [
+               {
+                 header: 'Role',
+                 content: -> (membership) { badge membership_role_text(membership), color: membership_role_color(membership) },
+                 filter_by: {
+                   'memberships.role': {
+                     Admin: %w[admin super_admin],
+                     Member: 'member'
+                   }
+                 }
+               },
+               {
+                 header: 'Email',
+                 content: -> (membership) { membership.user.email },
+                 sort_by: 'users.email'
+               },
+               {
+                 header: 'Name',
+                 content: -> (membership) { membership.user.full_name },
+                 sort_by: 'users.first_name,users.last_name'
+               }
+             ]
+  %>
+<% end %>

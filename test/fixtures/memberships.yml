@@ -1,17 +1,17 @@
 you_manage_the_coffee_shop:
-  user: you
+  user: me
   platform: coffee_shop
-  role: owner
+  role: super_admin
 
 you_sit_on_the_political_chapter_board:
-  user: you
+  user: me
   platform: political_chapter
-  role: owner
+  role: super_admin
 
 you_organise_the_football_meetup:
-  user: you
+  user: me
   platform: football_meetup
-  role: owner
+  role: super_admin
 
 dave_is_a_coffee_shop_shareholder:
   user: dave
@@ -26,4 +26,19 @@ dave_sits_on_the_political_chapter_board:
 dave_plays_football:
   user: dave
   platform: football_meetup
+  role: member
+
+super_admin_helps_you_manage_the_coffee_shop:
+  user: super_admin
+  platform: coffee_shop
+  role: admin
+
+admin_also_helps_you_manage_the_coffee_shop:
+  user: admin
+  platform: coffee_shop
+  role: admin
+
+member_owns_a_stake_in_the_coffee_shop:
+  user: member
+  platform: coffee_shop
   role: member

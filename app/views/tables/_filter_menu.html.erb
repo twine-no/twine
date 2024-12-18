@@ -1,0 +1,42 @@
+<%# locals:(table:, header:) %>
+<div id="filter-<%= table.guid %>-<%= header.column.index %>"
+     data-turbo-permanent="true">
+  <%= dropdown_menu do %>
+    <%= button_tag data: {
+      action: 'dropdown#toggle',
+      dropdown_target: 'button'
+    } do %>
+      <%= svg_tag 'icons/mingcute/filter_fill.svg', class: 'text-icon cursor-pointer inline-block w-3 h-3' %>
+    <% end %>
+
+    <%= dropdown_menu_content class: 'absolute' do %>
+      <%= card class: 'px-4 py-5 sm:p-6' do %>
+        <div
+          class="flex flex-col gap-1 font-normal">
+          <% header.column.filters.each do |attribute, alternatives| %>
+            <div
+              data-controller="tables--filter"
+              data-tables--filter-table-guid-value="<%= table.guid %>"
+            >
+              <% alternatives.each do |alternative| %>
+                <% alternative_html = alternative.second.is_a?(Array) ? alternative.second.join(',') : alternative.second %>
+                <div>
+                  <%= check_box_tag attribute,
+                                    alternative_html,
+                                    table_filter_checkbox_checked?(alternative.second, params.dig(:filters, attribute)),
+                                    class: 'checkbox',
+                                    data: {
+                                      action: 'tables--filter#applyFilter',
+                                      'tables--filter-target': 'checkbox'
+                                    }
+                  %>
+                  <%= alternative.first %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

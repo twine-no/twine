@@ -1,0 +1,114 @@
+<%# locals: (table:) %>
+
+<div
+  class="relative overflow-x-auto"
+  data-controller="tables--content tables--column-hider <%= 'tables--multi-select' if table.multi_select? %>"
+  data-table-guid="<%= table.guid %>"
+  data-tables--content-max-row-count-value="<%= table.page&.recordset&.records_count %>"
+  data-tables--column-hider-with-multiselect-value="<%= table.multi_select? ? 1 : 0 %>"
+>
+
+  <% unless table.collection %>
+    <%= form_with url: url_for,
+                  method: :get,
+                  data: {
+                    'tables--content-target': 'form',
+                    turbo_frame: table.turbo_frame_id,
+                    turbo_action: table.update_address_bar? ? 'advance' : nil
+                  } do %>
+      <%= hidden_field_tag :table_guid, table.guid %>
+      <%= hidden_field_tag :sort_by, table.sort_by, data: { 'tables--content-target': 'sortByInput' } %>
+      <%= hidden_field_tag :sort_direction, table.sort_direction, data: { 'tables--content-target': 'sortDirectionInput' } %>
+      <%= hidden_field_tag :search_term, table.search_term, data: { 'tables--content-target': 'searchTermInput' } %>
+      <%= hidden_field_tag :per_page, nil, data: { 'tables--content-target': 'perPageInput' } %>
+
+      <% if table.filters.any? %>
+        <%= fields_for :filters do |filters_attributes| %>
+          <% table.filters.each do |column_filters| %>
+            <% column_filters.keys.each do |filter_by_attribute| %>
+              <%= filters_attributes.hidden_field filter_by_attribute,
+                                   data: { 'tables--content-target': 'filterInput' } %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% params.to_unsafe_h.except(:table_guid, :sort_by, :sort_direction, :search_term, :filters).each do |key, value| %>
+        <%= hidden_field_tag key, value %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% if table.show_toolbar? %>
+    <%= render 'tables/toolbar', table: table %>
+  <% end %>
+
+  <%= turbo_frame_tag table.turbo_frame_id do %>
+    <div class="flow-root">
+      <div class="relative overflow-x-auto">
+        <div class="inline-block min-w-full py-2 align-middle">
+          <table
+            id="<%= table.turbo_frame_id %>"
+            data-tables--column-hider-target="table"
+            data-tables--content-target="table"
+            class="min-w-full table-fixed divide-y divide-gray-300">
+            <% if headers.any? %>
+              <%= render 'tables/headers', table: table %>
+            <% end %>
+            <tbody
+              class="divide-y divide-gray-200"
+
+              <% if table.paginated? %>
+              data-controller="pagination"
+              data-pagination-root-margin-value="40px"
+              <% end %>
+              >
+
+            <% if table.turbo_streamable? %>
+              <%= turbo_stream_from table.guid %>
+            <% end %>
+
+            <% if table.rows.any? %>
+              <% table.rows.each do |row| %>
+                <%= render 'tables/row', row: row, table: table %>
+              <% end %>
+            <% else %>
+              <tr class="no-results">
+                <td colspan="<%= table.column_count %>">
+                  <div class="flex flex-col items-center justify-center h-32">
+                    <div class="px-4 py-4 text-sm text-gray-300">
+                      <%= table.no_results_placeholder %>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+
+            <% # The pagination spinner %>
+            <% unless table.collection || table.page.last? %>
+              <tr data-pagination-target="nextSection">
+                <td colspan="<%= table.column_count %>">
+                  <%= link_to url_for(
+                                params.to_unsafe_h.merge(
+                                  {
+                                    sort_by: table.sort_by,
+                                    sort_direction: table.sort_direction,
+                                    search_term: table.search_term,
+                                    table_guid: table.guid,
+                                    page: table.page.next_param
+                                  })
+                              ),
+                              class: "pagination-link",
+                              data: { 'pagination-target': 'nextPageLink', preload: table.page.first? } do %>
+                    <%= svg_tag 'animations/spinner.svg', class: 'w-6 h-6 text-foreground' %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

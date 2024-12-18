@@ -1,24 +1,16 @@
-# README
+# Codename: Milkshake
+A simple, free, open-source system to manage your business, group or organisation -- whether you're incorporated or not.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Inquiries?
+This project is maintained by Tomas! Reach out to me on tomasbv@hey.com
 
-Things you may want to cover:
+## How to get the project up and running
+Proper instructions will come later, but it's a Ruby on Rails project, so install Ruby, Rails, run bundle, migrate DB etc.
 
-* Ruby version
+## Contribute
+Feel free to explore the code and submit pull requests. It's early days, and proper processes will be formalised.
+It's a good idea to reach out to Tomas first if you have a bigger idea you want to add to the project.
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## License
+Protected under the JGTHF (Just Give Tomas a Heads-up First) license, in case you want to use the code 
+for something radically different from the scope of this app/project.

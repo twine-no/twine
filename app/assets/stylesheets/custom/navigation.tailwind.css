@@ -19,5 +19,5 @@
 }
 
 .sidebar-link.active {
-    @apply bg-indigo-700;
+    @apply bg-blue-700;
 }

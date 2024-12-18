@@ -1,5 +1,9 @@
 module NavigationHelper
-  def sidebar_active_html_class(option_controller)
-    'active' if controller_name == option_controller
+  def admin_page?
+    request.path.include?('/admin/')
+  end
+
+  def member_page?
+    request.path.include?('/member/')
   end
 end

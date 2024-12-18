@@ -9,4 +9,16 @@ class User < ApplicationRecord
   def default_platform
     platforms.first
   end
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
+  def has_admin_rights_at?(platform)
+    memberships.find_by(platform: platform).grants_admin_rights?
+  end
+
+  def has_member_rights_at?(platform)
+    memberships.find_by(platform: platform).grants_member_rights?
+  end
 end

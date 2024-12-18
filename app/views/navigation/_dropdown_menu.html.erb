@@ -1,0 +1,9 @@
+<%# locals: (options:, content:) %>
+
+<div
+  data-controller="dropdown"
+  data-action="dropdown:click:outside->dropdown#close keydown.esc->dropdown#close"
+  class="relative inline-block text-left w-fit <%= options[:class] %> z-50"
+>
+  <%= content %>
+</div>

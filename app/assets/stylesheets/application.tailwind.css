@@ -1,6 +1,9 @@
 @import "custom/animations.tailwind.css";
-@import "custom/flashes.tailwind.css";
+@import "custom/badges.tailwind.css";
+@import "custom/buttons.tailwind.css";
+@import "custom/checkboxes.tailwind.css";
 @import "custom/navigation.tailwind.css";
+@import "custom/text.tailwind.css";
 
 @tailwind base;
 @tailwind components;

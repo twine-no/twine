@@ -9,7 +9,6 @@ export async function flash(content, displayTime) {
     }
 
     const parentElement = document.querySelector('.dynamic-flash-container');
-    console.log('parent', parentElement)
 
     let flashDiv = document.createElement('DIV');
     flashDiv.innerText = content;

@@ -2,13 +2,38 @@
 <% test_user_password_digest = BCrypt::Password.create(ENV.fetch('TEST_USER_PASSWORD', 'password')) %>
 <% password_digest = BCrypt::Password.create('password') %>
 
-# You're an active person who's managing a company, a political chapter, and a football meetup
-# You've created accounts for all of these, that's how you stay on top of everything.
-you:
+# You're an active person who's managing a coffee shop (a company), a political chapter, and a football meetup
+# You've created accounts for all of these to stay on top of everything.
+me:
   email: <%= test_user_email %>
   password_digest: <%= test_user_password_digest %>
+  first_name: Test
+  last_name: User
 
 # Dave is a good friend. He supports you in everything you do.
 dave:
   email: dave@mail.com
   password_digest: <%= password_digest %>
+  first_name: Dave
+  last_name: Davidson
+
+# Super Admin shares your account at the coffee shop
+super_admin:
+  email: super.admin@mail.com
+  password_digest: <%= password_digest %>
+  first_name: Super
+  last_name: Admin
+
+# Admin is a professional manager. They help you manage the coffee shop.
+admin:
+  email: admin@mail.com
+  password_digest: <%= password_digest %>
+  first_name: Admin
+  last_name: User
+
+# Member likes to participate in things. They're a shareholder in your coffee shop.
+member:
+  email: member@mail.com
+  password_digest: <%= password_digest %>
+  first_name: Member
+  last_name: User

@@ -1,15 +1,26 @@
 module Tables
   class Header
-    attr_accessor :title, :sort_by
+    attr_reader :column
 
-    def initialize(title:, sort_by:, fixed:)
-      @title = title
-      @sort_by = sort_by
-      @fixed = fixed
+    delegate :table, :title, to: :column
+
+    def initialize(column:)
+      @column = column
     end
 
-    def fixed?
-      !!@fixed
+    def sort_direction_icon_name
+      case column.sort_direction&.to_sym
+      when :asc
+        "icons/mingcute/arrows/up_small_fill.svg"
+      when :desc
+        "icons/mingcute/arrows/down_small_fill.svg"
+      else
+        "icons/mingcute/arrows/selector_vertical_fill.svg"
+      end
+    end
+
+    def sort_direction_class_name
+      table.sort_direction&.to_sym == :neutral ? "w-6 h-6" : "w-4 h-4"
     end
   end
 end

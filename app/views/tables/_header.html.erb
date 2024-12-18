@@ -1,29 +1,28 @@
-<%# locals: (header:, table:, column_index:) %>
+<%# locals: (header:, table:) %>
 
-<%= content_tag(:tr, html_options) do %>
-  <% if @multi_select %>
-    <td data-links-noclick="true" class="relative px-7 sm:w-12 sm:px-6">
-      <%= check_box_tag(nil,
-                        @record.id,
-                        false,
-                        class: 'form-checkbox absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-white/10 bg-white/5 text-sky-medium focus:ring-sky-medium focus:ring-offset-gray-900 checked:bg-sky-medium',
-                        data:  {
-                          action:                      'change->tables--multi-select#selectItem',
-                          tables__multi_select_target: 'recordCheckbox'
-                        })
-      %>
-    </td>
+<th
+  scope="col"
+  <% if header.column.sortable? %>
+  data-controller="tables--sort"
+  data-tables--sort-sort-direction-value="<%= header.column.sort_direction %>"
+  data-tables--sort-sort-by-value="<%= header.column.sort_by %>"
+  data-tables--sort-table-guid-value="<%= table.guid %>"
+  data-action="click->tables--sort#toggleSortDirection"
   <% end %>
+  data-column-index="<%= header.column.index %>"
+  class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+  >
 
-  <% normalized_columns.each do |column| %>
-    <%= render ::Tables::ColumnComponent.new(**column[:options]) do %>
-      <% if column[:component].call(@record).is_a?(Array) %>
-        <% column[:component].call(@record).map do |component| %>
-          <%= render component %>
-        <% end %>
-      <% else %>
-        <%= render column[:component].call(@record) %>
+    <span class="sm:flex sm:items-center gap-x-1 whitespace-nowrap group-hover:text-gray-200">
+      <%= header.title %>
+      <% if header.column.sortable? %>
+        <%= svg_tag header.sort_direction_icon_name,
+                    class: "text-icon cursor-pointer inline-block #{header.sort_direction_class_name}",
+                    'data-tables--sort-target': "sortIcon" %>
       <% end %>
-    <% end %>
-  <% end %>
-<% end %>
+
+      <% if header.column.filterable? %>
+        <%= render 'tables/filter_menu', table: table, header: header %>
+      <% end %>
+    </span>
+</th>

@@ -1,0 +1,14 @@
+<nav class="flex flex-1 flex-col">
+  <ul role="list" class="flex flex-1 flex-col gap-y-7">
+    <li>
+      <ul role="list" class="-mx-2 space-y-1">
+        <li>
+          <%= link_to member_dashboard_path, class: "sidebar-link #{sidebar_active_html_class('dashboards')}" do %>
+            <%= svg_tag 'icons/mingcute/home_3_line.svg', class: 'size-6 shrink-0 text-indigo-200 group-hover:text-white' %>
+            Dashboard
+          <% end %>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
