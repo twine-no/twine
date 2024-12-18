@@ -2,40 +2,24 @@ import {Controller} from '@hotwired/stimulus'
 import {useClickOutside} from 'stimulus-use'
 
 export default class extends Controller {
-    static targets = ['menu', 'button', 'icon']
+    static targets = ['menu']
 
     connect() {
-        this.dropdownOpen = false
         useClickOutside(this, this.close)
     }
 
-    toggle(e) {
-        e.stopPropagation();
-        this.dropdownOpen ? this.close(e) : this.open(e)
+    toggle(event) {
+        event.stopPropagation();
+        this.menuTarget.open ? this.close(event) : this.open(event)
     }
 
-    open(e) {
-        e.preventDefault()
-
-        if (this.hasIconTarget) {
-            this.iconTarget.classList.add('rotate-180')
-        }
-
-        this.buttonTarget.setAttribute('aria-expanded', 'true')
-        this.dropdownOpen = true
-
-        this.menuTarget.classList.remove('hidden');
+    open(event) {
+        event.preventDefault()
+        this.menuTarget.show()
     }
 
-    close(e) {
-        e.preventDefault()
-
-        if (this.hasIconTarget) {
-            this.iconTarget.classList.remove('rotate-180')
-        }
-
-        this.buttonTarget.setAttribute('aria-expanded', 'false')
-        this.dropdownOpen = false
-        this.menuTarget.classList.add('hidden');
+    close(event) {
+        event.preventDefault()
+        this.menuTarget.close()
     }
 }

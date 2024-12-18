@@ -9,10 +9,10 @@
 
   <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-end">
     <div class="flex items-center gap-x-4 lg:gap-x-6">
-      <div data-controller="menu"
+      <div data-controller="dropdown"
            class="relative">
         <button type="button"
-                data-action="click->menu#toggle"
+                data-action="click->dropdown#toggle"
                 class="-m-1.5 flex items-center p-1.5"
                 aria-expanded="false"
                 aria-haspopup="true">
@@ -22,9 +22,9 @@
           </span>
         </button>
 
-        <div
-          data-menu-target="menu"
-          class="hidden absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
+        <dialog
+          data-dropdown-target="menu"
+          class="absolute left-0 w-40 -left-40 rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="user-menu-button"
@@ -35,7 +35,7 @@
                         id: 'user-menu-item-1',
                         class: 'block px-3 py-1 text-sm/6 text-gray-900'
           %>
-        </div>
+        </dialog>
       </div>
     </div>
   </div>

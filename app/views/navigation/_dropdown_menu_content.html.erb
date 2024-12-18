@@ -1,11 +1,8 @@
 <%# locals: (options:, content:) %>
 
-<div
+<dialog
   data-dropdown-target="menu"
-  data-transition-enter-active="transition ease-out duration-100"
-  data-transition-enter-from="transform opacity-100 scale-100"
-  data-transition-enter-to="transform opacity-0 scale-95"
-  class="hidden border-0 p-0 <%= options[:class] %>"
+  class="border-0 p-0 <%= options[:class] %>"
 >
   <%= content %>
-</div>
+</dialog>
