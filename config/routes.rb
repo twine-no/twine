@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     resource :onboarding, only: [ :show, :update ]
     resource :dashboard, only: [ :show ]
     resources :memberships, path: "members"
+    resources :meetings
   end
 
   namespace :member do

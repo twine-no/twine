@@ -3,6 +3,7 @@ module Tableable
 
   def set_data_table_page(records, allow_sort_by: [], default_sort_by: nil, default_sort_direction: nil, per_page: nil)
     records = search_for_records(records)
+    records = records.tableable_by_tab(params[:tab])
     records = filter_records(records)
     order_query = set_sorting_settings(records, allow_sort_by, default_sort_by, default_sort_direction)
     set_page_and_extract_portion_from(
@@ -46,7 +47,7 @@ module Tableable
 
     sort_by_params = params[:sort_by].split(",")
     sort_by_params.select do |sort_by_param|
-      sort_by_param.in?(allow_sort_by) || raise("Not allowed to sort by param: #{sort_by_param}")
+      sort_by_param.in?(allow_sort_by) || raise("Not allowed to sort by param: #{sort_by_param} vs allowed params: #{allow_sort_by}")
     end
   end
 

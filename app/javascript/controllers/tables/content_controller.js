@@ -7,15 +7,16 @@ export default class extends Controller {
         'sortDirectionInput',
         'filterInput',
         'searchTermInput',
+        'tabInput',
         'row',
         'perPageInput',
         'table'
     ];
     static values = {userId: Number, maxRowCount: Number};
 
-    update({sortBy, sortDirection, searchTerm, filters}) {
+    update({sortBy, sortDirection, searchTerm, filters, tab}) {
         this.showLoader();
-        this.updateContentParams(sortBy, sortDirection, searchTerm, filters);
+        this.updateContentParams(sortBy, sortDirection, searchTerm, filters, tab);
         this.submitForm();
     }
 
@@ -49,7 +50,7 @@ export default class extends Controller {
         });
     }
 
-    updateContentParams(sortBy, sortDirection, searchTerm, filter) {
+    updateContentParams(sortBy, sortDirection, searchTerm, filter, tab) {
         if (sortBy !== undefined) {
             this.sortByInputTarget.value = sortBy;
         }
@@ -60,6 +61,10 @@ export default class extends Controller {
 
         if (searchTerm !== undefined) {
             this.searchTermInputTarget.value = searchTerm;
+        }
+
+        if (tab !== undefined) {
+            this.tabInputTarget.value = tab;
         }
 
         if (filter !== undefined) {

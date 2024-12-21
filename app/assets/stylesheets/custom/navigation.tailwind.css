@@ -1,5 +1,5 @@
 .card {
-    @apply px-4 py-5 sm:p-6;
+    @apply px-4 py-4;
 }
 
 .breadcrumb {

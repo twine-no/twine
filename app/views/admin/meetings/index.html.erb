@@ -1,0 +1,36 @@
+<%= card do %>
+  <%=
+    table_of @page,
+             searchable: true,
+             row_link_to: -> (meeting) { admin_meeting_path(meeting) },
+             actions: [
+               link_to("Import", admin_dashboard_path, class: "button button-secondary"),
+               modal_link_to("New meeting", new_admin_meeting_path, class: "button button-primary")
+             ],
+             tabs: {
+               "Upcoming events": nil,
+               "Past": "past"
+             },
+             columns: [
+               {
+                 content: -> (meeting) do
+                   if meeting.upcoming?
+                     badge "#{distance_of_time_in_words(Time.current, meeting.scheduled_at)} from now", color: "yellow"
+                   else
+                     badge "Done", color: "green"
+                   end
+                 end
+               },
+               {
+                 header: 'Name',
+                 content: -> (meeting) { meeting.title },
+                 sort_by: 'meetings.title'
+               },
+               {
+                 header: 'Date',
+                 content: -> (meeting) { datetime_format meeting.scheduled_at },
+                 sort_by: 'meetings.scheduled_at'
+               }
+             ]
+  %>
+<% end %>

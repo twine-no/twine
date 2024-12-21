@@ -8,6 +8,11 @@
       </h1>
     <% end %>
   </div>
+
+  <% if table.tabs.any? %>
+    <%= render "tables/tabs", table: table %>
+  <% end %>
+
   <div class="flex justify-between">
     <div class="flex">
       <% if table.searchable? %>

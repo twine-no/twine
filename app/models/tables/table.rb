@@ -2,7 +2,7 @@ module Tables
   class Table
     attr_reader :title, :guid,
                 :rows, :columns, :headers, :actions,
-                :sort_by, :sort_direction, :search_term, :filters,
+                :sort_by, :sort_direction, :search_term, :filters, :tabs,
                 :page, :collection, :no_results_placeholder
 
     def initialize(
@@ -16,6 +16,7 @@ module Tables
       searchable: false,
       multi_select: false,
       actions: [],
+      tabs: [],
       exportable: false,
       turbo_streamable: false,
       update_address_bar: true,
@@ -32,6 +33,7 @@ module Tables
       @filters = []
       @columns = build_columns(columns)
       @headers = build_headers
+      @tabs = build_tabs(tabs, params)
       @rows = (@page&.records || @collection).map { |record| Tables::Row.new(record, @columns, row_link_to: row_link_to) }
       @title = title
       @sort_by = sort_by&.to_s
@@ -55,6 +57,17 @@ module Tables
       @columns.map do |column|
         Tables::Header.new(
           column: column
+        )
+      end
+    end
+
+    def build_tabs(tab_array, params)
+
+      tab_array.map do |tab|
+        Tables::Tab.new(
+          title: tab[0],
+          value: tab[1],
+          selected: params[:tab].presence == tab[1]
         )
       end
     end
@@ -90,7 +103,7 @@ module Tables
     end
 
     def show_toolbar?
-      title.present? || searchable? || exportable? || actions.any?
+      title.present? || searchable? || exportable? || actions.any? || tabs.any?
     end
 
     # Ensures we include the multi select checkbox column in the column count

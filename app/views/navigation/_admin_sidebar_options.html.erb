@@ -4,13 +4,21 @@
       <ul role="list" class="-mx-2 space-y-1">
         <li>
           <%= link_to admin_dashboard_path, class: "sidebar-link #{sidebar_active_html_class('dashboards')}" do %>
-            <%= svg_tag 'icons/mingcute/home_3_line.svg', class: 'size-6 shrink-0 text-indigo-200 group-hover:text-white' %>
+            <%= svg_tag 'icons/mingcute/home_3_line', class: 'size-6 shrink-0 text-indigo-200 group-hover:text-white' %>
             Dashboard
           <% end %>
         </li>
+
+        <li>
+          <%= link_to admin_meetings_path, class: "sidebar-link #{sidebar_active_html_class('meetings')}" do %>
+            <%= svg_tag 'icons/mingcute/calendar_2_line', class: 'size-6 shrink-0 text-indigo-200 group-hover:text-white' %>
+            Meetings
+          <% end %>
+        </li>
+
         <li>
           <%= link_to admin_memberships_path, class: "sidebar-link #{sidebar_active_html_class('memberships')}" do %>
-            <%= svg_tag 'icons/mingcute/group_2_line.svg', class: 'size-6 shrink-0 text-indigo-200 group-hover:text-white' %>
+            <%= svg_tag 'icons/mingcute/group_2_line', class: 'size-6 shrink-0 text-indigo-200 group-hover:text-white' %>
             Members
           <% end %>
         </li>

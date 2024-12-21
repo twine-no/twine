@@ -3,7 +3,9 @@
 @import "custom/buttons.tailwind.css";
 @import "custom/forms.tailwind.css";
 @import "custom/navigation.tailwind.css";
+@import "custom/tables.tailwind.css";
 @import "custom/text.tailwind.css";
+@import "custom/tooltips.tailwind.css";
 
 @tailwind base;
 @tailwind components;

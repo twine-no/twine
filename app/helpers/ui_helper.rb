@@ -19,7 +19,6 @@ module UiHelper
     render "navigation/dropdown_menu_content", options: options, content: capture(&block)
   end
 
-
   def breadcrumbs(**block)
     content_for :breadcrumbs do
       yield block
@@ -27,12 +26,23 @@ module UiHelper
   end
 
   def breadcrumb(title, url = nil, options = {})
-    content_tag :li, class: 'breadcrumb-item' do
+    content_tag :li, class: "breadcrumb-item" do
       if url.present?
-        link_to title, url, { class: 'breadcrumb-link' }.merge(options)
+        link_to title, url, { class: "breadcrumb-link" }.merge(options)
       else
         title
       end
+    end
+  end
+
+  def tooltip(tooltip_text, display_if: true, **options, &block)
+    if display_if
+      content_tag :div,
+                  capture(&block),
+                  class: "tooltip #{options[:class]}",
+                  data: { tooltip: tooltip_text }
+    else
+      capture(&block)
     end
   end
 end

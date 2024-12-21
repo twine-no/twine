@@ -1,18 +1,18 @@
 <%= breadcrumbs do %>
-  <%= breadcrumb 'Members', admin_memberships_path %>
-  <%= breadcrumb @membership.user.full_name %>
+  <%= breadcrumb 'Meetings', admin_meetings_path %>
+  <%= breadcrumb @meeting.title %>
 <% end %>
 
 <div class="max-w-4xl">
   <%= card class: "relative" do %>
-    <%= turbo_frame_tag @membership do %>
+    <%= turbo_frame_tag @meeting do %>
       <div class="absolute top-4 right-4">
-        <%= link_to admin_membership_path(@membership),
+        <%= link_to admin_meeting_path(@meeting),
                     class: "text-gray-400 hover:text-gray-600" do %>
           <%= svg_tag 'icons/mingcute/close_line' %>
         <% end %>
       </div>
-      <%= render 'form', membership: @membership %>
+      <%= render 'form', meeting: @meeting %>
     <% end %>
   <% end %>
 </div>

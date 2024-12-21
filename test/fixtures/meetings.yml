@@ -1,0 +1,24 @@
+previous_coffee_shop_board_meeting:
+  title: Board meeting
+  scheduled_at: <%= 15.days.ago %>
+  platform: coffee_shop
+
+next_coffee_shop_board_meeting:
+  title: Board meeting
+  scheduled_at: <%= 15.days.from_now %>
+  platform: coffee_shop
+
+coffee_shop_general_assembly:
+  title: General Assembly <%= Time.current.year %>
+  scheduled_at: <%= (Time.current + 5.months).beginning_of_month + 20.days + 18.hours %>
+  platform: coffee_shop
+
+football_club_training:
+  title: Training
+  scheduled_at: <%= 15.days.from_now %>
+  platform: football_meetup
+
+football_club_movie_night:
+  title: Movie night
+  scheduled_at: <%= 2.months.from_now %>
+  platform: football_meetup

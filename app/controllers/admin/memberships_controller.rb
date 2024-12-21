@@ -1,6 +1,6 @@
 module Admin
   class MembershipsController < AdminController
-    before_action :set_membership, only: [:show, :edit, :update, :destroy]
+    before_action :set_membership, only: [ :show, :edit, :update, :destroy ]
 
     def new
       @membership = Membership.new
@@ -20,8 +20,8 @@ module Admin
     end
 
     def index
-      platform_memberships = Current.platform.memberships.joins(:user)
-      set_data_table_page platform_memberships, allow_sort_by: %w[users.first_name users.last_name users.email]
+      set_data_table_page Current.platform.memberships.joins(:user),
+                          allow_sort_by: %w[users.first_name users.last_name users.email]
     end
 
     def show
@@ -54,7 +54,7 @@ module Admin
     end
 
     def membership_params
-      params.require(:membership).permit(user_attributes: [:id, :email, :first_name, :last_name])
+      params.require(:membership).permit(user_attributes: [ :id, :email, :first_name, :last_name ])
     end
 
     def find_or_invite_user(user)

@@ -1,29 +1,3 @@
 <%= turbo_frame_tag :modal_content do %>
-  <%= form_for @membership,
-               data: {
-                 controller: 'forms--memberships',
-                 turbo_frame: '_top' },
-               url: admin_memberships_path do |form| %>
-    <%= render 'navigation/form_errors', model: @membership %>
-
-    <%= form.fields_for :user do |user_fields| %>
-
-      <div class="mb-3">
-        <%= user_fields.label :email, class: "form-label" %>
-        <%= user_fields.text_field :email, class: "form-control" %>
-      </div>
-
-      <div class="mb-3">
-        <%= user_fields.label :first_name, class: "form-label" %>
-        <%= user_fields.text_field :first_name, class: "form-control" %>
-      </div>
-
-      <div class="mb-3">
-        <%= user_fields.label :last_name, class: "form-label" %>
-        <%= user_fields.text_field :last_name, class: "form-control" %>
-      </div>
-
-      <%= form.submit "Add member", class: "button button-primary" %>
-    <% end %>
-  <% end %>
+  <%= render 'admin/memberships/form', membership: @membership, turbo_frame: "_top" %>
 <% end %>
