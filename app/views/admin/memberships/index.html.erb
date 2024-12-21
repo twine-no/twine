@@ -2,10 +2,11 @@
   <%=
     table_of @page,
              searchable: true,
-             update_address_bar: true,
-             links: [
+             multi_select: true,
+             row_link_to: -> (membership) { admin_membership_path(membership) },
+             actions: [
                link_to('Import', root_path, class: 'button button-secondary'),
-               link_to('New member', root_path, class: 'button button-primary')
+               modal_link_to('New member', new_admin_membership_path, class: 'button button-primary')
              ],
              columns: [
                {

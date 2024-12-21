@@ -30,16 +30,26 @@
 
   <div class="lg:pl-72">
     <%= render 'navigation/top_bar' %>
+    <main
+      data-controller="modal"
+      data-modal-origin-url-value="<%= @encapsulating_view_url || url_for %>"
+      data-modal-open-on-page-load-value="<%= @modal_content.present? %>"
+      class="py-10">
 
-    <main class="py-10 ">
       <div class="px-4 sm:px-6 lg:px-8">
+        <% if content_for?(:breadcrumbs) %>
+          <div class="font-medium breadcrumb mb-3">
+            <%= yield :breadcrumbs %>
+          </div>
+        <% end %>
+
         <%= yield %>
 
         <div class="fixed inset-x-0 bottom-0 flex flex-col w-full pointer-events-none dynamic-flash-container">
           <%= render 'navigation/flash' %>
         </div>
 
-        <%= render 'navigation/modal' %>
+        <%= render 'navigation/modal', modal_content: @modal_content %>
       </div>
     </main>
   </div>

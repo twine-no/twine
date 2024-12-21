@@ -10,8 +10,9 @@ module ActiveSupport
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
 
-    def login_as(user, password: "password")
-      post session_url, params: { email: user.email, password: password }
+    def login_as(user, password: "password", on:)
+      raise "keyword on: must be a Platform" unless on.is_a?(Platform)
+      post session_url, params: { email: user.email, password: password, platform_id: on.id }
       return if cookies[:session_id]
 
       raise "Could not sign in user with email: #{user.email} and password: #{password}" unless cookies[:session_id]

@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_11_162819) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_19_090958) do
   create_table "memberships", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "platform_id", null: false
     t.integer "role", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["platform_id", "user_id"], name: "index_memberships_on_platform_id_and_user_id", unique: true
     t.index ["platform_id"], name: "index_memberships_on_platform_id"
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end
@@ -44,6 +45,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_11_162819) do
     t.datetime "updated_at", null: false
     t.string "first_name"
     t.string "last_name"
+    t.datetime "registered_at"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

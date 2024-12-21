@@ -18,4 +18,21 @@ module UiHelper
   def dropdown_menu_content(**options, &block)
     render "navigation/dropdown_menu_content", options: options, content: capture(&block)
   end
+
+
+  def breadcrumbs(**block)
+    content_for :breadcrumbs do
+      yield block
+    end
+  end
+
+  def breadcrumb(title, url = nil, options = {})
+    content_tag :li, class: 'breadcrumb-item' do
+      if url.present?
+        link_to title, url, { class: 'breadcrumb-link' }.merge(options)
+      else
+        title
+      end
+    end
+  end
 end

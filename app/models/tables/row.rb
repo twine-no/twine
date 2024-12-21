@@ -1,10 +1,13 @@
 module Tables
   class Row
-    attr_reader :record, :cells
+    attr_reader :record, :cells, :url
 
-    def initialize(record, columns)
+    def initialize(record, columns, row_link_to:)
       @record = record
       @cells = map_cells(columns)
+
+      # Supports static URL as string and dynamic URL as proc
+      @url = row_link_to.is_a?(Proc) ? row_link_to.call(@record) : row_link_to
     end
 
     private

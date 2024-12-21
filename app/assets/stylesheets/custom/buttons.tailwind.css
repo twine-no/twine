@@ -1,7 +1,8 @@
 @layer components {
     .button {
         @apply rounded font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
-        @apply px-2.5 py-1.5 text-sm rounded-md; /* default size is md */
+        @apply px-2.5 py-1.5 text-sm rounded-md;
+        /* default size is md */
     }
 
     .button-xs {
@@ -26,5 +27,17 @@
 
     .button-secondary {
         @apply bg-white hover:bg-gray-50 ring-gray-300 text-gray-900 ring-gray-300 shadow-sm ring-1 ring-inset ring-gray-300;
+    }
+
+    .button-secondary {
+        @apply bg-white hover:bg-gray-50 ring-gray-300 text-gray-900 ring-gray-300 shadow-sm ring-1 ring-inset ring-gray-300;
+    }
+
+    .button-primary:disabled, .button-primary.disabled {
+        @apply bg-indigo-300 text-gray-100 cursor-not-allowed;
+    }
+
+    .button-secondary:disabled, .button-secondary.disabled {
+        @apply bg-gray-100 text-gray-400 ring-gray-200 cursor-not-allowed;
     }
 }

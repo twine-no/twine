@@ -1,0 +1,29 @@
+<%# locals: (membership:) %>
+<%= form_with model: [:admin, membership] do |form| %>
+  <%= render 'navigation/form_errors', model: membership %>
+  <%= form.fields_for :user do |user_form| %>
+    <%= form.hidden_field :id %>
+
+    <div class="mb-3">
+      <%= user_form.label :first_name, class: "form-label" %>
+      <%= user_form.text_field :first_name, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= user_form.label :last_name, class: "form-label" %>
+      <%= user_form.text_field :last_name, class: "form-control" %>
+    </div>
+  <% end %>
+
+  <%= form.fields_for :user do |user_form| %>
+    <div class="mb-3">
+      <%= user_form.label :email, class: "form-label" %>
+      <%= user_form.email_field :email,
+                                class: "form-control" %>
+    </div>
+  <% end %>
+
+  <div class="mt-4 flex space-x-3">
+    <%= form.submit "Save", class: "button button-primary" %>
+  </div>
+<% end %>

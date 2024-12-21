@@ -1,0 +1,19 @@
+<%= breadcrumbs do %>
+  <%= breadcrumb 'Members', admin_memberships_path %>
+  <%= breadcrumb @membership.user.full_name %>
+<% end %>
+
+<div class="max-w-4xl">
+  <%= card class: "relative" do %>
+    <%= turbo_frame_tag @membership do %>
+      <div class="absolute top-4 right-4">
+        <%= link_to admin_membership_path(@membership),
+                    data: { turbo_frame: dom_id(@membership) },
+                    class: "text-gray-400 hover:text-gray-600" do %>
+          <%= svg_tag 'icons/mingcute/close_line' %>
+        <% end %>
+      </div>
+      <%= render 'form', membership: @membership %>
+    <% end %>
+  <% end %>
+</div>

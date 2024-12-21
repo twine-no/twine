@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resource :onboarding, only: [ :show, :update ]
     resource :dashboard, only: [ :show ]
-    resources :members
+    resources :memberships, path: "members"
   end
 
   namespace :member do

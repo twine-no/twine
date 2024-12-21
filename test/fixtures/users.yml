@@ -9,6 +9,7 @@ me:
   password_digest: <%= test_user_password_digest %>
   first_name: Test
   last_name: User
+  registered_at: <%= 7.days.ago %>
 
 # Dave is a good friend. He supports you in everything you do.
 dave:
@@ -16,6 +17,7 @@ dave:
   password_digest: <%= password_digest %>
   first_name: Dave
   last_name: Davidson
+  registered_at: <%= 7.days.ago %>
 
 # Super Admin shares your account at the coffee shop
 super_admin:
@@ -23,6 +25,7 @@ super_admin:
   password_digest: <%= password_digest %>
   first_name: Super
   last_name: Admin
+  registered_at: <%= 7.days.ago %>
 
 # Admin is a professional manager. They help you manage the coffee shop.
 admin:
@@ -30,6 +33,7 @@ admin:
   password_digest: <%= password_digest %>
   first_name: Admin
   last_name: User
+  registered_at: <%= 7.days.ago %>
 
 # Member likes to participate in things. They're a shareholder in your coffee shop.
 member:
@@ -37,3 +41,4 @@ member:
   password_digest: <%= password_digest %>
   first_name: Member
   last_name: User
+  registered_at: <%= 7.days.ago %>

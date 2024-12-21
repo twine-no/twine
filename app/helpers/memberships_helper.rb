@@ -11,11 +11,13 @@ module MembershipsHelper
   end
 
   def membership_role_text(membership)
-    case membership.role
-    when "member"
-      "Member"
-    when "admin", "super_admin"
-      "Admin"
-    end
+    role_text = case membership.role
+                when "member"
+                  "Member"
+                when "admin", "super_admin"
+                  "Admin"
+                end
+    role_text += " (you)" if membership.user_id == Current.user.id
+    role_text
   end
 end

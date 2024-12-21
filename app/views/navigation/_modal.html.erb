@@ -1,3 +1,17 @@
-<dialog data-dialog-target="dialog">
-  Hey, I'm a modal
+<%# locals = (modal:) %>
+
+<dialog
+  data-modal-target="modal"
+  class="fixed inset-0 w-800px items-center justify-center p-4 rounded"
+>
+  <div
+    data-modal-target="contentWrapper"
+    class="relative min-w-full w-full max-w-md p-4 md:max-w-lg"
+  >
+    <%= turbo_frame_tag :modal_content do %>
+      <% if modal_content %>
+        <%= render template: modal_content %>
+      <% end %>
+    <% end %>
+  </div>
 </dialog>

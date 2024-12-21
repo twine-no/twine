@@ -8,13 +8,13 @@ module Admin
     end
 
     test "#new redirects to the member dashboard, if member is already signed in" do
-      login_as users(:member)
+      login_as users(:member), on: platforms(:coffee_shop)
       get new_session_path
       assert_redirected_to member_dashboard_path
     end
 
     test "#new redirects to the admin dashboard, if admin is already signed in" do
-      login_as users(:admin)
+      login_as users(:admin), on: platforms(:coffee_shop)
       get new_session_path
       assert_redirected_to admin_dashboard_path
     end
@@ -42,7 +42,7 @@ module Admin
     end
 
     test "#destroy signs the user out" do
-      login_as users(:member)
+      login_as users(:member), on: platforms(:coffee_shop)
       assert_difference -> { users(:member).sessions.count }, -1 do
         delete session_url
         assert_redirected_to new_session_path

@@ -2,27 +2,30 @@ import {Controller} from '@hotwired/stimulus'
 import {useClickOutside} from 'stimulus-use'
 
 export default class extends Controller {
-    static targets = ['dialog']
-    static values = {
-        isModal: Boolean
-    }
+    static targets = ['modal', 'contentWrapper']
+    static values = {openOnPageLoad: Boolean, originUrl: String}
 
     connect() {
-        useClickOutside(this, this.close)
+        useClickOutside(this, {element: this.contentWrapperTarget})
+
+        if (this.openOnPageLoadValue) {
+            this.open()
+        }
     }
 
-    toggle(e) {
-        e.stopPropagation();
-        this.dialogTarget.open ? this.close(e) : this.open(e)
+    clickOutside(event) {
+        this.close(event)
     }
 
-    open(e) {
-        e.preventDefault()
-        this.isModalValue ? this.dialogTarget.showModal() : this.dialogTarget.show()
+    open() {
+        this.modalTarget.showModal()
     }
 
-    close(e) {
-        e.preventDefault()
-        this.dialogTarget.close()
+    close(event) {
+        event.preventDefault()
+        this.modalTarget.close()
+
+        // rethink, needs to be encapsulating view in case you arrive directly at modal view
+        history.pushState({}, "", this.originUrlValue)
     }
 }

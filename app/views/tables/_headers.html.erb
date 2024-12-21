@@ -7,10 +7,10 @@
     <th scope="col" class="border-b border-stroke relative px-7 xl:w-12 xl:px-6">
       <%=
         check_box_tag nil, nil, false,
-                      class: 'absolute left-4 top-1/2 -mt-2',
+                      class: 'checkbox',
                       data: {
-                        action: "change->tables--multi-select#selectAll",
-                        tables__multi_select_target: 'selectAllCheckbox'
+                        action: "change->tables--multi-select#checkAll",
+                        tables__multi_select_target: 'checkAllCheckbox'
                       } %>
     </th>
   <% end %>

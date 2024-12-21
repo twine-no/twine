@@ -1,7 +1,7 @@
 module Tables
   class Table
     attr_reader :title, :guid,
-                :rows, :columns, :headers, :links,
+                :rows, :columns, :headers, :actions,
                 :sort_by, :sort_direction, :search_term, :filters,
                 :page, :collection, :no_results_placeholder
 
@@ -15,10 +15,11 @@ module Tables
       search_term: nil,
       searchable: false,
       multi_select: false,
-      links: [],
+      actions: [],
       exportable: false,
       turbo_streamable: false,
-      update_address_bar: false,
+      update_address_bar: true,
+      row_link_to: nil,
       no_results_placeholder: "No results yet",
       guid: nil
     )
@@ -31,7 +32,7 @@ module Tables
       @filters = []
       @columns = build_columns(columns)
       @headers = build_headers
-      @rows = (@page&.records || @collection).map { |record| Tables::Row.new(record, @columns) }
+      @rows = (@page&.records || @collection).map { |record| Tables::Row.new(record, @columns, row_link_to: row_link_to) }
       @title = title
       @sort_by = sort_by&.to_s
       @sort_direction = sort_direction&.to_s
@@ -39,7 +40,7 @@ module Tables
       @searchable = searchable # pass a String to specify the search field placeholder text
       @exportable = exportable
       @multi_select = multi_select
-      @links = links
+      @actions = actions
       @turbo_streamable = turbo_streamable
       @update_address_bar = update_address_bar
       @no_results_placeholder = no_results_placeholder
@@ -89,7 +90,7 @@ module Tables
     end
 
     def show_toolbar?
-      title.present? || searchable? || exportable? || links.any?
+      title.present? || searchable? || exportable? || actions.any?
     end
 
     # Ensures we include the multi select checkbox column in the column count

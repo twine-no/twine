@@ -1,10 +1,10 @@
 module Tableable
   extend ActiveSupport::Concern
 
-  def set_data_table_page(records, default_sort_by: nil, default_sort_direction: nil, per_page: nil)
+  def set_data_table_page(records, allow_sort_by: [], default_sort_by: nil, default_sort_direction: nil, per_page: nil)
     records = search_for_records(records)
     records = filter_records(records)
-    order_query = set_sorting_settings(records, default_sort_by, default_sort_direction)
+    order_query = set_sorting_settings(records, allow_sort_by, default_sort_by, default_sort_direction)
     set_page_and_extract_portion_from(
       records.order(Arel.sql(order_query)),
       per_page: per_page
@@ -13,12 +13,12 @@ module Tableable
 
   private
 
-  def set_sorting_settings(records, default_sort_by, default_sort_direction)
+  def set_sorting_settings(records, allow_sort_by, default_sort_by, default_sort_direction)
     default_sort_direction = :asc if default_sort_direction.blank?
     order_query = ""
     sanitized_sort_by_direction = sanitize_sort_by_direction(default_sort_direction)
 
-    sanitize_sort_by_attributes(default_sort_by || "#{records.klass.table_name}.created_at", records.klass).each do |sanitized_sort_by_attribute|
+    sanitize_sort_by_attributes(allow_sort_by, default_sort_by || "#{records.klass.table_name}.created_at").each do |sanitized_sort_by_attribute|
       order_query += "#{sanitized_sort_by_attribute} #{sanitized_sort_by_direction} NULLS LAST, "
     end
 
@@ -41,12 +41,12 @@ module Tableable
     records.table_searchable_scope(params[:search_term])
   end
 
-  def sanitize_sort_by_attributes(default_sort_by, records_class)
+  def sanitize_sort_by_attributes(allow_sort_by, default_sort_by)
     return [ default_sort_by ] unless params[:sort_by].present?
 
     sort_by_params = params[:sort_by].split(",")
     sort_by_params.select do |sort_by_param|
-      sort_by_param.to_sym.in?(records_class.table_sortable_attributes)
+      sort_by_param.in?(allow_sort_by) || raise("Not allowed to sort by param: #{sort_by_param}")
     end
   end
 

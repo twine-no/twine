@@ -39,14 +39,6 @@ module Tables
         @@table_filterable_attributes
       end
 
-      def table_sort_by(attributes)
-        @@table_sortable_attributes = attributes
-      end
-
-      def table_sortable_attributes
-        @@table_sortable_attributes
-      end
-
       def table_searchable?
         respond_to?(:table_searchable_scope)
       end

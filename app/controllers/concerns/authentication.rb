@@ -44,10 +44,12 @@ module Authentication
   end
 
   def start_new_session_for(user)
+    platform = params[:platform_id].present? ? user.platforms.find(params[:platform_id]) : user.default_platform
+
     user.sessions.create!(
       user_agent: request.user_agent,
       ip_address: request.remote_ip,
-      platform: user.default_platform
+      platform: platform
     ).tap do |session|
       Current.session = session
       cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
