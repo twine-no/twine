@@ -6,10 +6,12 @@ class Membership < ApplicationRecord
 
   enum :role, %i[member admin super_admin invited]
 
+  validate :role_was_not_set_back_to_invited, if: :role_changed?
+
   table_filter_by %w[role]
 
   validates :user_id, uniqueness: { scope: :platform_id, message: ->(membership, _data) do
-    "#{membership.user.first_name} has already been invited at #{membership.user.email}"
+    "#{membership.user.full_name} was already invited using #{membership.user.email}"
   end
   }
 
@@ -23,11 +25,21 @@ class Membership < ApplicationRecord
       )
   end
 
+  def grants_super_admin_rights?
+    super_admin?
+  end
+
   def grants_admin_rights?
     admin? || super_admin?
   end
 
   def grants_member_rights?
     member? || admin? || super_admin?
+  end
+
+  private
+
+  def role_was_not_set_back_to_invited
+    self.errors.add(:role, "Can't be changed back to invited") if invited? && role_was != "invited"
   end
 end

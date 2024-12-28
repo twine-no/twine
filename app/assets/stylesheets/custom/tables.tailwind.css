@@ -4,6 +4,6 @@
     }
 
     .table-tab.selected {
-        @apply border-indigo-500 px-1 text-indigo-600
+        @apply border-lime-500 px-1 text-lime-600
     }
 }

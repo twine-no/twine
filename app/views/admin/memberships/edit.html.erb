@@ -8,8 +8,9 @@
     <%= turbo_frame_tag @membership do %>
       <div class="absolute top-4 right-4">
         <%= link_to admin_membership_path(@membership),
-                    class: "text-gray-400 hover:text-gray-600" do %>
-          <%= svg_tag 'icons/mingcute/close_line' %>
+                    class: "button button-secondary button-xs inline-flex items-center gap-1" do %>
+          <%= svg_tag "icons/mingcute/close_line.svg", class: "inline h-3 w-3" %>
+          Close
         <% end %>
       </div>
       <%= render 'form', membership: @membership %>

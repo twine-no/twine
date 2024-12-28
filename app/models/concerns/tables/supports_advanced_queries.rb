@@ -8,10 +8,9 @@ module Tables
     @@table_sortable_attributes = nil
 
     included do
-
       # By default, models do not respond to tabs
-      scope :tableable_by_tab, -> (_tab) do
-        all
+      scope :by_table_tab, ->(_tab) do
+        self
       end
 
       scope :table_filterable_scope, ->(filter_params) do

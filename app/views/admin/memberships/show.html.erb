@@ -8,9 +8,9 @@
     <%= turbo_frame_tag @membership do %>
       <div class="absolute top-4 right-4">
         <%= link_to edit_admin_membership_path(@membership),
-                    data: { turbo_frame: dom_id(@membership) },
-                    class: "text-gray-400 hover:text-gray-600" do %>
-          <%= svg_tag 'icons/mingcute/edit_line' %>
+                    class: "button button-secondary button-xs inline-flex items-center gap-1" do %>
+          <%= svg_tag "icons/mingcute/edit_line.svg", class: "inline h-3 w-3" %>
+          Edit
         <% end %>
       </div>
 
@@ -22,6 +22,11 @@
       <p class="text-lg mt-4">
         <strong class="text-gray-700">Email:</strong>
         <span class="text-gray-900"><%= @membership.user.email %></span>
+      </p>
+
+      <p class="text-lg mt-4">
+        <strong class="text-gray-700">Role:</strong>
+        <span class="text-gray-900"><%= @membership.role.humanize %></span>
       </p>
     <% end %>
   <% end %>

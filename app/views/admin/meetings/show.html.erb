@@ -4,15 +4,15 @@
 <% end %>
 
 <div class="max-w-4xl">
-      <%= card class: 'relative' do %>
-        <%= turbo_frame_tag @meeting do %>
-          <div class="absolute top-4 right-4">
-            <%= link_to edit_admin_meeting_path(@meeting),
-                        data: { turbo_frame: dom_id(@meeting) },
-                        class: "text-gray-400 hover:text-gray-600" do %>
-              <%= svg_tag 'icons/mingcute/edit_line' %>
-            <% end %>
-          </div>
+  <%= card class: 'relative' do %>
+    <%= turbo_frame_tag @meeting do %>
+      <div class="absolute top-4 right-4">
+        <%= link_to edit_admin_meeting_path(@meeting),
+                    data: { turbo_frame: dom_id(@meeting) },
+                    class: "text-gray-400 hover:text-gray-600" do %>
+          <%= svg_tag 'icons/mingcute/edit_line' %>
+        <% end %>
+      </div>
 
       <p class="text-lg">
         <strong class="text-gray-700">Title:</strong>
@@ -20,9 +20,23 @@
       </p>
 
       <p class="text-lg mt-4">
-        <strong class="text-gray-700">Scheduled At:</strong>
+        <strong class="text-gray-700">When?</strong>
         <span class="text-gray-900">
-          <%= datetime_format @meeting.scheduled_at, format: :datetime  %>
+          <%= datetime_format @meeting.scheduled_at, format: :datetime %>
+        </span>
+      </p>
+
+      <p class="text-lg mt-4">
+        <strong class="text-gray-700">Where?</strong>
+        <span class="text-gray-900">
+          <%= @meeting.location %>
+        </span>
+      </p>
+
+      <p class="text-lg mt-4">
+        <strong class="text-gray-700">Why?</strong>
+        <span class="text-gray-900">
+          <%= @meeting.description %>
         </span>
       </p>
     <% end %>

@@ -1,51 +1,53 @@
-.card {
-    @apply px-4 py-4;
-}
+@layer components {
+    .card {
+        @apply px-4 py-4;
+    }
 
-.breadcrumb {
-    @apply flex items-center p-0 m-0 bg-transparent text-gray-400;
-}
+    .breadcrumb {
+        @apply flex items-center p-0 m-0 bg-transparent text-gray-400;
+    }
 
-.breadcrumb-item {
-    @apply flex items-center pe-3;
-}
+    .breadcrumb-item {
+        @apply flex items-center pe-3;
+    }
 
-.breadcrumb-link {
-    @apply text-gray-400 hover:text-gray-500 pe-3;
-}
+    .breadcrumb-link {
+        @apply text-gray-400 hover:text-gray-500 pe-3;
+    }
 
-.breadcrumb .breadcrumb-item::after {
-    content: '/';
-}
+    .breadcrumb .breadcrumb-item::after {
+        content: '/';
+    }
 
-.breadcrumb .breadcrumb-item::before {
-    @apply hidden;
-}
+    .breadcrumb .breadcrumb-item::before {
+        @apply hidden;
+    }
 
-.breadcrumb .breadcrumb-item:last-child::after {
-    @apply hidden;
-}
+    .breadcrumb .breadcrumb-item:last-child::after {
+        @apply hidden;
+    }
 
-.mobile-sidebar {
-    @apply relative z-50 lg:hidden;
-}
+    .mobile-sidebar {
+        @apply relative z-50 lg:hidden;
+    }
 
-.mobile-sidebar-menu {
-    @apply relative mr-16 flex w-full max-w-xs flex-1 transition ease-in-out duration-300 transform;
-}
+    .mobile-sidebar-menu {
+        @apply relative mr-16 flex w-full max-w-xs flex-1 transition ease-in-out duration-300 transform;
+    }
 
-.mobile-sidebar-backdrop {
-    @apply fixed inset-0 bg-gray-900/80 transition-opacity ease-linear duration-300;
-}
+    .mobile-sidebar-backdrop {
+        @apply fixed inset-0 bg-gray-900/80 transition-opacity ease-linear duration-300;
+    }
 
-.mobile-sidebar-close-button {
-    @apply transition-opacity ease-linear duration-100;
-}
+    .mobile-sidebar-close-button {
+        @apply transition-opacity ease-linear duration-100;
+    }
 
-.sidebar-link {
-    @apply flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white;
-}
+    .sidebar-link {
+        @apply flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white;
+    }
 
-.sidebar-link.active {
-    @apply bg-blue-700;
+    .sidebar-link.active {
+        @apply bg-stone-600;
+    }
 }

@@ -142,7 +142,7 @@ module Admin
       end
 
       assert_redirected_to admin_meetings_path
-      assert_equal "Meeting destroyed", flash[:notice]
+      assert_equal "Meeting deleted", flash[:notice]
     end
 
     test "#destroy returns 404 if meeting belongs to a different platform" do

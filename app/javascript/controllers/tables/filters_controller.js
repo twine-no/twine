@@ -14,6 +14,7 @@ export default class extends Controller {
     }
 
     applyFilter(event) {
+        this.filterValuesValue = []
         this.#readoutCheckboxValues()
         tableContentFor(this.application, this.tableGuidValue).update(
             {

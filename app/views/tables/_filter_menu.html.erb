@@ -1,44 +1,49 @@
 <%# locals:(table:, header:) %>
-<div id="filter-<%= table.guid %>-<%= header.column.index %>"
-     data-controller="tables--filter"
-     data-tables--filter-table-guid-value="<%= table.guid %>"
-     data-turbo-permanent="true">
-  <%= dropdown_menu do %>
-    <%= button_tag data: {
-      action: 'dropdown#toggle'
-    } do %>
-            <span
-              class="text-yellow-500 ring-1"
-              data-tables--filter-target="statusIndicator">
+<div
+  id="filter-<%= table.guid %>-<%= header.column.index %>"
+  data-turbo-permanent="true"
+>
+  <div
+       data-controller="tables--filters"
+       data-tables--filters-table-guid-value="<%= table.guid %>"
+  >
+    <%= dropdown_menu do %>
+      <%= button_tag data: {
+        action: 'dropdown#toggle'
+      } do %>
+        <%= svg_tag 'icons/mingcute/filter_fill.svg', class: 'text-icon cursor-pointer inline-block w-3 h-3' %>
+        <span
+          class="text-yellow-500 hidden"
+          data-tables--filters-target="statusIndicator">
       </span>
-      <%= svg_tag 'icons/mingcute/filter_fill.svg', class: 'text-icon cursor-pointer inline-block w-3 h-3' %>
-    <% end %>
+      <% end %>
 
-    <%= dropdown_menu_content class: 'absolute' do %>
-      <%= card class: 'px-4 py-5 sm:p-6' do %>
-        <div
-          class="flex flex-col gap-1 font-normal">
-          <% header.column.filters.each do |attribute, alternatives| %>
-            <div>
-              <% alternatives.each do |alternative| %>
-                <% alternative_html = alternative.second.is_a?(Array) ? alternative.second.join(',') : alternative.second %>
-                <div>
-                  <%= check_box_tag attribute,
-                                    alternative_html,
-                                    table_filter_checkbox_checked?(alternative.second, params.dig(:filters, attribute)),
-                                    class: 'checkbox',
-                                    data: {
-                                      action: 'tables--filter#applyFilter',
-                                      'tables--filter-target': 'checkbox'
-                                    }
-                  %>
-                  <%= alternative.first %>
-                </div>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
+      <%= dropdown_menu_content class: 'absolute' do %>
+        <%= card class: 'px-4 py-5 sm:p-6' do %>
+          <div
+            class="flex flex-col gap-1 font-normal">
+            <% header.column.filters.each do |attribute, alternatives| %>
+              <div>
+                <% alternatives.each do |alternative| %>
+                  <% alternative_html = alternative.second.is_a?(Array) ? alternative.second.join(',') : alternative.second %>
+                  <div>
+                    <%= check_box_tag attribute,
+                                      alternative_html,
+                                      table_filter_checkbox_checked?(alternative.second, params.dig(:filters, attribute)),
+                                      class: 'checkbox',
+                                      data: {
+                                        action: 'tables--filters#applyFilter',
+                                        'tables--filters-target': 'checkbox'
+                                      }
+                    %>
+                    <%= alternative.first %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
       <% end %>
     <% end %>
-  <% end %>
+  </div>
 </div>

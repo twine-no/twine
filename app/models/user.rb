@@ -23,6 +23,10 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def has_super_admin_rights_at?(platform)
+    memberships.find_by(platform: platform).grants_super_admin_rights?
+  end
+
   def has_admin_rights_at?(platform)
     memberships.find_by(platform: platform).grants_admin_rights?
   end

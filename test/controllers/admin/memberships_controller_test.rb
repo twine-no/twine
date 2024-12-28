@@ -58,6 +58,28 @@ module Admin
       assert_select "td", text: users(:dave).email
     end
 
+    test "#index lets you make a case-insensitive search for special characters" do
+      login_as users(:admin), on: platforms(:coffee_shop)
+
+      users(:dave).update!(first_name: "ÆØÅ")
+      get admin_memberships_path(search_term: "æøå")
+      assert_select "td", text: users(:dave).email
+      assert_select "td", text: users(:dave).full_name
+      assert_select "td", text: users(:admin).email, count: 0
+    end
+
+    test "#index lets you filter users by roles" do
+      login_as users(:admin), on: platforms(:coffee_shop)
+
+      get admin_memberships_path(filters: { "memberships.role": "admin" })
+      assert_select ".badge", text: "Admin"
+      assert_select ".badge", text: "Member", count: 0
+
+      get admin_memberships_path(filters: { "memberships.role": "member" })
+      assert_select ".badge", text: "Member"
+      assert_select ".badge", text: "Admin", count: 0
+    end
+
     test "#new succeeds, renders form inside index page, with layout still visible" do
       login_as users(:admin), on: platforms(:coffee_shop)
       get new_admin_membership_path
@@ -270,6 +292,45 @@ module Admin
       assert_response :unprocessable_content
     end
 
+    test "#update lets super admin update membership role" do
+      login_as users(:super_admin), on: platforms(:coffee_shop)
+      membership = memberships(:member_owns_a_stake_in_the_coffee_shop)
+
+      patch admin_membership_path(membership), params: {
+        membership: {
+          role: "admin"
+        }
+      }
+
+      assert membership.reload.admin?
+    end
+
+    test "#update does not let regular admin update membership role" do
+      login_as users(:admin), on: platforms(:coffee_shop)
+      membership = memberships(:member_owns_a_stake_in_the_coffee_shop)
+
+      patch admin_membership_path(membership), params: {
+        membership: {
+          role: "admin"
+        }
+      }
+
+      assert membership.reload.member?
+    end
+
+    test "#update does not let user update their own role" do
+      login_as users(:super_admin), on: platforms(:coffee_shop)
+      membership = users(:super_admin).memberships.find_by!(platform: platforms(:coffee_shop))
+
+      patch admin_membership_path(membership), params: {
+        membership: {
+          role: "admin"
+        }
+      }
+
+      assert membership.reload.super_admin?
+    end
+
     test "#destroy succeeds for admin, deletes membership and redirects to members list" do
       login_as users(:admin), on: platforms(:coffee_shop)
       membership = memberships(:member_owns_a_stake_in_the_coffee_shop)
@@ -306,7 +367,7 @@ module Admin
 
     test "#destroy does not let you delete yourself" do
       login_as users(:admin), on: platforms(:coffee_shop)
-      admin_membership =  users(:admin).memberships.find_by!(platform: platforms(:coffee_shop))
+      admin_membership = users(:admin).memberships.find_by!(platform: platforms(:coffee_shop))
 
       assert_no_difference -> { Membership.count } do
         delete admin_membership_path(admin_membership)

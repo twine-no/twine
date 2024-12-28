@@ -3,7 +3,7 @@ module Tableable
 
   def set_data_table_page(records, allow_sort_by: [], default_sort_by: nil, default_sort_direction: nil, per_page: nil)
     records = search_for_records(records)
-    records = records.tableable_by_tab(params[:tab])
+    records = records.by_table_tab(params[:tab])
     records = filter_records(records)
     order_query = set_sorting_settings(records, allow_sort_by, default_sort_by, default_sort_direction)
     set_page_and_extract_portion_from(

@@ -62,7 +62,6 @@ module Tables
     end
 
     def build_tabs(tab_array, params)
-
       tab_array.map do |tab|
         Tables::Tab.new(
           title: tab[0],

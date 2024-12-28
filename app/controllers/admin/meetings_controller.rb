@@ -39,7 +39,7 @@ module Admin
 
     def destroy
       @meeting.destroy!
-      redirect_to admin_meetings_path, notice: "Meeting destroyed"
+      redirect_to admin_meetings_path, notice: "Meeting deleted"
     end
 
     private
@@ -49,7 +49,7 @@ module Admin
     end
 
     def meeting_params
-      params.require(:meeting).permit(:title, :scheduled_at)
+      params.require(:meeting).permit(:title, :scheduled_at, :location, :description)
     end
   end
 end

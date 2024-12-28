@@ -13,15 +13,6 @@
              },
              columns: [
                {
-                 content: -> (meeting) do
-                   if meeting.upcoming?
-                     badge "#{distance_of_time_in_words(Time.current, meeting.scheduled_at)} from now", color: "yellow"
-                   else
-                     badge "Done", color: "green"
-                   end
-                 end
-               },
-               {
                  header: 'Name',
                  content: -> (meeting) { meeting.title },
                  sort_by: 'meetings.title'
@@ -30,7 +21,20 @@
                  header: 'Date',
                  content: -> (meeting) { datetime_format meeting.scheduled_at },
                  sort_by: 'meetings.scheduled_at'
-               }
+               },
+               {
+                 header: "Location",
+                 content: -> (meeting) { meeting.location }
+               },
+               {
+                 content: -> (meeting) do
+                   if meeting.upcoming?
+                     badge "#{distance_of_time_in_words(Time.current, meeting.scheduled_at)} from now", color: "yellow"
+                   else
+                     badge "Done", color: "green"
+                   end
+                 end
+               },
              ]
   %>
 <% end %>

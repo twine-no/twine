@@ -25,4 +25,24 @@ module MembershipsHelper
       role_text
     end
   end
+
+  def selectable_membership_roles_for(membership)
+    Membership.roles.except("invited").map do |key, _value|
+      [ key.humanize, key, selected: membership.role == key ]
+    end
+  end
+
+  def membership_disabled_reason(membership)
+    return "Can't edit role of user who hasn't signed up yet" if membership.invited?
+
+    if membership.user == Current.user
+      if membership.super_admin?
+        "You can't edit your own role. If you don't want to be super admin, give the role to someone else, and ask them demote to you."
+      else
+        "You can't edit your own role"
+      end
+    else
+      raise "No reason provided"
+    end
+  end
 end

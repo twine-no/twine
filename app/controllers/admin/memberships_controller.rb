@@ -31,7 +31,7 @@ module Admin
     end
 
     def update
-      if @membership.update(membership_params)
+      if @membership.update(membership_params.merge(membership_role_params))
         redirect_to admin_membership_path(@membership), notice: "Member saved."
       else
         render :edit, status: :unprocessable_content
@@ -55,6 +55,13 @@ module Admin
 
     def membership_params
       params.require(:membership).permit(user_attributes: [ :id, :email, :first_name, :last_name ])
+    end
+
+    def membership_role_params
+      return {} unless Current.user.has_super_admin_rights_at?(Current.platform)
+      return {} if Current.user == @membership.user
+
+      params.require(:membership).permit(:role)
     end
 
     def find_or_invite_user(user)

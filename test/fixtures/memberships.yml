@@ -31,7 +31,7 @@ dave_plays_football:
 super_admin_helps_you_manage_the_coffee_shop:
   user: super_admin
   platform: coffee_shop
-  role: admin
+  role: super_admin
 
 admin_also_helps_you_manage_the_coffee_shop:
   user: admin

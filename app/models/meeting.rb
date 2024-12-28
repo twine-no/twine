@@ -10,12 +10,12 @@ class Meeting < ApplicationRecord
 
   scope :table_searchable_scope, ->(search_term) do
     where(
-      "meetings.title LIKE :search_term",
+      "LOWER(meetings.title) LIKE :search_term",
       search_term: "%#{search_term}%"
     )
   end
 
-  scope :tableable_by_tab, -> (tab) do
+  scope :by_table_tab, ->(tab) do
     case tab
     when "past"
       past
