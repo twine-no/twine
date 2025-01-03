@@ -11,7 +11,7 @@ class Session < ApplicationRecord
   def onboard_user(session_params)
     ActiveRecord::Base.transaction do
       platform = Platform.new(session_params[:platform_attributes])
-      user.memberships.create!(platform: platform, role: :owner)
+      user.memberships.create!(platform: platform, role: :super_admin)
       update!(session_params.except(:platform_attributes).merge(platform: platform))
     rescue ActiveRecord::RecordInvalid => invalid
       raise "Raise an error to an issue tracker here and return false. Until then raise a hard error: #{invalid}"

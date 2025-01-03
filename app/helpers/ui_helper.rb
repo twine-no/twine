@@ -8,7 +8,7 @@ module UiHelper
   end
 
   def sidebar_active_html_class(option_controller)
-    option_controller = [option_controller] if option_controller.is_a?(String)
+    option_controller = [ option_controller ] if option_controller.is_a?(String)
 
     "active" if option_controller.include?(controller_name)
   end

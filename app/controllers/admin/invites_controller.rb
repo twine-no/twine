@@ -6,7 +6,7 @@ module Admin
     def create
       @invite = @meeting.invites.new(invite_params)
       if @invite.save!
-        redirect_to [:admin, @meeting]
+        redirect_to [ :admin, @meeting ]
       else
         render :index, status: :unprocessable_content
       end
@@ -14,7 +14,7 @@ module Admin
 
     def destroy
       if @invite.destroy!
-        redirect_to [:admin, @meeting]
+        redirect_to [ :admin, @meeting ]
       else
         render :index, status: :unprocessable_content
       end

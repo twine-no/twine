@@ -10,9 +10,9 @@ module ModalNavigation
     controller.public_send(encapsulating_action)
     @modal_content = if modal_content_view
                        modal_content_view.to_s.include?("/") ? modal_content_view : "#{controller_path}/#{modal_content_view}"
-                     else
+    else
                        "#{controller_path}/#{action_name}"
-                     end
+    end
     @encapsulating_view_url = url_for({ controller: controller.controller_name, action: encapsulating_action }.merge(extra_params))
     options = { status: status }.compact
     render encapsulating_view || encapsulating_action, options

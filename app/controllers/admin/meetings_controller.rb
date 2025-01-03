@@ -32,7 +32,7 @@ module Admin
 
     def update
       if @meeting.update(meeting_params)
-        redirect_to [:admin, @meeting], notice: "Meeting updated."
+        redirect_to [ :admin, @meeting ], notice: "Meeting updated."
       else
         render :edit, status: :unprocessable_content
       end

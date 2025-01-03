@@ -1,6 +1,7 @@
 module Admin
   class OnboardingsController < AdminController
     skip_before_action :ensure_user_is_onboarded
+    skip_before_action :ensure_user_has_admin_rights
     before_action :redirect_if_already_onboarded
 
     layout "onboarding"

@@ -1,7 +1,7 @@
 module Admin
   class SurveysController < AdminController
-    before_action :set_meeting, only: [:new, :create, :index]
-    before_action :set_survey, only: [:show]
+    before_action :set_meeting, only: [ :new, :create, :index ]
+    before_action :set_survey, only: [ :show ]
 
     def new
       @survey = @meeting.surveys.build
@@ -45,7 +45,7 @@ module Admin
       params.require(:survey).permit(
         questions_attributes: [
           :id, :title, :category, :_destroy,
-          alternatives_attributes: [:id, :_destroy]
+          alternatives_attributes: [ :id, :_destroy ]
         ]
       )
     end

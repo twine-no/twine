@@ -1,6 +1,6 @@
 module Admin
   class SchedulesController < AdminController
-    before_action :set_meeting, only: [:new, :create]
+    before_action :set_meeting, only: [ :new, :create ]
 
     def new
       show_as_modal_inside :show,
@@ -12,7 +12,7 @@ module Admin
 
     def create
       if @meeting.update(schedule_params)
-        redirect_to [:admin, @meeting]
+        redirect_to [ :admin, @meeting ]
       else
         show_as_modal_inside :show,
                              controller: MeetingsController.new,
