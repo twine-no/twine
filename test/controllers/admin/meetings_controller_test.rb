@@ -40,6 +40,23 @@ module Admin
       assert_equal "Meeting created.", flash[:notice]
     end
 
+    test "#create logs meeting creation" do
+      login_as users(:admin), on: platforms(:coffee_shop)
+      assert_difference -> { MeetingLogEntry.count }, 1 do
+        post admin_meetings_path, params: {
+          meeting: {
+            title: "New Meeting",
+            scheduled_at: 1.hour.from_now
+          }
+        }
+      end
+
+      assert_equal 1, Meeting.last.log_entries.where(category: :created, happened_at: 5.seconds.ago..Time.current).size
+
+      follow_redirect!
+      assert_select ".meeting-log-entry", size: 1
+    end
+
     test "#create renders errors when invalid data is provided" do
       login_as users(:admin), on: platforms(:coffee_shop)
       assert_no_difference -> { Meeting.count } do

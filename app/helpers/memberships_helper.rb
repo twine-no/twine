@@ -12,11 +12,11 @@ module MembershipsHelper
 
   def membership_role_text(membership)
     role_text = case membership.role
-    when "member"
+                when "member"
                   "Member"
-    when "admin", "super_admin"
+                when "admin", "super_admin"
                   "Admin"
-    end
+                end
 
     if membership.user_id == Current.user.id
       icon = svg_tag("icons/mingcute/user_1_fill", class: "inline-block h-3 w-4")
@@ -28,7 +28,7 @@ module MembershipsHelper
 
   def selectable_membership_roles_for(membership)
     Membership.roles.except("invited").map do |key, _value|
-      [ key.humanize, key, selected: membership.role == key ]
+      [key.humanize, key, selected: membership.role == key]
     end
   end
 

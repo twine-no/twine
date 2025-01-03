@@ -14,4 +14,18 @@
     .form-control {
         @apply block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm;
     }
+
+    /* Inline form groups will appear on the same row, with no gap between elements by default */
+
+    .inline-form-group {
+        @apply flex flex-row;
+    }
+
+    .inline-form-group .form-control {
+        @apply rounded-r-none border-none;
+    }
+
+    .inline-form-group .button {
+        @apply rounded-l-none border-none;
+    }
 }

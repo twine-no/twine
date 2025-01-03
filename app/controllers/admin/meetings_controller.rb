@@ -10,9 +10,10 @@ module Admin
     def create
       @meeting = Current.platform.meetings.new(meeting_params)
       if @meeting.save
+        @meeting.log!(:created, by: Current.user)
         redirect_to admin_meeting_path(@meeting), notice: "Meeting created."
       else
-        render :new, status: :unprocessable_content
+        show_as_modal_inside :index, modal_content_view: :new, status: :unprocessable_content
       end
     end
 
@@ -31,7 +32,7 @@ module Admin
 
     def update
       if @meeting.update(meeting_params)
-        redirect_to admin_meeting_path(@meeting), notice: "Meeting updated."
+        redirect_to [:admin, @meeting], notice: "Meeting updated."
       else
         render :edit, status: :unprocessable_content
       end

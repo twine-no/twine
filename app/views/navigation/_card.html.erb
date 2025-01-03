@@ -1,5 +1,16 @@
-<div class="overflow-hidden rounded-lg bg-white shadow">
-  <div class="card <%= options[:class] %>">
+<%# locals: (options:, content:) %>
+<div class="card <%= options[:class] %> rounded-lg bg-white shadow mb-3 divide-y divide-gray-200">
+  <% if options[:title].present? %>
+    <div class="pb-2">
+      <h3 class="text-base font-semibold text-gray-900"><%= options[:title] %></h3>
+    </div>
+  <% end %>
+
+  <div
+    <% if options[:title].present? %>
+    class="pt-2"
+    <% end %>
+    >
     <%= content %>
   </div>
 </div>

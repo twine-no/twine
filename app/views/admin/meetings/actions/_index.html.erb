@@ -1,0 +1,6 @@
+<ul class="checklist">
+  <%= checklist_item "Add participants", complete_when: meeting.invites.any? %>
+  <%= checklist_item "Set date and location", complete_when: meeting.scheduled? && meeting.location.present? %>
+  <%= checklist_item "Set agenda", complete_when: meeting.description.present? %>
+  <%= checklist_item "Send out invitations", complete_when: meeting.invites.messaged.any? %>
+</ul>

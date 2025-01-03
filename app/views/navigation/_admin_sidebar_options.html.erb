@@ -10,7 +10,7 @@
         </li>
 
         <li>
-          <%= link_to admin_meetings_path, class: "sidebar-link #{sidebar_active_html_class('meetings')}" do %>
+          <%= link_to admin_meetings_path, class: "sidebar-link #{sidebar_active_html_class(%w[meetings surveys])}" do %>
             <%= svg_tag 'icons/mingcute/calendar_2_line', class: 'size-6 shrink-0 group-hover:text-white' %>
             Meetings
           <% end %>

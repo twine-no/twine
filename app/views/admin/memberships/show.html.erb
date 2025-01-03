@@ -31,7 +31,7 @@
     <% end %>
   <% end %>
 
-  <div class="mt-6 flex space-x-4">
+  <div class="flex space-x-4">
     <%= tooltip "You can't delete yourself", display_if: Current.user == @membership.user do %>
       <%= button_to "Delete member",
                     admin_membership_path(@membership),

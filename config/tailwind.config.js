@@ -8,6 +8,9 @@ module.exports = {
     safelist: [
         {
             pattern: /badge-(red|yellow|green|blue|indigo|purple|pink|gray)/
+        },
+        {
+            pattern: /bg-(red|yellow|green|blue|indigo|purple|pink|gray)-100/
         }
     ],
     theme: {

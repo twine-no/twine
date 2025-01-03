@@ -10,7 +10,7 @@ module Tables
     included do
       # By default, models do not respond to tabs
       scope :by_table_tab, ->(_tab) do
-        self
+        nil
       end
 
       scope :table_filterable_scope, ->(filter_params) do

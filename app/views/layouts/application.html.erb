@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html class="h-full bg-white">
+<html class="h-full">
 <head>
   <title><%= content_for(:title) || 'Milkshake' %></title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
+  <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
@@ -38,7 +40,7 @@
 
       <div class="px-4 sm:px-6 lg:px-8">
         <% if content_for?(:breadcrumbs) %>
-          <div class="font-medium breadcrumb mb-3">
+          <div class="font-medium breadcrumbs">
             <%= yield :breadcrumbs %>
           </div>
         <% end %>

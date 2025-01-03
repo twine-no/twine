@@ -70,7 +70,6 @@ export default class extends Controller {
         if (filter !== undefined) {
             const filterInput = this.filterInputTargets.find(
                 (input) => input.name === `filters[${filter.name}]`);
-            console.log("setting ", filter.name, "to: ", filter.value)
             filterInput.value = filter.value;
         }
     }

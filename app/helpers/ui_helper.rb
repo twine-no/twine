@@ -1,6 +1,6 @@
 module UiHelper
   def card(**options, &block)
-    render "navigation/card", options: options, content: capture(&block)
+    render "navigation/card", content: capture(&block), options: options
   end
 
   def badge(text, color: "gray")
@@ -8,7 +8,9 @@ module UiHelper
   end
 
   def sidebar_active_html_class(option_controller)
-    "active" if controller_name == option_controller
+    option_controller = [option_controller] if option_controller.is_a?(String)
+
+    "active" if option_controller.include?(controller_name)
   end
 
   def dropdown_menu(**options, &block)
@@ -26,7 +28,7 @@ module UiHelper
   end
 
   def breadcrumb(title, url = nil, options = {})
-    content_tag :li, class: "breadcrumb-item" do
+    content_tag :li, class: "breadcrumb" do
       if url.present?
         link_to title, url, { class: "breadcrumb-link" }.merge(options)
       else

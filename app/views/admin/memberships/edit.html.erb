@@ -3,17 +3,16 @@
   <%= breadcrumb @membership.user.full_name %>
 <% end %>
 
-<div class="max-w-4xl">
-  <%= card class: "relative" do %>
-    <%= turbo_frame_tag @membership do %>
-      <div class="absolute top-4 right-4">
-        <%= link_to admin_membership_path(@membership),
-                    class: "button button-secondary button-xs inline-flex items-center gap-1" do %>
-          <%= svg_tag "icons/mingcute/close_line.svg", class: "inline h-3 w-3" %>
-          Close
-        <% end %>
-      </div>
-      <%= render 'form', membership: @membership %>
-    <% end %>
+<%= card class: "relative" do %>
+  <%= turbo_frame_tag @membership do %>
+    <div class="absolute top-4 right-4">
+      <%= link_to admin_membership_path(@membership),
+                  class: "button button-secondary button-xs inline-flex items-center gap-1" do %>
+        <%= svg_tag "icons/mingcute/close_line.svg", class: "inline h-3 w-3" %>
+        Close
+      <% end %>
+    </div>
+    <%= render 'form', membership: @membership %>
   <% end %>
-</div>
+<% end %>
+

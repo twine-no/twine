@@ -3,13 +3,19 @@ module DatesHelper
     return nil if datetime.nil?
 
     datetime_pattern = case format
-    when :date
+                       when :date
                          "%d %B, %Y"
-    when :time
+                       when :time
                          "%H:%M"
-    when :datetime
+                       when :datetime
                          "%d %B, %Y %H:%M"
-    end
+                       when :html_datetime
+                         "%Y %M %d %H:%M"
+                       when :simple_date
+                         "%d %B"
+                       else
+                         raise "Unknown format: #{format}"
+                       end
 
     datetime.strftime(datetime_pattern)
   end

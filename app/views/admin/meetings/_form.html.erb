@@ -1,27 +1,29 @@
-<%# locals: (meeting:, turbo_frame: nil) %>
+<%# locals: (meeting: %>
 
-<%= form_for [:admin, meeting], data: { turbo_frame: turbo_frame } do |f| %>
+<%= form_with model: [:admin, meeting], data: { turbo_frame: "_top" } do |form| %>
   <%= render 'navigation/form_errors', model: meeting %>
 
   <div class="form-group">
-    <%= f.label :title, "Meeting title" %>
-    <%= f.text_field :title, class: "form-control", autocomplete: false %>
+    <%= form.label :title, "Title" %>
+    <%= form.text_field :title, class: "form-control", autocomplete: false %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :scheduled_at, "Date & Time" %>
-    <%= f.datetime_local_field :scheduled_at, class: "form-control", autocomplete: false %>
-  </div>
+  <% if meeting.persisted? %>
+    <div class="form-group">
+      <%= form.label :scheduled_at, "Date & Time" %>
+      <%= form.datetime_local_field :scheduled_at, class: "form-control", autocomplete: false %>
+    </div>
 
-  <div class="form-group">
-    <%= f.label :location, "Location" %>
-    <%= f.text_field :location, class: "form-control", autocomplete: false %>
-  </div>
+    <div class="form-group">
+      <%= form.label :location, "Location" %>
+      <%= form.text_field :location, class: "form-control", autocomplete: false %>
+    </div>
 
-  <div class="form-group">
-    <%= f.label :description, "Description" %>
-    <%= f.text_area :description, class: "form-control", autocomplete: false %>
-  </div>
+    <div class="form-group">
+      <%= form.label :description, "Purpose" %>
+      <%= form.text_area :description, class: "form-control", autocomplete: false %>
+    </div>
+  <% end %>
 
-  <%= f.submit meeting.persisted? ? "Save" : "Schedule", class: "button button-primary" %>
+  <%= form.submit meeting.persisted? ? "Save" : "Schedule", class: "button button-primary" %>
 <% end %>

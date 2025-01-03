@@ -1,0 +1,49 @@
+<%# locals: (meeting:) %>
+
+<dl class="flex flex-wrap mt-2">
+  <div class="flex w-full flex-none gap-x-4">
+    <dt class="flex-none">
+      <span class="sr-only">Date</span>
+      <%= svg_tag "icons/mingcute/calendar_2_line", class: "h-6 w-5 text-gray-400" %>
+    </dt>
+    <dd>
+      <% if @meeting.scheduled? %>
+        <time datetime="<%= datetime_format @meeting.scheduled_at, format: :html_datetime %>">
+          <%= datetime_format @meeting.scheduled_at, format: :datetime %>
+        </time>
+      <% else %>
+        Date not set
+      <% end %>
+      <%= modal_link_to @meeting.scheduled? ? "Reschedule" : "Schedule",
+                        new_admin_meeting_schedule_path(meeting_id: @meeting.id),
+                        data: { turbo_frame: "_top" },
+                        class: 'button button-xs button-secondary' %>
+    </dd>
+  </div>
+  <div class="flex w-full flex-none gap-x-4">
+    <dt class="flex-none">
+      <span class="sr-only">Location</span>
+      <%= svg_tag "icons/mingcute/location_line", class: "h-6 w-5 text-gray-400" %>
+    </dt>
+    <dd>
+      <% if @meeting.location.present? %>
+        <%= @meeting.location %>
+      <% else %>
+        Location not set.
+      <% end %>
+    </dd>
+  </div>
+  <div class="flex w-full flex-none gap-x-4">
+    <dt class="flex-none">
+      <span class="sr-only">Description</span>
+      <%= svg_tag "icons/mingcute/information_line", class: "h-6 w-5 text-gray-400" %>
+    </dt>
+    <dd>
+      <% if @meeting.description.present? %>
+        <%= @meeting.description&.truncate_words(20) %>
+      <% else %>
+        No description
+      <% end %>
+    </dd>
+  </div>
+</dl>

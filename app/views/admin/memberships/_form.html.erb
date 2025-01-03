@@ -1,6 +1,6 @@
 <%# locals: (membership:, turbo_frame: nil) %>
 
-<%= form_for [:admin, membership], data: { turbo_frame: turbo_frame } do |form| %>
+<%= form_with model: [:admin, membership], data: { turbo_frame: turbo_frame } do |form| %>
   <%= render 'navigation/form_errors', model: membership %>
   <%= form.fields_for :user do |user_form| %>
     <%= form.hidden_field :id %>

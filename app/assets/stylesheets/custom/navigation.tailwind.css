@@ -3,11 +3,11 @@
         @apply px-4 py-4;
     }
 
-    .breadcrumb {
-        @apply flex items-center p-0 m-0 bg-transparent text-gray-400;
+    .breadcrumbs {
+        @apply mb-3 flex items-center p-0 m-0 bg-transparent text-gray-400;
     }
 
-    .breadcrumb-item {
+    .breadcrumb {
         @apply flex items-center pe-3;
     }
 
@@ -15,15 +15,15 @@
         @apply text-gray-400 hover:text-gray-500 pe-3;
     }
 
-    .breadcrumb .breadcrumb-item::after {
+    .breadcrumbs .breadcrumb::after {
         content: '/';
     }
 
-    .breadcrumb .breadcrumb-item::before {
+    .breadcrumbs .breadcrumb::before {
         @apply hidden;
     }
 
-    .breadcrumb .breadcrumb-item:last-child::after {
+    .breadcrumbs .breadcrumb:last-child::after {
         @apply hidden;
     }
 
@@ -49,5 +49,17 @@
 
     .sidebar-link.active {
         @apply bg-stone-600;
+    }
+
+    .checklist li {
+        @apply text-gray-800 flex items-center;
+    }
+
+    .checklist li.complete {
+        @apply text-green-600 line-through;
+    }
+
+    .link {
+        @apply font-medium text-lime-500 underline hover:text-lime-600
     }
 }

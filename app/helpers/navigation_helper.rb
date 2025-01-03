@@ -25,4 +25,20 @@ module NavigationHelper
     link_options[:data][:action] = "click->modal#open #{link_options[:data][:action]}".strip
     link_options
   end
+
+  def checklist_item(text, complete_when:)
+    content_tag :li, class: ("complete" if complete_when) do
+      safe_join(
+        [
+          if complete_when
+            svg_tag "icons/mingcute/task_line"
+          else
+            svg_tag "icons/mingcute/task_2_line"
+          end,
+
+          text
+        ]
+      )
+    end
+  end
 end
