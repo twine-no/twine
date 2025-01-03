@@ -85,6 +85,8 @@ GEM
       msgpack (~> 1.2)
     brakeman (6.2.2)
       racc
+    bugsnag (6.27.1)
+      concurrent-ruby (~> 1.0)
     builder (3.3.0)
     capybara (3.40.0)
       addressable
@@ -387,6 +389,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap
   brakeman
+  bugsnag (~> 6.27)
   capybara
   debug
   dotenv-rails
