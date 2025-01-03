@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   resource :session, except: [ :show, :update ]
+  resource :registration, only: [ :new, :create ]
   resources :passwords, param: :token
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)

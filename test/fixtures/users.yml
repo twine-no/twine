@@ -42,3 +42,11 @@ member:
   first_name: Member
   last_name: User
   registered_at: <%= 7.days.ago %>
+
+# New Recruit just registered their user, but hasn't created a platform yet
+new_recruit:
+  email: new.recruit@mail.com
+  password_digest: <%= password_digest %>
+  first_name: New
+  last_name: Recruit
+  registered_at: <%= 10.seconds.ago %>
