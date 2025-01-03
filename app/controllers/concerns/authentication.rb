@@ -36,11 +36,11 @@ module Authentication
   end
 
   def after_authentication_url
-    session.delete(:return_to_after_authenticating) || default_landing_url
+    session.delete(:return_to_after_authenticating) || default_landing_url(user)
   end
 
-  def default_landing_url
-    Current.user.has_admin_rights_at?(Current.platform) ? admin_dashboard_url : member_dashboard_url
+  def default_landing_url(user)
+    user.has_admin_rights_at?(Current.platform) ? admin_dashboard_url : member_dashboard_url
   end
 
   def start_new_session_for(user)
