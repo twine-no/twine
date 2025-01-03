@@ -4,6 +4,6 @@ class WelcomeController < ApplicationController
   layout "logged_out"
 
   def index
-    redirect_to after_authentication_url if authenticated?
+    redirect_to after_authentication_url(Current.user) if authenticated?
   end
 end

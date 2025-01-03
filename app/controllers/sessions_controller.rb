@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   layout "logged_out"
 
   def new
-    redirect_to after_authentication_url if authenticated?
+    redirect_to after_authentication_url(Current.user) if authenticated?
   end
 
   def create
