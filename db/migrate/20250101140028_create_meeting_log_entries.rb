@@ -1,4 +1,4 @@
-class CreateMeetingLogEntries < ActiveRecord::Migration[8.1]
+class CreateMeetingLogEntries < ActiveRecord::Migration[8.0]
   def change
     create_table :meeting_log_entries do |t|
       t.datetime :happened_at, null: false

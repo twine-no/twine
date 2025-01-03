@@ -1,4 +1,4 @@
-class CreateSurveys < ActiveRecord::Migration[8.1]
+class CreateSurveys < ActiveRecord::Migration[8.0]
   def change
     create_table :surveys do |t|
       t.references :meeting, null: false, index: true
