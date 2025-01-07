@@ -21,7 +21,6 @@ module NavigationHelper
     link_options ||= {}
     link_options[:data] ||= {}
     link_options[:data][:turbo_frame] = :modal_content
-    link_options[:data][:turbo_action] = :advance
     link_options[:data][:action] = "click->modal#open #{link_options[:data][:action]}".strip
     link_options
   end

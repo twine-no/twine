@@ -1,0 +1,26 @@
+<%# locals: (group:) %>
+
+<%= form_with model: [:admin, group], data: { turbo_frame: "_top" } do |form| %>
+  <%= render 'navigation/form_errors', model: group %>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: "form-control", autofocus: true %>
+  </div>
+
+  <div class="mt-4 flex space-x-3">
+    <%= form.submit "Save", class: "button button-primary" %>
+
+    <% if group.persisted? %>
+      <%= link_to "Delete group",
+                  admin_group_path(@group),
+                  data: {
+                    turbo_method: :delete,
+                    turbo_frame: "_top",
+                    turbo_confirm: "Are you sure you want to delete group '#{@group.name}'?"
+                  },
+                  class: "button button-danger"
+      %>
+    <% end %>
+  </div>
+<% end %>

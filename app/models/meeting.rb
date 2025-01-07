@@ -19,18 +19,10 @@ class Meeting < ApplicationRecord
     )
   end
 
-  scope :by_table_tab, ->(tab) do
-    case tab
-    when "past"
-      past.order(scheduled_at: :desc)
-    else
-      upcoming.or(unscheduled).order(Meeting.arel_table[:scheduled_at].asc.nulls_first)
-    end
-  end
-
   scope :past, -> { where(scheduled_at: ..Time.current) }
   scope :upcoming, -> { where(scheduled_at: Time.current...) }
   scope :unscheduled, -> { where(scheduled_at: nil) }
+  scope :planned, -> { upcoming.or(unscheduled) }
 
   def log!(category, by:)
     log_entries.create!(

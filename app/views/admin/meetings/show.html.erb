@@ -46,7 +46,7 @@
                     method: :delete,
                     form: {
                       data: {
-                        turbo_confirm: "Are you sure you want to delete the meeting '#{@meeting.title}'#{", scheduled for #{@meeting.scheduled_at.strftime("%B %d, %Y %H:%M") if @meeting.scheduled?}"}?"
+                        turbo_confirm: "Are you sure you want to delete the meeting '#{@meeting.title}'#{("(, scheduled for #{@meeting.scheduled_at.strftime("%B %d, %Y %H:%M") }" if @meeting.scheduled?)}?"
                       }
                     },
                     class: "button button-secondary" %>

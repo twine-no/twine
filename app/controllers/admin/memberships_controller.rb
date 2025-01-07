@@ -1,11 +1,10 @@
 module Admin
   class MembershipsController < AdminController
-    before_action :set_membership, only: [ :show, :edit, :update, :destroy ]
+    before_action :set_membership, only: [:show, :edit, :update, :destroy]
 
     def new
       @membership = Membership.new
       @membership.build_user
-      show_as_modal_inside :index
     end
 
     def create
@@ -13,14 +12,18 @@ module Admin
       @membership.user = find_or_invite_user(@membership.user)
 
       if @membership.save
-        redirect_to admin_memberships_path, notice: "Invited #{@membership.user.first_name}"
+        respond_to do |format|
+          notice = "Invited #{@membership.user.first_name}"
+          format.turbo_stream { turbo_page_refresh(notice: notice) }
+          format.html { redirect_to admin_memberships_path, notice: notice }
+        end
       else
-        show_as_modal_inside :index, modal_content_view: :new, status: :unprocessable_content
+        render_inside_modal :new, status: :unprocessable_content
       end
     end
 
     def index
-      set_data_table_page Current.platform.memberships.joins(:user),
+      set_data_table_page by_table_tab(Current.platform.memberships.joins(:user)),
                           allow_sort_by: %w[users.first_name users.last_name users.email]
     end
 
@@ -54,7 +57,7 @@ module Admin
     end
 
     def membership_params
-      params.require(:membership).permit(user_attributes: [ :id, :email, :first_name, :last_name ])
+      params.require(:membership).permit(user_attributes: [:id, :email, :first_name, :last_name])
     end
 
     def membership_role_params
@@ -72,6 +75,13 @@ module Admin
       temporary_password = SecureRandom.base58
       user.password = temporary_password
       user
+    end
+
+    def by_table_tab(memberships)
+      return memberships unless params[:tab].present?
+
+      @group = Current.platform.groups.find(params[:tab])
+      @group.memberships
     end
   end
 end

@@ -1,0 +1,10 @@
+<%# locals: (options:, content:) %>
+
+<dialog
+  data-dropdown-target="menu"
+  class="border-0 p-0 <%= options[:class] %> z-40"
+>
+  <%= card class: "p-0 y-0" do %>
+    <%= content %>
+  <% end %>
+</dialog>

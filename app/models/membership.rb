@@ -4,6 +4,8 @@ class Membership < ApplicationRecord
   belongs_to :platform, required: true
   belongs_to :user, required: true
 
+  has_and_belongs_to_many :groups
+
   enum :role, %i[member admin super_admin invited]
 
   validate :role_was_not_set_back_to_invited, if: :role_changed?

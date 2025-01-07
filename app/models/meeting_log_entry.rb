@@ -10,7 +10,7 @@ class MeetingLogEntry < ApplicationRecord
   def description
     case category
     when "created"
-      "Planning started by #{user.first_name}"
+      "#{user.first_name} started planning the meeting"
     when "updated"
 
     else

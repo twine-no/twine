@@ -8,7 +8,7 @@
     data-modal-target="contentWrapper"
     class="relative min-w-full w-full max-w-md p-4 md:max-w-lg"
   >
-    <%= turbo_frame_tag :modal_content do %>
+    <%= turbo_frame_tag :modal_content, refresh: :replace do %>
       <% if modal_content %>
         <%= render template: modal_content %>
       <% end %>

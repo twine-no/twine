@@ -20,9 +20,33 @@
       <% end %>
     </div>
     <div class="flex content-center align-center gap-1">
-      <% table.actions.each do |link| %>
-        <%= link %>
+      <% if table.multi_select? %>
+
+        <%= dropdown_menu(data: { multi_select_menu: true }) do %>
+          <%= button_tag class: "button button-secondary hidden",
+                         data: {
+                           action: 'dropdown#toggle',
+                           multi_select_menu: "true"
+                         } do %>
+            <span class="whitespace-nowrap">
+              <span data-multi-select-menu-label>0</span> selected
+              <%= svg_tag "icons/mingcute/arrows/down_small_fill", class: "inline h-4" %>
+            </span>
+          <% end %>
+
+          <%= dropdown_menu_links do %>
+            <% table.multi_select_options.each do |button_name, form_options| %>
+              <div class="dropdown-link">
+                <%= form_with **form_options.merge(data: { turbo_frame: "_top" }) do |form| %>
+                  <%= form.hidden_field :multi_select_ids, value: nil, data: { multi_select_hidden_field: true } %>
+                  <%= form.submit button_name, class: "block w-full px-4 py-2 text-left text-sm text-gray-700" %>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
       <% end %>
+
       <% if table.exportable? %>
         <%= link_to url_for(
                       format: :xls,
@@ -33,6 +57,10 @@
                     ), data: { turbo: false } do %>
           Export
         <% end %>
+      <% end %>
+
+      <% table.actions.each do |link| %>
+        <%= link %>
       <% end %>
     </div>
   </div>

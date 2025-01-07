@@ -10,7 +10,10 @@
         <% table.tabs.each do |tab| %>
           <%= link_to tab.title,
                       url_for(tab: tab.value),
-                      tab.html_options.merge(class: "table-tab #{'selected' if tab.selected?}") %>
+                      tab.html_options.merge(
+                        data: { turbo_frame: "_top" },
+                        class: "table-tab #{'selected' if tab.selected?}")
+          %>
         <% end %>
       </nav>
     </div>

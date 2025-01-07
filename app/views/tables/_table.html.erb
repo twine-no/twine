@@ -2,7 +2,7 @@
 
 <div
   class="relative overflow-x-auto"
-  data-controller="tables--content tables--column-hider <%= 'tables--multi-select' if table.multi_select? %>"
+  data-controller="tables--content tables--column-hider<%= ' tables--multi-select' if table.multi_select? %>"
   data-table-guid="<%= table.guid %>"
   data-tables--content-max-row-count-value="<%= table.page&.recordset&.records_count %>"
   data-tables--column-hider-with-multiselect-value="<%= table.multi_select? ? 1 : 0 %>"
@@ -99,9 +99,9 @@
                                     page: table.page.next_param
                                   })
                               ),
-                              class: "pagination-link",
+                              class: "p-4 text-center w-full block",
                               data: { 'pagination-target': 'nextPageLink', preload: table.page.first? } do %>
-                    <%= svg_tag 'animations/spinner.svg', class: 'w-6 h-6 text-foreground' %>
+                    <%= svg_tag 'icons/mingcute/loading_4_line', class: 'inline-block w-6 h-6 text-foreground animate-spin' %>
                   <% end %>
                 </td>
               </tr>

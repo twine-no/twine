@@ -1,6 +1,6 @@
 @layer components {
     .button {
-        @apply rounded font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+        @apply rounded font-semibold text-white whitespace-nowrap shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
         @apply px-2.5 py-1.5 text-sm rounded-md;
         /* default size is md */
     }

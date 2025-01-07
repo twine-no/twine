@@ -1,6 +1,6 @@
 import {Controller} from "@hotwired/stimulus"
-import {delay} from 'helpers/timing_helper'
-import {tableContentFor} from 'helpers/tables_helper'
+import {delay} from 'helpers/timing_helpers'
+import {tableContentFor} from 'helpers/tables_helpers'
 
 export default class extends Controller {
     static targets = ['searchInputContainer']

@@ -1,7 +1,7 @@
 module Tables
   class Table
     attr_reader :title, :guid,
-                :rows, :columns, :headers, :actions,
+                :rows, :columns, :headers, :actions, :multi_select_options,
                 :sort_by, :sort_direction, :search_term, :filters, :tabs,
                 :page, :collection, :no_results_placeholder
 
@@ -14,7 +14,7 @@ module Tables
       sort_direction: nil,
       search_term: nil,
       searchable: false,
-      multi_select: false,
+      multi_select_options: [],
       actions: [],
       tabs: [],
       exportable: false,
@@ -41,7 +41,7 @@ module Tables
       @search_term = search_term
       @searchable = searchable # pass a String to specify the search field placeholder text
       @exportable = exportable
-      @multi_select = multi_select
+      @multi_select_options = multi_select_options
       @actions = actions
       @turbo_streamable = turbo_streamable
       @update_address_bar = update_address_bar
@@ -62,11 +62,15 @@ module Tables
     end
 
     def build_tabs(tab_array, params)
-      tab_array.map do |tab|
+      tab_array.map.with_index do |tab, index|
+        tab_title, tab_value = tab
+
+        is_default_tab = index.zero?
+
         Tables::Tab.new(
-          title: tab[0],
-          value: tab[1],
-          selected: params[:tab].presence == tab[1]
+          title: tab_title,
+          value: tab_value,
+          selected: params[:tab].presence == tab_value.to_s || is_default_tab && !params[:tab].present?
         )
       end
     end
@@ -90,7 +94,7 @@ module Tables
     end
 
     def multi_select?
-      @multi_select
+      @multi_select_options.any?
     end
 
     def turbo_streamable?
@@ -108,7 +112,7 @@ module Tables
     # Ensures we include the multi select checkbox column in the column count
     def column_count
       columns_count = @columns.size
-      columns_count += 1 if @multi_select
+      columns_count += 1 if multi_select?
       columns_count
     end
 

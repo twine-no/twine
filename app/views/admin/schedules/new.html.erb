@@ -1,4 +1,4 @@
-<%= turbo_frame_tag :modal_content do %>
+<%= turbo_frame_tag :modal_content, refresh: :replace do %>
   <%= form_with model: @meeting,
                 url: admin_meeting_schedules_path,
                 method: :post,

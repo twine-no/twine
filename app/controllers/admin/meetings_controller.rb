@@ -4,24 +4,24 @@ module Admin
 
     def new
       @meeting = Meeting.new
-      show_as_modal_inside :index
     end
 
     def create
       @meeting = Current.platform.meetings.new(meeting_params)
+
       if @meeting.save
+        handle_invites(@meeting)
         @meeting.log!(:created, by: Current.user)
-        redirect_to admin_meeting_path(@meeting), notice: "Meeting created."
+        notice = "#{@meeting.title} saved"
+        redirect_to admin_meeting_url(@meeting), notice: notice
       else
-        show_as_modal_inside :index, modal_content_view: :new, status: :unprocessable_content
+        render_inside_modal :new, status: :unprocessable_content
       end
     end
 
     def index
-      set_data_table_page Current.platform.meetings,
-                          allow_sort_by: %w[meetings.title meetings.scheduled_at],
-                          default_sort_by: "meetings.scheduled_at",
-                          default_sort_direction: :asc
+      set_data_table_page by_table_tab(Current.platform.meetings),
+                          allow_sort_by: %w[meetings.title meetings.scheduled_at]
     end
 
     def show
@@ -32,7 +32,7 @@ module Admin
 
     def update
       if @meeting.update(meeting_params)
-        redirect_to [ :admin, @meeting ], notice: "Meeting updated."
+        redirect_to [:admin, @meeting], notice: "Meeting updated."
       else
         render :edit, status: :unprocessable_content
       end
@@ -51,6 +51,31 @@ module Admin
 
     def meeting_params
       params.require(:meeting).permit(:title, :scheduled_at, :location, :description)
+    end
+
+    def by_table_tab(meetings)
+      case params[:tab]
+      when "past"
+        meetings.past.order(scheduled_at: :desc)
+      else
+        meetings.planned.order(
+          Meeting.arel_table[:scheduled_at].asc.nulls_first,
+          Meeting.arel_table[:created_at].desc
+        )
+      end
+    end
+
+    def handle_invites(meeting)
+      group_ids = params[:invite_group_ids]&.split(",")&.compact
+      return unless group_ids&.any?
+
+      if group_ids.include?("everyone")
+        invite_groups = [Current.platform]
+      else
+        invite_groups = Current.platform.groups.where(id: group_ids)
+      end
+
+      Meetings::MassInviteJob.perform_now(meeting, invite_groups: invite_groups)
     end
   end
 end

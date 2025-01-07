@@ -8,10 +8,10 @@
                  link_to("Import", admin_dashboard_path, class: "button button-secondary"),
                  modal_link_to("New meeting", new_admin_meeting_path, class: "button button-primary")
                ],
-               tabs: {
-                 "Planned events": nil,
-                 "Past": "past"
-               },
+               tabs: [
+                 ["Planned events", nil],
+                 ["Past", "past"]
+               ],
                columns: [
                  {
                    header: 'Name',

@@ -1,13 +1,13 @@
-<%# locals: (membership:, turbo_frame: nil) %>
+<%# locals: (membership:) %>
 
-<%= form_with model: [:admin, membership], data: { turbo_frame: turbo_frame } do |form| %>
+<%= form_with model: [:admin, membership], data: { turbo_frame: "_top" } do |form| %>
   <%= render 'navigation/form_errors', model: membership %>
   <%= form.fields_for :user do |user_form| %>
     <%= form.hidden_field :id %>
 
     <div class="form-group">
       <%= user_form.label :first_name %>
-      <%= user_form.text_field :first_name, class: "form-control", autocomplete: false %>
+      <%= user_form.text_field :first_name, class: "form-control", required: true, autocomplete: false %>
     </div>
 
     <div class="form-group">
@@ -19,6 +19,7 @@
       <%= user_form.label :email %>
       <%= user_form.email_field :email,
                                 class: "form-control",
+                                required: true,
                                 autocomplete: false
       %>
     </div>

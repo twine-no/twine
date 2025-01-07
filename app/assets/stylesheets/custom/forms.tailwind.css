@@ -16,7 +16,6 @@
     }
 
     /* Inline form groups will appear on the same row, with no gap between elements by default */
-
     .inline-form-group {
         @apply flex flex-row;
     }
@@ -27,5 +26,13 @@
 
     .inline-form-group .button {
         @apply rounded-l-none border-none;
+    }
+
+    .radio-button {
+        @apply block cursor-pointer items-center justify-center rounded-md px-2 py-1 text-sm focus:outline-none ring-1 ring-gray-300 bg-white text-gray-900 hover:bg-gray-50 whitespace-nowrap;
+    }
+
+    .radio-button.checked {
+        @apply bg-indigo-600 text-white hover:bg-indigo-500;
     }
 }

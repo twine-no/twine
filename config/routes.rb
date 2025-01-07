@@ -9,14 +9,16 @@ Rails.application.routes.draw do
   resource :registration, only: [ :new, :create ]
   resources :passwords, param: :token
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  # Render dynamic PWA files from app/views/pwa/*
+  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   namespace :admin do
     resource :onboarding, only: [ :show, :update ]
     resource :dashboard, only: [ :show ]
     resources :memberships, path: "members"
+    resources :groups, only: [:new, :create, :edit, :update, :destroy]
+    resources :groups_memberships, only: [:create, :destroy]
     resources :meetings do
       resources :invites, only: [ :create, :destroy ]
       resources :mass_invites, only: [ :create ]

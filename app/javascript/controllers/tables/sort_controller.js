@@ -1,5 +1,5 @@
 import {Controller} from "@hotwired/stimulus"
-import {tableContentFor} from "helpers/tables_helper"
+import {tableContentFor} from "helpers/tables_helpers"
 
 export default class extends Controller {
     static values = {sortBy: String, sortDirection: String, tableGuid: String};

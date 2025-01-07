@@ -8,7 +8,7 @@ module UiHelper
   end
 
   def sidebar_active_html_class(option_controller)
-    option_controller = [ option_controller ] if option_controller.is_a?(String)
+    option_controller = [option_controller] if option_controller.is_a?(String)
 
     "active" if option_controller.include?(controller_name)
   end
@@ -19,6 +19,10 @@ module UiHelper
 
   def dropdown_menu_content(**options, &block)
     render "navigation/dropdown_menu_content", options: options, content: capture(&block)
+  end
+
+  def dropdown_menu_links(**options, &block)
+    render "navigation/dropdown_menu_links", options: options, content: capture(&block)
   end
 
   def breadcrumbs(**block)

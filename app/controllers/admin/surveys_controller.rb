@@ -21,11 +21,7 @@ module Admin
 
     def index
       @surveys = @meeting.surveys
-      show_as_modal_inside :show,
-                           controller: MeetingsController.new,
-                           modal_content_view: :index,
-                           encapsulating_view: "admin/meetings/show",
-                           extra_params: { id: @meeting.id }
+      render_as_modal_inside "admin/meetings/show"
     end
 
     def show

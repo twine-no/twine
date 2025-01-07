@@ -60,6 +60,14 @@
     }
 
     .link {
-        @apply font-medium text-lime-500 underline hover:text-lime-600
+        @apply font-medium text-lime-500 underline hover:text-lime-600;
+    }
+
+    .dropdown-link {
+        @apply block px-4 py-2 text-sm text-gray-700;
+    }
+
+    .dropdown-link:hover{
+        @apply bg-gray-100 text-gray-900 outline-none
     }
 }
