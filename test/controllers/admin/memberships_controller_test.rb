@@ -117,7 +117,7 @@ module Admin
           }
         }
       end
-      assert_response :unprocessable_entity
+      assert_response :unprocessable_content
       assert_select "form#new_membership"
       assert_select "table"
       assert_select ".form-error", text: /Email can't be blank/
@@ -219,7 +219,7 @@ module Admin
         }
       }
 
-      assert_response :unprocessable_entity
+      assert_response :unprocessable_content
       assert_select "form[action=?]", admin_membership_path(membership)
       assert_select ".form-error", text: /Email can't be blank/
     end

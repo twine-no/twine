@@ -1,7 +1,7 @@
 <nav class="flex flex-1 flex-col">
-  <ul role="list" class="flex flex-1 flex-col gap-y-7">
+  <ul role="list" class="flex flex-1 flex-col gap-y-7 list-none">
     <li>
-      <ul role="list" class="-mx-2 space-y-1">
+      <ul role="list" class="-mx-2 space-y-1 list-none">
         <li>
           <%= link_to admin_dashboard_path, class: "sidebar-link #{sidebar_active_html_class('dashboards')}" do %>
             <%= svg_tag 'icons/mingcute/home_3_line', class: 'size-6 shrink-0 group-hover:text-white' %>
@@ -20,6 +20,13 @@
           <%= link_to admin_memberships_path, class: "sidebar-link #{sidebar_active_html_class('memberships')}" do %>
             <%= svg_tag 'icons/mingcute/group_2_line', class: 'size-6 shrink-0 group-hover:text-white' %>
             Members
+          <% end %>
+        </li>
+
+        <li>
+          <%= link_to admin_site_path, class: "sidebar-link #{sidebar_active_html_class('sites')}" do %>
+            <%= svg_tag 'icons/mingcute/web_line', class: 'size-6 shrink-0 group-hover:text-white' %>
+            Website
           <% end %>
         </li>
       </ul>

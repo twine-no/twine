@@ -9,3 +9,5 @@ pin "stimulus-use" # @0.52.3
 pin_all_from "app/javascript/controllers", under: "controllers"
 pin_all_from "app/javascript/lib", under: "lib"
 pin_all_from "app/javascript/helpers", under: "helpers"
+pin "trix"
+pin "@rails/actiontext", to: "actiontext.esm.js"

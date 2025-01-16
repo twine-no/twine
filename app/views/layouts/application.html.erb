@@ -6,7 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
 
-  <%= turbo_refreshes_with method: :replace, scroll: :preserve %>
+  <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
 
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
@@ -27,7 +27,7 @@
 </head>
 
 <body class="h-full bg-stone-100">
-<div data-controller="sidebar">
+<div data-controller="sidebar drawer">
   <%= render 'navigation/mobile_menu' %>
   <%= render 'navigation/desktop_sidebar' %>
 

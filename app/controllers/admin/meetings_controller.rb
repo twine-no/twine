@@ -21,7 +21,7 @@ module Admin
 
     def index
       set_data_table_page by_table_tab(Current.platform.meetings),
-                          allow_sort_by: %w[meetings.title meetings.scheduled_at]
+                          allow_sort_by: %w[meetings.title meetings.happens_at]
     end
 
     def show
@@ -50,16 +50,16 @@ module Admin
     end
 
     def meeting_params
-      params.require(:meeting).permit(:title, :scheduled_at, :location, :description)
+      params.require(:meeting).permit(:title, :happens_at, :location, :description)
     end
 
     def by_table_tab(meetings)
       case params[:tab]
       when "past"
-        meetings.past.order(scheduled_at: :desc)
+        meetings.past.order(happens_at: :desc)
       else
         meetings.planned.order(
-          Meeting.arel_table[:scheduled_at].asc.nulls_first,
+          Meeting.arel_table[:happens_at].asc.nulls_first,
           Meeting.arel_table[:created_at].desc
         )
       end

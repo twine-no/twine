@@ -67,7 +67,7 @@ module Admin
           }
         }
       end
-      assert_response :unprocessable_entity
+      assert_response :unprocessable_content
       assert_select "form#new_meeting"
       assert_select ".form-error", text: /Title can't be blank/
     end
@@ -132,7 +132,7 @@ module Admin
         }
       }
 
-      assert_response :unprocessable_entity
+      assert_response :unprocessable_content
       assert_select "form[action=?]", admin_meeting_path(meeting)
       assert_select ".form-error", text: /Title can't be blank/
     end

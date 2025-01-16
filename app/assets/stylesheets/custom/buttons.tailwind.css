@@ -1,8 +1,9 @@
 @layer components {
     .button {
         @apply rounded font-semibold text-white whitespace-nowrap shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+
+        /* md size is the default */
         @apply px-2.5 py-1.5 text-sm rounded-md;
-        /* default size is md */
     }
 
     .button-xs {
@@ -22,7 +23,11 @@
     }
 
     .button-xl {
-        @apply px-3.5 py-2.5 text-sm rounded-md;
+        @apply px-3.5 py-2.5 text-sm rounded-md text-center;
+    }
+
+    .button-full {
+        @apply px-4 py-3 rounded-md bg-red-100 w-full text-center col-span-1;
     }
 
     .button-primary {

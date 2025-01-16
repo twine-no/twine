@@ -1,4 +1,7 @@
 module.exports = {
+    future: {
+        strictPostcssConfiguration: true,
+    },
     content: [
         './public/*.html',
         './app/helpers/**/*.rb',

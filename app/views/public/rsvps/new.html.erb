@@ -1,0 +1,5 @@
+<%= turbo_frame_tag :modal_content do %>
+  <h2 class="text-xl text-center mb-1">☀️ You're joining — nice!</h2>
+  <h5 class="text-center mb-6">The host just needs some info</h5>
+ <%= render "public/rsvps/form", rsvp: @rsvp %>
+<% end %>

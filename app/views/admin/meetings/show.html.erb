@@ -2,20 +2,10 @@
 
 <%= breadcrumbs do %>
   <%= breadcrumb 'Meetings', admin_meetings_path %>
-  <%= breadcrumb "#{@meeting.title} #{datetime_format @meeting.scheduled_at, format: :date}" %>
+  <%= breadcrumb "#{@meeting.title} #{datetime_format @meeting.happens_at, format: :date}" %>
 <% end %>
 
-<div class="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 lg:gap-8">
-  <div class="lg:col-span-2">
-    <%= card do %>
-      <%= render "admin/meetings/actions/index", meeting: @meeting %>
-    <% end %>
-
-    <%= card do %>
-      <%= render "admin/log_entries/index", meeting: @meeting %>
-    <% end %>
-  </div>
-
+<div class="grid grid-cols-1 items-start gap-2 lg:gap-4">
   <div class="lg:col-span-1">
     <%= card class: "relative", title: @meeting.title do %>
       <%= turbo_frame_tag @meeting do %>
@@ -25,31 +15,29 @@
             <%= svg_tag "icons/mingcute/edit_line.svg", class: "inline h-3 w-3" %>
             Edit
           <% end %>
+          <%= link_to admin_meeting_path(@meeting),
+                      data: {
+                        turbo_frame: "_top",
+                        turbo_method: :delete,
+                        turbo_confirm: "Are you sure you want to delete the meeting '#{@meeting.title}'#{("(, scheduled for #{@meeting.happens_at.strftime("%B %d, %Y %H:%M") }" if @meeting.scheduled?)}?"
+                      },
+                      class: "button button-secondary button-xs inline-flex items-center gap-1" do %>
+            <%= svg_tag "icons/mingcute/delete_2_line.svg", class: "inline h-3 w-3" %> Delete
+          <% end %>
         </div>
 
         <%= render "admin/meetings/details", meeting: @meeting %>
       <% end %>
     <% end %>
-
-    <%= card title: "Follow up" do %>
-      <%= render "admin/meetings/messages/index", meeting: @meeting %>
-    <% end %>
-
-
-    <%= card title: @meeting.invites.any? ? pluralize(@meeting.invites.size, "guest") : "No guests" do %>
-      <%= render "admin/invites/index", meeting: @meeting %>
-    <% end %>
-
-    <div class="flex space-x-4">
-      <%= button_to "Delete meeting",
-                    admin_meeting_path(@meeting),
-                    method: :delete,
-                    form: {
-                      data: {
-                        turbo_confirm: "Are you sure you want to delete the meeting '#{@meeting.title}'#{("(, scheduled for #{@meeting.scheduled_at.strftime("%B %d, %Y %H:%M") }" if @meeting.scheduled?)}?"
-                      }
-                    },
-                    class: "button button-secondary" %>
-    </div>
   </div>
+</div>
+
+<div class="grid grid-cols-1 items-start gap-2 lg:gap-4">
+  <%= modal_link_to "Add participants",
+                    admin_meeting_invites_path(meeting_id: @meeting.id),
+                    class: "button button-primary button-full" %>
+  <%= link_to "Preview",
+              public_event_path(@meeting.guid),
+              target: "_blank",
+              class: "button button-secondary button-full" %>
 </div>

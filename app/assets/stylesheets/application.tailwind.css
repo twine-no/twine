@@ -1,3 +1,5 @@
+@import "actiontext.css";
+
 @import "custom/animations.tailwind.css";
 @import "custom/badges.tailwind.css";
 @import "custom/buttons.tailwind.css";
@@ -10,3 +12,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Prevents Tailwind from removing default browser styles for lists, used by ActionText */
+@layer base {
+    ul {
+        @apply list-disc list-inside
+    }
+    ol {
+        @apply list-decimal list-inside
+    }
+
+    h1, h2, h3, h4, h5, h6, blockquote {
+        all: unset; /* Unset all inherited and applied styles */
+        display: block; /* Restore block display for headings */
+        font-size: revert; /* Revert to browser's default font size */
+        font-weight: revert; /* Revert to browser's default font weight */
+        margin: revert;
+    }
+}

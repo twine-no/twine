@@ -5,9 +5,9 @@
                 data: { turbo_frame: "_top" } do |form| %>
 
     <div class="form-group">
-      <%= form.label :scheduled_at, "Date & Time" %>
+      <%= form.label :happens_at, "Date & Time" %>
       <div class="flex flex-row gap-1">
-        <%= form.datetime_local_field :scheduled_at, class: "form-control", autocomplete: false %>
+        <%= form.datetime_local_field :happens_at, class: "form-control", autocomplete: false %>
         <%= form.submit "Save", class: "button button-primary" %>
       </div>
     </div>

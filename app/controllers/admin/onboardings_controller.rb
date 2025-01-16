@@ -17,7 +17,7 @@ module Admin
       if @session.onboard_user(session_params)
         redirect_to root_path, notice: "Welcome!"
       else
-        render :show, status: :unprocessable_entity
+        render :show, status: :unprocessable_content
       end
     end
 

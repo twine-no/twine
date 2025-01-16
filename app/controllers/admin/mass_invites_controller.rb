@@ -5,7 +5,7 @@ module Admin
     # Expand to support Membership groups or sub-platforms when that's introduced
     def create
       Meetings::MassInviteJob.perform_now(@meeting, invite_groups: [Current.platform])
-      redirect_to [ :admin, @meeting ]
+      render "admin/invites/index"
     end
 
     private

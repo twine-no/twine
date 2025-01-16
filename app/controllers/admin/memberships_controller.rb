@@ -12,11 +12,8 @@ module Admin
       @membership.user = find_or_invite_user(@membership.user)
 
       if @membership.save
-        respond_to do |format|
-          notice = "Invited #{@membership.user.first_name}"
-          format.turbo_stream { turbo_page_refresh(notice: notice) }
-          format.html { redirect_to admin_memberships_path, notice: notice }
-        end
+        notice = "Invited #{@membership.user.first_name}"
+        format.html { redirect_to admin_memberships_path, notice: notice }
       else
         render_inside_modal :new, status: :unprocessable_content
       end

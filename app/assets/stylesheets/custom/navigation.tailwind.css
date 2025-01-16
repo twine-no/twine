@@ -67,7 +67,25 @@
         @apply block px-4 py-2 text-sm text-gray-700;
     }
 
-    .dropdown-link:hover{
-        @apply bg-gray-100 text-gray-900 outline-none
+    .dropdown-link:hover {
+        @apply bg-gray-100 text-gray-900 outline-none;
+    }
+
+
+    .modal {
+        @apply overflow-hidden w-96 items-center justify-center p-4 rounded;
+    }
+
+    @media (max-width: 767px) {
+        .modal {
+            @apply fixed mb-0 bg-gray-100 shadow-inner rounded-lg w-full max-w-full pt-4 px-4;
+
+            /* animation base state */
+            @apply translate-y-40 transition-transform duration-300 ease-out
+        }
+
+        .modal.modal-open {
+            @apply translate-y-0;
+        }
     }
 }

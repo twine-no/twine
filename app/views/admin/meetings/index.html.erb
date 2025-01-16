@@ -27,9 +27,9 @@
                      if meeting.scheduled?
                        safe_join(
                          [
-                           datetime_format(meeting.scheduled_at),
+                           datetime_format(meeting.happens_at),
                            "<br>".html_safe,
-                           badge("#{distance_of_time_in_words(Time.current, meeting.scheduled_at)} #{meeting.past? ? "ago" : "from now"}", color: "yellow"),
+                           badge("#{distance_of_time_in_words(Time.current, meeting.happens_at)} #{meeting.past? ? "ago" : "from now"}", color: "yellow"),
                          ]
                        )
                      else
@@ -43,7 +43,7 @@
                  },
                  {
                    header: "Description",
-                   content: -> (meeting) { truncate meeting.description, length: 50 }
+                   content: -> (meeting) { truncate meeting.description.to_plain_text, length: 50 }
                  },
                ]
     %>

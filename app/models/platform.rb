@@ -6,4 +6,6 @@ class Platform < ApplicationRecord
   has_many :meetings, dependent: :delete_all
 
   enum :category, %i[unorganised shareholder_org member_org]
+
+  scope :listed, -> { where(listed: true) }
 end

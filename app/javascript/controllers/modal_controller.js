@@ -17,15 +17,14 @@ export default class extends Controller {
         this.close(event)
     }
 
-    open() {
+    async open() {
         this.modalTarget.showModal()
+        this.modalTarget.classList.add("modal-open")
     }
 
     close(event) {
         event.preventDefault()
         this.modalTarget.close()
-
-        // rethink, needs to be encapsulating view in case you arrive directly at modal view
-        history.pushState({}, "", this.originUrlValue)
+        this.modalTarget.classList.remove("modal-open")
     }
 }

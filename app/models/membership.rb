@@ -4,6 +4,9 @@ class Membership < ApplicationRecord
   belongs_to :platform, required: true
   belongs_to :user, required: true
 
+  has_many :invites, dependent: :destroy
+  has_many :meetings, through: :invites
+
   has_and_belongs_to_many :groups
 
   enum :role, %i[member admin super_admin invited]

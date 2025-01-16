@@ -1,0 +1,53 @@
+<div class="bg-stone-700 h-32 lg:h-40 relative shadow-sm">
+  <div class="rounded-full bg-red-100 h-32 w-32 lg:h-40 lg:w-40 absolute inset-x-0 mx-auto translate-y-2/4 shadow-sm">
+    <%= image_tag "milkshake.png", class: "h-1/2 mx-auto translate-y-1/2" %>
+  </div>
+</div>
+
+<div class="mx-auto mt-28 max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-3xl text-center">
+    <% if @invite %>
+      <p>
+        Hi <%= @invite.user.first_name %>,<br>
+        you're invited to …
+      </p>
+    <% end %>
+
+    <div>
+      <h1 class="text-4xl">
+        <%= @meeting.title %>
+      </h1>
+      <p class="mt-1">
+        Hosted by
+        <% if @meeting.platform.listed? %>
+          <%= link_to @meeting.platform.name, public_platform_path(id: @meeting.platform.shortname) %><br>
+        <% else %>
+          <%= @meeting.platform.name %>
+        <% end %><br>
+        <%= datetime_format @meeting.happens_at %><br>
+        <%= @meeting.location %>
+      <p></p>
+      <div class="mt-1 text-lg">
+        <% case @rsvp&.answer %>
+        <% when "yes" %>
+          ✅ You're in! <%= modal_link_to "Change", edit_public_rsvp_path(@rsvp), class: "link" %>
+        <% when "no" %>
+          ❌ You declined
+          <%= modal_link_to "Change", edit_public_rsvp_path(@rsvp), class: "link" %>
+        <% else %>
+          <% if @rsvp.invite %>
+            Are you
+            in? <%= button_to "Yes", public_rsvps_path(meeting_guid: @meeting.guid, answer: :yes), method: :post %>
+            <%= button_to "No", public_rsvps_path(meeting_guid: @meeting.guid, invite_guid: @rsvp.invite&.guid), method: :post %>
+          <% else %>
+            ✋ <%= modal_link_to "Sign up", new_public_rsvp_path(meeting_guid: @meeting.guid, invite_guid: @rsvp.invite&.guid), class: "link" %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="mt-8 text-lg">
+      <%= @meeting.description || "The host hasn't written a description" %>
+    </div>
+  </div>
+</div>

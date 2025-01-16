@@ -17,7 +17,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "#create fails with invalid parameters and re-renders the form" do
     assert_no_difference -> { User.count } do
       post registrations_url, params: { user: { email: "", password: "short" } }
-      assert_response :unprocessable_entity
+      assert_response :unprocessable_content
       assert_template :new
     end
   end

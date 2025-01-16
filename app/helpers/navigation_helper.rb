@@ -40,4 +40,8 @@ module NavigationHelper
       )
     end
   end
+
+  def drawer(&block)
+    render "navigation/drawer", content: capture(&block)
+  end
 end

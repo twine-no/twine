@@ -23,7 +23,7 @@ module Admin
     end
 
     def schedule_params
-      params.require(:meeting).permit(:scheduled_at)
+      params.require(:meeting).permit(:happens_at)
     end
   end
 end

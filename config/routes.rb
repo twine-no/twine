@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  resource :session, except: [ :show, :update ]
-  resource :registration, only: [ :new, :create ]
+  resource :session, except: [:show, :update]
+  resource :registration, only: [:new, :create]
   resources :passwords, param: :token
 
   # Render dynamic PWA files from app/views/pwa/*
@@ -14,20 +14,27 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   namespace :admin do
-    resource :onboarding, only: [ :show, :update ]
-    resource :dashboard, only: [ :show ]
+    resource :onboarding, only: [:show, :update]
+    resource :dashboard, only: [:show]
     resources :memberships, path: "members"
     resources :groups, only: [:new, :create, :edit, :update, :destroy]
     resources :groups_memberships, only: [:create, :destroy]
+    resource :site, only: [:show, :update]
     resources :meetings do
-      resources :invites, only: [ :create, :destroy ]
-      resources :mass_invites, only: [ :create ]
-      resources :schedules, only: [ :new, :create ]
-      resources :surveys, only: [ :new, :create, :index, :edit, :update ]
+      resources :invites, only: [:create, :index, :destroy]
+      resources :mass_invites, only: [:create]
+      resources :schedules, only: [:new, :create]
+      resources :surveys, only: [:new, :create, :index, :edit, :update]
     end
   end
 
+  namespace :public do
+    resources :platforms, only: [:show]
+    resources :events, only: [:show], controller: :meetings
+    resources :rsvps, only: [:new, :create, :edit, :update]
+  end
+
   namespace :member do
-    resource :dashboard, only: [ :show ]
+    resource :dashboard, only: [:show]
   end
 end

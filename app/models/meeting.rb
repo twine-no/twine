@@ -1,16 +1,20 @@
 class Meeting < ApplicationRecord
+  include UsesGuid
   include Tables::SupportsAdvancedQueries
 
   belongs_to :platform, required: true
   validates :title, presence: true
 
   has_many :invites, dependent: :destroy
+  has_many :rsvps, dependent: :destroy
   has_many :surveys, dependent: :destroy
   has_many :log_entries, class_name: "MeetingLogEntry", dependent: :destroy
 
   broadcasts_refreshes
 
-  table_filter_by %w[scheduled_at]
+  table_filter_by %w[happens_at]
+
+  has_rich_text :description
 
   scope :table_searchable_scope, ->(search_term) do
     where(
@@ -19,9 +23,11 @@ class Meeting < ApplicationRecord
     )
   end
 
-  scope :past, -> { where(scheduled_at: ..Time.current) }
-  scope :upcoming, -> { where(scheduled_at: Time.current...) }
-  scope :unscheduled, -> { where(scheduled_at: nil) }
+  scope :open, -> { where(open: true) }
+  scope :closed, -> { where(open: false) }
+  scope :past, -> { where(happens_at: ..Time.current) }
+  scope :upcoming, -> { where(happens_at: Time.current...) }
+  scope :unscheduled, -> { where(happens_at: nil) }
   scope :planned, -> { upcoming.or(unscheduled) }
 
   def log!(category, by:)
@@ -33,15 +39,15 @@ class Meeting < ApplicationRecord
   end
 
   def scheduled?
-    scheduled_at?
+    happens_at?
   end
 
   def past?
-    scheduled? && scheduled_at.past?
+    scheduled? && happens_at.past?
   end
 
   def upcoming?
-    scheduled? && !scheduled_at.past?
+    scheduled? && !happens_at.past?
   end
 
   def invitable_memberships(from: platform)

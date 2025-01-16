@@ -8,8 +8,8 @@
     </dt>
     <dd>
       <% if @meeting.scheduled? %>
-        <time datetime="<%= datetime_format @meeting.scheduled_at, format: :html_datetime %>">
-          <%= datetime_format @meeting.scheduled_at, format: :datetime %>
+        <time datetime="<%= datetime_format @meeting.happens_at, format: :html_datetime %>">
+          <%= datetime_format @meeting.happens_at, format: :datetime %>
         </time>
       <% else %>
         Date not set
@@ -20,6 +20,7 @@
                         class: 'button button-xs button-secondary' %>
     </dd>
   </div>
+
   <div class="flex w-full flex-none gap-x-4">
     <dt class="flex-none">
       <span class="sr-only">Location</span>
@@ -29,10 +30,26 @@
       <% if @meeting.location.present? %>
         <%= @meeting.location %>
       <% else %>
-        Location not set.
+        Location not set
       <% end %>
     </dd>
   </div>
+
+  <div class="flex w-full flex-none gap-x-4">
+    <dt class="flex-none">
+      <span class="sr-only">Location</span>
+      <%= svg_tag "icons/mingcute/group_2_line", class: "h-6 w-5 text-gray-400" %>
+    </dt>
+    <dd>
+      <% if @meeting.invites.any? %>
+        <%= pluralize @meeting.invites.size, "participant" %> added
+      <% else %>
+        No participants added
+      <% end %>
+
+    </dd>
+  </div>
+
   <div class="flex w-full flex-none gap-x-4">
     <dt class="flex-none">
       <span class="sr-only">Description</span>
@@ -40,7 +57,7 @@
     </dt>
     <dd>
       <% if @meeting.description.present? %>
-        <%= @meeting.description&.truncate_words(20) %>
+        <%= @meeting.description.to_plain_text&.truncate_words(60) %>
       <% else %>
         No description
       <% end %>

@@ -1,1 +1,16 @@
-<%= render "admin/invites/index", meeting: @meeting %>
+<%= turbo_frame_tag :modal_content do %>
+  <%= render "admin/invites/form", meeting: @meeting %>
+
+  <% if @meeting.invitable_memberships.any? %>
+    <%= button_to admin_meeting_mass_invites_path(meeting_id: @meeting.id),
+                  method: :post,
+                  class: "button button-secondary button-xs" do %>
+      <%= svg_tag "icons/mingcute/group_2_line.svg" %>
+      <%= invite_remaining_members_text(@meeting) %>
+    <% end %>
+  <% else %>
+    <%= badge "Invited everyone", color: "green" %>
+  <% end %>
+
+  <%= render "admin/invites/index", meeting: @meeting %>
+<% end %>

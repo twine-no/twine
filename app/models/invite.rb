@@ -1,14 +1,15 @@
 class Invite < ApplicationRecord
   include Messageable
+  include UsesGuid
 
   belongs_to :meeting, required: true, touch: true
   belongs_to :membership, required: true
 
-  has_many :rsvps, dependent: :destroy
+  has_one :rsvp, dependent: :destroy
 
-  scope :unanswered, -> { where.missing(:rsvps) }
-  scope :answered_yes, -> { where.associated(:rsvps).where(rsvps: { answer: :yes }) }
-  scope :answered_no, -> { where.associated(:rsvps).where(rsvps: { answer: :no }) }
+  scope :unanswered, -> { where.missing(:rsvp) }
+  scope :answered_yes, -> { where.associated(:rsvp).where(rsvps: { answer: :yes }) }
+  scope :answered_no, -> { where.associated(:rsvp).where(rsvps: { answer: :no }) }
 
   validates :membership_id, uniqueness: { scope: :meeting_id }
   validate :ensure_member_belongs_to_platform

@@ -1,6 +1,8 @@
 <%# locals: (meeting:) %>
 
-<%= form_with model: Invite.new, url: admin_meeting_invites_path(meeting_id: meeting.id), method: :post do |form| %>
+<%= form_with model: Invite.new,
+              url: admin_meeting_invites_path(meeting_id: meeting.id),
+              method: :post do |form| %>
   <div class="form-group mt-2">
     <%= searchable_select(
           form,
