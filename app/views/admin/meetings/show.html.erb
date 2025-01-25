@@ -1,7 +1,7 @@
 <%= turbo_stream_from @meeting %>
 
 <%= breadcrumbs do %>
-  <%= breadcrumb 'Meetings', admin_meetings_path %>
+  <%= breadcrumb 'Events', admin_meetings_path %>
   <%= breadcrumb "#{@meeting.title} #{datetime_format @meeting.happens_at, format: :date}" %>
 <% end %>
 
@@ -32,12 +32,12 @@
   </div>
 </div>
 
-<div class="grid grid-cols-1 items-start gap-2 lg:gap-4">
-  <%= modal_link_to "Add participants",
+<div class="grid grid-cols-1 md:flex items-start gap-2 lg:gap-4">
+  <%= modal_link_to "Invite people",
                     admin_meeting_invites_path(meeting_id: @meeting.id),
-                    class: "button button-primary button-full" %>
+                    class: "button button-primary" %>
   <%= link_to "Preview",
-              public_event_path(@meeting.guid),
+              admin_meeting_meeting_previews_path(@meeting.id),
               target: "_blank",
-              class: "button button-secondary button-full" %>
+              class: "button button-secondary" %>
 </div>

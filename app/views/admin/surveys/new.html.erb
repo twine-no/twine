@@ -1,5 +1,5 @@
 <%= breadcrumbs do %>
-  <%= breadcrumb "Meetings", admin_meetings_path %>
+  <%= breadcrumb "Events", admin_meetings_path %>
   <%= breadcrumb @meeting.title, admin_meeting_path(@meeting) %>
   <%= breadcrumb "Surveys", admin_meeting_surveys_path(meeting_id: @meeting) %>
   <%= breadcrumb "New" %>

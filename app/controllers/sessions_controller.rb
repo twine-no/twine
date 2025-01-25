@@ -17,8 +17,24 @@ class SessionsController < ApplicationController
     end
   end
 
+  def update
+    membership = Current.user.memberships.with_admin_rights.find_by(platform_id: session_params[:platform_id])
+
+    if membership&.platform && Current.session.update(platform: membership.platform)
+      redirect_to request.referrer, notice: "Changed to #{membership.platform.name}"
+    else
+      redirect_to request.referrer, alert: "Couldn't change platform"
+    end
+  end
+
   def destroy
     terminate_session
     redirect_to new_session_path, notice: "You have signed out."
+  end
+
+  private
+
+  def session_params
+    params.require(:session).permit(:platform_id)
   end
 end

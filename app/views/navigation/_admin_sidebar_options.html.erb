@@ -1,7 +1,7 @@
 <nav class="flex flex-1 flex-col">
-  <ul role="list" class="flex flex-1 flex-col gap-y-7 list-none">
+  <ul class="flex flex-1 flex-col gap-y-7 list-none">
     <li>
-      <ul role="list" class="-mx-2 space-y-1 list-none">
+      <ul class="-mx-2 space-y-1 list-none">
         <li>
           <%= link_to admin_dashboard_path, class: "sidebar-link #{sidebar_active_html_class('dashboards')}" do %>
             <%= svg_tag 'icons/mingcute/home_3_line', class: 'size-6 shrink-0 group-hover:text-white' %>
@@ -12,7 +12,7 @@
         <li>
           <%= link_to admin_meetings_path, class: "sidebar-link #{sidebar_active_html_class(%w[meetings surveys])}" do %>
             <%= svg_tag 'icons/mingcute/calendar_2_line', class: 'size-6 shrink-0 group-hover:text-white' %>
-            Meetings
+            Events
           <% end %>
         </li>
 

@@ -22,6 +22,8 @@ class Membership < ApplicationRecord
 
   accepts_nested_attributes_for :user
 
+  scope :with_admin_rights, -> { where(role: [:super_admin, :admin]) }
+
   scope :table_searchable_scope, ->(search_term) do
     joins(:user)
       .where(

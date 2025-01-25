@@ -24,17 +24,33 @@
 
         <dialog
           data-dropdown-target="menu"
-          class="absolute left-0 w-40 -left-40 rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
+          class="absolute me-10 w-40 -left-32 rounded-md bg-white py-2 mx-0 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
           role="menu"
-          aria-orientation="vertical"
-          aria-labelledby="user-menu-button"
           tabindex="-1">
-          <%= button_to 'Log out',
+
+          <% Current.user.memberships.with_admin_rights.includes(:platform).each do |membership| %>
+            <%= button_to session_path,
+                          target: "_top",
+                          method: :patch,
+                          params: { session: { platform_id: membership.platform_id } },
+                          class: "block px-3 py-1 text-sm/6 text-left text-gray-900 hover:bg-gray-50 w-full" do
+            %>
+
+              <% if membership.platform == Current.platform %>
+                <%= svg_tag "icons/mingcute/star_fill", class: "text-lime-600 inline-block h-4 w-4" %>
+              <% end %>
+              <%= membership.platform.name %>
+            <% end %>
+
+            <hr class="text-gray-300">
+          <% end %>
+
+          <%= button_to "Log out",
                         session_path,
                         method: :delete,
-                        id: 'user-menu-item-1',
-                        class: 'block px-3 py-1 text-sm/6 text-gray-900'
+                        class: "block px-3 py-1 text-sm/6 text-left text-gray-900 hover:bg-gray-50 w-full"
           %>
+
         </dialog>
       </div>
     </div>

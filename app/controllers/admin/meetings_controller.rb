@@ -32,7 +32,7 @@ module Admin
 
     def update
       if @meeting.update(meeting_params)
-        redirect_to [:admin, @meeting], notice: "Meeting updated."
+        render "admin/meetings/show"
       else
         render :edit, status: :unprocessable_content
       end
@@ -50,7 +50,7 @@ module Admin
     end
 
     def meeting_params
-      params.require(:meeting).permit(:title, :happens_at, :location, :description)
+      params.require(:meeting).permit(:title, :happens_at, :location, :description, :open)
     end
 
     def by_table_tab(meetings)

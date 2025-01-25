@@ -35,12 +35,12 @@
           ❌ You declined
           <%= modal_link_to "Change", edit_public_rsvp_path(@rsvp), class: "link" %>
         <% else %>
-          <% if @rsvp.invite %>
+          <% if @rsvp&.invite %>
             Are you
             in? <%= button_to "Yes", public_rsvps_path(meeting_guid: @meeting.guid, answer: :yes), method: :post %>
             <%= button_to "No", public_rsvps_path(meeting_guid: @meeting.guid, invite_guid: @rsvp.invite&.guid), method: :post %>
           <% else %>
-            ✋ <%= modal_link_to "Sign up", new_public_rsvp_path(meeting_guid: @meeting.guid, invite_guid: @rsvp.invite&.guid), class: "link" %>
+            ✋ <%= modal_link_to "Sign up", new_public_rsvp_path(meeting_guid: @meeting.guid, invite_guid: @rsvp&.invite&.guid), class: "link" %>
           <% end %>
         <% end %>
       </div>

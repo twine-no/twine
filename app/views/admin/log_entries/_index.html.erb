@@ -1,6 +1,6 @@
 <%# locals: (meeting:) %>
 <div class="flow-root">
-  <ul role="list" class="-mb-8">
+  <ul class="-mb-8">
     <% last_log_entry = meeting.log_entries.order(happened_at: :desc).last %>
     <% meeting.log_entries.order(happened_at: :desc).each do |log_entry| %>
       <li class="meeting-log-entry">

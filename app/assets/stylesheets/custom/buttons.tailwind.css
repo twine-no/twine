@@ -27,7 +27,13 @@
     }
 
     .button-full {
-        @apply px-4 py-3 rounded-md bg-red-100 w-full text-center col-span-1;
+        @apply button-xl;
+    }
+
+    @media (max-width: 768px) {
+        .button-full {
+            @apply col-span-1;
+        }
     }
 
     .button-primary {

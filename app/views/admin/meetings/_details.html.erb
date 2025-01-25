@@ -42,9 +42,9 @@
     </dt>
     <dd>
       <% if @meeting.invites.any? %>
-        <%= pluralize @meeting.invites.size, "participant" %> added
+        <%= pluralize @meeting.invites.size, "participant" %>
       <% else %>
-        No participants added
+        No participants
       <% end %>
 
     </dd>

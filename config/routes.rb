@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  resource :session, except: [:show, :update]
+  resource :session, except: [:show, :edit]
   resource :registration, only: [:new, :create]
   resources :passwords, param: :token
 
@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       resources :mass_invites, only: [:create]
       resources :schedules, only: [:new, :create]
       resources :surveys, only: [:new, :create, :index, :edit, :update]
+      resources :meeting_previews, only: [:index]
     end
   end
 
