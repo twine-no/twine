@@ -1,4 +1,4 @@
-# Codename: Milkshake
+# Codename: Twine
 A simple, free, open-source system to manage your business, group or organisation -- whether you're incorporated or not.
 
 ## Inquiries?

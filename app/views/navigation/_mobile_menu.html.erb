@@ -27,15 +27,14 @@
       </div>
 
       <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
-        <div class="flex h-16 shrink-0 items-center">
-          <%= image_tag 'milkshake.png', class: 'h-8 w-auto', alt: 'Milkshake logo' %>
-        </div>
+        <div class="flex mt-16">
 
         <% if admin_page? %>
           <%= render 'navigation/admin_sidebar_options' %>
         <% else %>
           <%= render 'navigation/member_sidebar_options' %>
         <% end %>
+        </div>
       </div>
     </div>
   </div>
