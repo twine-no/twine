@@ -16,8 +16,9 @@
   <% end %>
 
   <div class="form-group">
-    <%= form.label :email, "Your email, so they can contact you" %>
+    <%= form.label :email, "Your email" %>
     <%= form.email_field :email, class: "form-control" %>
+    This is to send you
   </div>
 
   <%= form.submit rsvp.persisted? ? "Update" : "Sign up", class: "button button-primary button-full" %>

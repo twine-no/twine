@@ -1,8 +1,6 @@
 <div class="min-h-screen min-w-screen flex items-center justify-center bg-gray-100 flex-col">
-  <div class="mb-5">
-  <%= image_tag 'milkshake.png',
-                alt: 'Cartoon milkshake',
-                class: 'w-auto h-20' %>
+  <div class="mb-4 text-center text-4xl">
+    twine.
   </div>
 
   <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
@@ -35,4 +33,10 @@
       <%= link_to "Forgot password?", new_password_path, class: "text-blue-500 hover:underline" %>
     </div>
   </div>
+
+  <p class="text-center mt-10">
+    <span class="font-bold">Want to use twine?</span>
+    <br>
+    Send an empty email to <%= link_to "tomasbv@hey.com", "mailto:tomasbv@hey.com" %> with the subject line "I'm ready to twine".
+  </p>
 </div>
