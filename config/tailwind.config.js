@@ -10,16 +10,16 @@ module.exports = {
     ],
     safelist: [
         {
-            pattern: /badge-(red|yellow|green|blue|indigo|purple|pink|gray)/
+            pattern: /badge-(red|yellow|green|orange|gray)/
         },
         {
-            pattern: /bg-(red|yellow|green|blue|indigo|purple|pink|gray)-100/
+            pattern: /bg-(red|yellow|green|orange|gray)-100/
         }
     ],
     theme: {
         extend: {
             fontFamily: {
-                sans: ['InterVariable', 'system-ui', 'sans-serif'],
+                sans: ["", 'InterVariable', "", 'system-ui', 'sans-serif'],
                 serif: ['Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
                 mono: ['ui-monospace', 'FSMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace']
             },

@@ -1,37 +1,25 @@
 @layer components {
-  .badge {
-    @apply inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset;
-  }
+    .badge {
+        @apply inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset;
+    }
 
-  .badge-gray {
-    @apply bg-slate-100 text-slate-700 ring-slate-500/20;
-  }
+    .badge-gray {
+        @apply bg-slate-100 text-slate-700 ring-[#2E282A]/50;
+    }
 
-  .badge-red {
-    @apply bg-rose-50 text-rose-800 ring-rose-600/20;
-  }
+    .badge-red {
+        @apply bg-rose-50 text-[#E4572E] ring-[#E4572E]/50;
+    }
 
-  .badge-yellow {
-    @apply bg-amber-50 text-amber-800 ring-amber-600/20;
-  }
+    .badge-yellow {
+        @apply bg-amber-50 text-[#FFC914] ring-[#FFC914]/50;
+    }
 
-  .badge-green {
-    @apply bg-emerald-50 text-emerald-800 ring-emerald-600/20;
-  }
+    .badge-green {
+        @apply bg-emerald-50 text-[#76B041] ring-[#76B041]/50;
+    }
 
-  .badge-blue {
-    @apply bg-sky-50 text-sky-800 ring-sky-600/20;
-  }
-
-  .badge-indigo {
-    @apply bg-violet-50 text-violet-800 ring-violet-600/20;
-  }
-
-  .badge-purple {
-    @apply bg-purple-50 text-purple-800 ring-purple-600/20;
-  }
-
-  .badge-pink {
-    @apply bg-fuchsia-50 text-fuchsia-800 ring-fuchsia-600/20;
-  }
+    .badge-orange {
+        @apply bg-orange-50 text-[#E4572E] ring-[#E4572E]/50;
+    }
 }

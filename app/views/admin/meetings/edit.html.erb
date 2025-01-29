@@ -1,8 +1,3 @@
-<%= breadcrumbs do %>
-  <%= breadcrumb 'Events', admin_meetings_path %>
-  <%= breadcrumb @meeting.title %>
-<% end %>
-
 <%= card class: "relative lg:col-span-2" do %>
   <%= turbo_frame_tag @meeting do %>
     <div class="absolute top-4 right-4">

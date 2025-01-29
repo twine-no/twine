@@ -29,7 +29,7 @@
                          [
                            datetime_format(meeting.happens_at),
                            "<br>".html_safe,
-                           badge("#{distance_of_time_in_words(Time.current, meeting.happens_at)} #{meeting.past? ? "ago" : "from now"}", color: "yellow"),
+                           badge("#{distance_of_time_in_words(Time.current, meeting.happens_at)} #{meeting.past? ? "ago" : "from now"}", color: "orange"),
                          ]
                        )
                      else

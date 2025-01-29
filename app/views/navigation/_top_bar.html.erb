@@ -1,12 +1,4 @@
-<div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-  <button
-    data-action="sidebar#toggle"
-    type="button"
-    class="-m-2.5 p-2.5 text-gray-700 lg:hidden">
-    <span class="sr-only">Open sidebar</span>
-    <%= svg_tag 'icons/hamburger.svg' %>
-  </button>
-
+<div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-[#2E282A] md:bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
   <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-end">
     <div class="flex items-center gap-x-4 lg:gap-x-6">
       <div data-controller="dropdown"
@@ -37,7 +29,7 @@
             %>
 
               <% if membership.platform == Current.platform %>
-                <%= svg_tag "icons/mingcute/star_fill", class: "text-lime-600 inline-block h-4 w-4" %>
+                <%= svg_tag "icons/mingcute/star_fill", class: "text-[#76B041] inline-block h-4 w-4" %>
               <% end %>
               <%= membership.platform.name %>
             <% end %>

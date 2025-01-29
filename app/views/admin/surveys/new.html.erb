@@ -1,10 +1,3 @@
-<%= breadcrumbs do %>
-  <%= breadcrumb "Events", admin_meetings_path %>
-  <%= breadcrumb @meeting.title, admin_meeting_path(@meeting) %>
-  <%= breadcrumb "Surveys", admin_meeting_surveys_path(meeting_id: @meeting) %>
-  <%= breadcrumb "New" %>
-<% end %>
-
 <div class="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 lg:gap-8">
   <div class="lg:col-span-2">
     <%= render "admin/surveys/form", survey: Survey.new, meeting: @meeting %>

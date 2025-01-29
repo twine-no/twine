@@ -28,7 +28,6 @@
 
 <body class="h-full bg-stone-100">
 <div data-controller="sidebar drawer">
-  <%= render 'navigation/mobile_menu' %>
   <%= render 'navigation/desktop_sidebar' %>
 
   <div class="lg:pl-72">
@@ -57,6 +56,8 @@
       </div>
     </main>
   </div>
+
+  <%= render 'navigation/mobile_menu' %>
 </div>
 </body>
 </html>

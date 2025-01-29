@@ -1,8 +1,3 @@
-<%= breadcrumbs do %>
-  <%= breadcrumb 'Members', admin_memberships_path %>
-  <%= breadcrumb @membership.user.full_name %>
-<% end %>
-
 <div class="max-w-4xl">
   <%= card class: 'relative' do %>
     <%= turbo_frame_tag @membership do %>

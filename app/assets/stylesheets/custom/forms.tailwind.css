@@ -57,7 +57,7 @@
     }
 
     .radio-button.checked {
-        @apply bg-indigo-600 text-white hover:bg-indigo-500;
+        @apply bg-[#2E282A] text-white hover:opacity-80 ring-[#2E282A];
     }
 }
 

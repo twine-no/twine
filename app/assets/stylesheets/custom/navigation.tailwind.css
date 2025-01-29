@@ -51,16 +51,20 @@
         @apply bg-stone-600;
     }
 
+    .bottom-bar-link {
+        @apply flex flex-col items-center;
+    }
+
+    .bottom-bar-link.active {
+        @apply text-[#17BEBB];
+    }
+
     .checklist li {
         @apply text-gray-800 flex items-center;
     }
 
     .checklist li.complete {
         @apply text-green-600 line-through;
-    }
-
-    .link {
-        @apply font-medium text-lime-500 underline hover:text-lime-600;
     }
 
     .dropdown-link {

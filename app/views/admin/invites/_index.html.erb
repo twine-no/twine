@@ -1,15 +1,9 @@
-<%# locals: (meeting:) %>
+  <%# locals: (meeting:) %>
 
-<div class="bg-gray-200 min-h-24 mt-4 rounded-md">
-  <% if meeting.invites.any? %>
-    <ul class="list-none divide-y divide-gray-100 max-h-96 overflow-y-scroll px-2 rounded-md divide-y divide-gray-100 max-h-23">
-      <% meeting.invites.joins(membership: :user).each do |invite| %>
-        <%= render "admin/invites/invite", invite: invite %>
-      <% end %>
-    </ul>
-  <% else %>
-    <div class="h-24 flex justify-center items-center">
-      No members added
-    </div>
-  <% end %>
-</div>
+<%= table_of meeting.invites.includes(membership: :user),
+    columns: [
+      {
+        content: -> (invite) { invite.membership.user.full_name }
+      }
+    ]
+%>

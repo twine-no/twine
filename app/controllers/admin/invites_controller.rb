@@ -1,26 +1,22 @@
 module Admin
   class InvitesController < AdminController
-    before_action :set_meeting, only: [ :create, :destroy, :index ]
+    before_action :set_meeting, only: [ :create, :destroy ]
     before_action :set_invite, only: [ :destroy ]
 
     def create
       @invite = @meeting.invites.new(invite_params)
       if @invite.save!
-        render :index
+        render "admin/meetings/show"
       else
-        render :index, status: :unprocessable_content
+        render "admin/meetings/show", status: :unprocessable_content
       end
-    end
-
-    def index
-      @invites = @meeting.invites
     end
 
     def destroy
       if @invite.destroy!
-        render :index
+        render "admin/meetings/show"
       else
-        render :index, status: :unprocessable_content
+        render "admin/meetings/show", status: :unprocessable_content
       end
     end
 

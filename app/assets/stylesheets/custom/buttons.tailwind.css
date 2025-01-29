@@ -1,6 +1,6 @@
 @layer components {
     .button {
-        @apply rounded font-semibold text-white whitespace-nowrap shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+        @apply rounded font-semibold hover:brightness-90 text-white whitespace-nowrap shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
 
         /* md size is the default */
         @apply px-2.5 py-1.5 text-sm rounded-md;
@@ -37,7 +37,7 @@
     }
 
     .button-primary {
-        @apply bg-lime-500 hover:bg-lime-600 focus-visible:outline-indigo-600;
+        @apply bg-[#17BEBB] focus-visible:outline-indigo-600;
     }
 
     .button-secondary {
@@ -66,5 +66,13 @@
 
     .button-warning:disabled, .button-warning.disabled {
         @apply bg-yellow-300 text-gray-100 cursor-not-allowed;
+    }
+
+    .link {
+        @apply font-medium underline hover:opacity-60 text-black;
+    }
+
+    .link-primary {
+        @apply text-[#E4572E]
     }
 }

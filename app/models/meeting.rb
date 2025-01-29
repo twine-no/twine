@@ -29,6 +29,7 @@ class Meeting < ApplicationRecord
   scope :upcoming, -> { where(happens_at: Time.current...) }
   scope :unscheduled, -> { where(happens_at: nil) }
   scope :planned, -> { upcoming.or(unscheduled) }
+  scope :next_up, -> { order(Meeting.arel_table[:happens_at].asc.nulls_last).first }
 
   def log!(category, by:)
     log_entries.create!(
