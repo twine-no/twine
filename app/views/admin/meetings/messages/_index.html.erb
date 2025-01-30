@@ -8,14 +8,6 @@
     </dt>
     <dd>
       No messages sent
-      <%= modal_link_to "Send email",
-                        new_admin_meeting_schedule_path(meeting_id: @meeting.id),
-                        data: { turbo_frame: "_top" },
-                        class: 'button button-xs button-secondary' %>
-      <%= modal_link_to "Send SMS",
-                        new_admin_meeting_schedule_path(meeting_id: @meeting.id),
-                        data: { turbo_frame: "_top" },
-                        class: 'button button-xs button-secondary' %>
     </dd>
   </div>
   <div class="flex w-full flex-none gap-x-4">

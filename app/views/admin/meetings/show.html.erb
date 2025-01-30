@@ -2,14 +2,14 @@
 
 <div class="grid grid-cols-1 items-start gap-2 lg:gap-4">
   <div class="lg:col-span-1">
-    <%= card class: "relative", title: @meeting.title do %>
+    <%= card class: "relative" do %>
       <%= turbo_frame_tag @meeting do %>
         <div class="absolute top-4 right-4">
           <%= link_to admin_meeting_path(@meeting),
                       data: {
                         turbo_frame: "_top",
                         turbo_method: :delete,
-                        turbo_confirm: "Are you sure you want to delete the meeting '#{@meeting.title}'#{("(, scheduled for #{@meeting.happens_at.strftime("%B %d, %Y %H:%M") }" if @meeting.scheduled?)}?"
+                        turbo_confirm: "Are you sure you want to delete the meeting '#{@meeting.title}'#{(", scheduled for #{@meeting.happens_at.strftime("%B %d, %Y %H:%M") }" if @meeting.scheduled?)}?"
                       },
                       class: "button button-secondary button-xs inline-flex items-center gap-1" do %>
             <%= svg_tag "icons/mingcute/delete_2_line.svg", class: "inline h-3 w-3" %> Delete

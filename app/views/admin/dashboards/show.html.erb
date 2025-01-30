@@ -16,12 +16,12 @@
         <% if next_meeting.happens_at %>
           Next is <%= link_to next_meeting.title,
                               admin_meeting_path(next_meeting),
-                              class: "font-bold hover:opacity-70 text-[#E4572E]"
+                              class: "link link-primary"
     %> <%= time_ago_in_words(next_meeting.happens_at) %> from now.
         <% else %>
           You still haven't set a date for <%= link_to next_meeting.title,
                               admin_meeting_path(next_meeting),
-                              class: "font-bold hover:opacity-70 text-[#E4572E]"
+                              class: "link link-primary"
     %>.
         <% end %>
       <% else %>
@@ -29,7 +29,7 @@
       <% end %>
     </p>
     <div class="mt-4">
-      <%= link_to Current.platform.meetings.planned.any? ? "Manage" : "Add an event", admin_meetings_path, class: "link" %>
+      <%= link_to Current.platform.meetings.planned.any? ? "See all" : "Add an event", admin_meetings_path, class: "link link-underline" %>
     </div>
   <% end %>
 
@@ -43,7 +43,7 @@
         <% newest_membership = Current.platform.memberships.order(created_at: :desc).first %>
         Your newest member <%= link_to newest_membership.user.first_name,
                                        admin_membership_path(newest_membership),
-                                       class: "font-bold hover:opacity-70 text-[#17BEBB]"
+                                       class: "link link-secondary"
 
     %> joined <%= time_ago_in_words(newest_membership.created_at) %> ago.
       <% else %>
@@ -51,7 +51,7 @@
       <% end %>
     </p>
     <div class="mt-4">
-      <%= link_to Current.platform.memberships.any? ? "Manage" : "Add a member", admin_memberships_path, class: "link" %>
+      <%= link_to Current.platform.memberships.any? ? "See all" : "Add a member", admin_memberships_path, class: "link link-underline" %>
     </div>
   <% end %>
 
@@ -61,10 +61,10 @@
       You haven't published a website
     </h3>
     <p class="min-h-12">
-      Keep people in the loop with a really <%= link_to "simple website", admin_site_path, class: "font-bold text-[#76B041]" %>.
+      Keep people in the loop with a really <%= link_to "simple website", admin_site_path, class: "link link-tertiary" %>.
     </p>
     <div class="mt-4">
-      <%= link_to "Manage", admin_site_path, class: "link" %>
+      <%= link_to "Manage", admin_site_path, class: "link link-underline" %>
     </div>
   <% end %>
 </div>

@@ -69,10 +69,22 @@
     }
 
     .link {
+        @apply font-bold hover:opacity-60 text-black;
+    }
+
+    .link.link-underline {
         @apply font-medium underline hover:opacity-60 text-black;
     }
 
-    .link-primary {
-        @apply text-[#E4572E]
+    .link.link-primary {
+        @apply text-primary;
+    }
+
+    .link.link-secondary {
+        @apply text-secondary ;
+    }
+
+    .link.link-tertiary {
+        @apply text-tertiary
     }
 }

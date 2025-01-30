@@ -1,37 +1,44 @@
-<%= card class: "relative lg:col-span-2" do %>
-  <%= turbo_frame_tag @meeting do %>
-    <div class="absolute top-4 right-4">
-      <%= link_to admin_meeting_path(@meeting),
-                  class: "button button-secondary button-xs inline-flex items-center gap-1" do %>
-        <%= svg_tag "icons/mingcute/close_line.svg", class: "inline h-3 w-3" %>
-        Close
-      <% end %>
-    </div>
-
-    <%= form_with model: [:admin, @meeting], data: { turbo_frame: "_tnop" } do |form| %>
-      <%= render 'navigation/form_errors', model: @meeting %>
-
-      <div class="form-group">
-        <%= form.label :title, "Title" %>
-        <%= form.text_field :title, class: "form-control", autocomplete: false %>
-      </div>
-
-      <div class="form-group">
-        <%= form.label :happens_at, "Date & Time" %>
-        <%= form.datetime_local_field :happens_at, class: "form-control", autocomplete: false %>
-      </div>
-
-      <div class="form-group">
-        <%= form.label :location, "Location" %>
-        <%= form.text_field :location, class: "form-control", autocomplete: false %>
-      </div>
-
-      <div class="form-group">
-        <%= form.label :description, "Purpose" %>
-        <%= form.rich_text_area :description, class: "form-control", autocomplete: false %>
-      </div>
-
+<%= turbo_frame_tag @meeting, :title do %>
+  <%= form_with model: [:admin, @meeting] do |form| %>
+    <%= render 'navigation/form_errors', model: @meeting %>
+    <div class="form-group inline-form-group">
+      <%= form.text_field :title, class: "form-control", autocomplete: false %>
       <%= form.submit "Save", class: "button button-primary" %>
-    <% end %>
+    </div>
   <% end %>
 <% end %>
+
+<%= turbo_frame_tag @meeting, :date do %>
+  <%= form_with model: [:admin, @meeting] do |form| %>
+    <%= render 'navigation/form_errors', model: @meeting %>
+    <div class="form-group inline-form-group w-full">
+      <%= form.datetime_local_field :happens_at, class: "form-control", autocomplete: false %>
+      <%= form.submit "Save", class: "button button-primary" %>
+      <%= link_to "Ask guests when they're available",
+                  new_admin_meeting_survey_path(meeting_id: @meeting.id, template: :meeting_date),
+                  data: { turbo_frame: "_top" },
+                  class: "link link-underline whitespace-nowrap ml-3" %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= turbo_frame_tag @meeting, :location do %>
+  <%= form_with model: [:admin, @meeting] do |form| %>
+    <%= render 'navigation/form_errors', model: @meeting %>
+    <div class="form-group inline-form-group">
+      <%= form.text_field :location, class: "form-control", autocomplete: false %>
+      <%= form.submit "Save", class: "button button-primary" %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= turbo_frame_tag @meeting, :description do %>
+  <%= form_with model: [:admin, @meeting] do |form| %>
+    <%= render 'navigation/form_errors', model: @meeting %>
+    <div class="form-group">
+      <%= form.rich_text_area :description, class: "form-group", autocomplete: false %>
+      <%= form.submit "Save", class: "button button-primary" %>
+    </div>
+  <% end %>
+<% end %>
+

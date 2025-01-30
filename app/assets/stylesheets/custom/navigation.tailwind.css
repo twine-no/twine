@@ -1,4 +1,16 @@
 @layer components {
+    .text-primary {
+        @apply text-[#E4572E]
+    }
+
+    .text-secondary {
+        @apply text-[#17BEBB]
+    }
+
+    .text-tertiary {
+        @apply text-[#76B041]
+    }
+
     .card {
         @apply px-4 py-4;
     }
@@ -91,5 +103,33 @@
         .modal.modal-open {
             @apply translate-y-0;
         }
+    }
+
+    .editable {
+        display: inline-block;
+        position: relative;
+        padding-right: 25px;
+        cursor: pointer;
+    }
+
+    .editable::after {
+        content: "✏️";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 16px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease-in-out, visibility 0.2s;
+    }
+
+    .editable:hover {
+        opacity: 0.7;
+    }
+
+    .editable:hover::after {
+        opacity: 1;
+        visibility: visible;
     }
 }

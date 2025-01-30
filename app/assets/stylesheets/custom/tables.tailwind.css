@@ -4,6 +4,6 @@
     }
 
     .table-tab.selected {
-        @apply border-[#17BEBB] px-1 text-[#17BEBB]
+        @apply border-[#76B041] px-1 text-[#76B041]
     }
 }

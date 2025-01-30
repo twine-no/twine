@@ -23,7 +23,6 @@ Rails.application.routes.draw do
     resources :meetings do
       resources :invites, only: [:create, :index, :destroy]
       resources :mass_invites, only: [:create]
-      resources :schedules, only: [:new, :create]
       resources :surveys, only: [:new, :create, :index, :edit, :update]
       resources :meeting_previews, only: [:index]
     end

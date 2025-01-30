@@ -1,36 +1,21 @@
 <%# locals: (meeting:) %>
 
 <dl class="flex flex-wrap mt-2">
+  <h2 class="mt-0 mb-2">
+    <%= turbo_frame_tag @meeting, :title do %>
+      <%= link_to @meeting.title, edit_admin_meeting_path(@meeting), class: "editable" %>
+    <% end %>
+  </h2>
+
   <div class="flex w-full flex-none gap-x-4">
     <dt class="flex-none">
       <span class="sr-only">Date</span>
-      <%= svg_tag "icons/mingcute/calendar_2_line", class: "h-6 w-5 text-gray-400" %>
+      <%= svg_tag "icons/mingcute/calendar_2_line", class: "h-6 w-5 text-primary" %>
     </dt>
-    <dd>
-      <% if @meeting.scheduled? %>
-        <time datetime="<%= datetime_format @meeting.happens_at, format: :html_datetime %>">
-          <%= datetime_format @meeting.happens_at, format: :datetime %>
-        </time>
-      <% else %>
-        Date not set
-      <% end %>
-      <%= modal_link_to @meeting.scheduled? ? "Reschedule" : "Schedule",
-                        new_admin_meeting_schedule_path(meeting_id: @meeting.id),
-                        data: { turbo_frame: "_top" },
-                        class: 'button button-xs button-secondary' %>
-    </dd>
-  </div>
 
-  <div class="flex w-full flex-none gap-x-4">
-    <dt class="flex-none">
-      <span class="sr-only">Location</span>
-      <%= svg_tag "icons/mingcute/location_line", class: "h-6 w-5 text-gray-400" %>
-    </dt>
     <dd>
-      <% if @meeting.location.present? %>
-        <%= @meeting.location %>
-      <% else %>
-        Location not set
+      <%= turbo_frame_tag @meeting, :date do %>
+        <%= link_to @meeting.scheduled? ? datetime_format(@meeting.happens_at, format: :datetime) : "Set a date", edit_admin_meeting_path(@meeting), class: "editable #{'link link-underline' unless @meeting.scheduled?}" %>
       <% end %>
     </dd>
   </div>
@@ -38,28 +23,27 @@
   <div class="flex w-full flex-none gap-x-4">
     <dt class="flex-none">
       <span class="sr-only">Location</span>
-      <%= svg_tag "icons/mingcute/group_2_line", class: "h-6 w-5 text-gray-400" %>
+      <%= svg_tag "icons/mingcute/location_line", class: "h-6 w-5 text-secondary" %>
     </dt>
     <dd>
-      <% if @meeting.invites.any? %>
-        <%= pluralize @meeting.invites.size, "participant" %>
-      <% else %>
-        No participants
+      <%= turbo_frame_tag @meeting, :location do %>
+        <%= link_to @meeting.location.present? ? @meeting.location : "Decide location", edit_admin_meeting_path(@meeting), class: "editable #{'link link-underline' unless @meeting.location.present?}" %>
       <% end %>
-
     </dd>
   </div>
 
   <div class="flex w-full flex-none gap-x-4">
     <dt class="flex-none">
       <span class="sr-only">Description</span>
-      <%= svg_tag "icons/mingcute/information_line", class: "h-6 w-5 text-gray-400" %>
+      <%= svg_tag "icons/mingcute/information_line", class: "h-6 w-5 text-tertiary" %>
     </dt>
     <dd>
-      <% if @meeting.description.present? %>
-        <%= @meeting.description.to_plain_text&.truncate_words(60) %>
-      <% else %>
-        No description
+      <%= turbo_frame_tag @meeting, :description do %>
+        <% if @meeting.description.present? %>
+          <%= link_to @meeting.description.to_plain_text&.truncate_words(60), edit_admin_meeting_path(@meeting), class: "editable" %>
+        <% else %>
+          <%= link_to "Write a description", edit_admin_meeting_path(@meeting), class: "link link-underline editable" %>
+        <% end %>
       <% end %>
     </dd>
   </div>
