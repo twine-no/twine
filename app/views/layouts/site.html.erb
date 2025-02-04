@@ -22,20 +22,14 @@
   <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
 
-  <!-- Open Graph Meta Tags (for Facebook, LinkedIn, etc.) -->
+  <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="<%= content_for(:title) || "#{@platform.name} | Twine" %>">
   <meta property="og:description" content="<%= content_for(:description) || "#{@platform.tagline}" %>">
-  <meta property="og:image" content="<%= @platform.logo.attached? ? @platform.logo : image_url("logo.png") %>">
+  <meta property="og:image" content="<%= @platform.logo.attached? ? url_for(@platform.logo) : image_url("logo.png") %>">
   <meta property="og:url" content="<%= request.original_url %>">
   <meta property="og:type" content="website">
 
-  <!-- Twitter Card Meta Tags -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="<%= content_for(:title) || "#{@platform.name} | Twine" %>">
-  <meta name="twitter:description" content="<%= content_for(:description) || "#{@platform.tagline}" %>">
-  <meta name="twitter:image" content="<%= @platform.logo.attached? ? @platform.logo : image_url("logo.png") %>">
-
-  <!-- General SEO Meta Tags -->
+  <!-- SEO Meta Tags -->
   <meta name="description" content="<%= content_for?(:description) ? yield(:description) : @platform.tagline %>">
   <meta name="keywords" content="twine, social, sharing, <%= @platform.tagline&.gsub(" ", ",") %>">
   <meta name="author" content="<%= @platform.name %>">

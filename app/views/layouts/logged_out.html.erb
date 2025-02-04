@@ -22,20 +22,14 @@
   <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
 
-  <!-- Open Graph Meta Tags (for Facebook, LinkedIn, etc.) -->
+  <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="<%= content_for(:title) || Current.platform ? "#{Current.platform.name} | Twine" : "Twine" %>">
   <meta property="og:description" content="<%= content_for(:description) || Current.platform ? Current.platform.tagline : "Organise loose groups of people" %>">
-  <meta property="og:image" content="<%= Current.platform&.logo&.attached? ? Current.platform.logo : image_url("logo.png") %>">
+  <meta property="og:image" content="<%= Current.platform&.logo&.attached? ? url_for(Current.platform.logo) : image_url("logo.png") %>">
   <meta property="og:url" content="<%= request.original_url %>">
   <meta property="og:type" content="website">
 
-  <!-- Twitter Card Meta Tags -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="<%= content_for(:title) || Current.platform ? "#{Current.platform.name} | Twine" : "Twine" %>">
-  <meta name="twitter:description" content="<%= content_for(:description) || Current.platform ? Current.platform.tagline : "Organise loose groups of people" %>">
-  <meta name="twitter:image" content="<%= Current.platform&.logo&.attached? ? Current.platform.logo : image_url("logo.png") %>">
-
-  <!-- General SEO Meta Tags -->
+  <!-- SEO Meta Tags -->
   <meta name="description" content="<%= content_for(:description) || Current.platform ? Current.platform.tagline : "Organise loose groups of people" %>">
   <meta name="keywords" content="twine, social, sharing, <%= Current.platform.tagline&.gsub(" ", ",") if Current.platform %>">
   <meta name="author" content="<%= Current.platform&.name || "Twine" %>">
