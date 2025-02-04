@@ -1,11 +1,10 @@
 module Admin
   class SurveysController < AdminController
-    before_action :set_meeting, only: [ :new, :create, :index ]
-    before_action :set_survey, only: [ :show ]
+    before_action :set_meeting, only: [:new, :create, :index, :edit, :update]
+    before_action :set_survey, only: [:edit, :update]
 
     def new
-      @survey = @meeting.surveys.build
-      @survey.questions.build
+      @survey = build_survey_from_template
     end
 
     def create
@@ -13,7 +12,8 @@ module Admin
       @survey.open = true
 
       if @survey.save
-        redirect_to admin_meeting_survey_path(@survey, meeting_id: @meeting.id), notice: "Survey created!"
+        @survey.meeting.update!(happens_at: nil) if @survey.meeting_date?
+        redirect_to admin_meeting_path(@survey.meeting), notice: generate_notice_based_on_survey_template
       else
         render :new, status: :unprocessable_content
       end
@@ -21,10 +21,18 @@ module Admin
 
     def index
       @surveys = @meeting.surveys
-      render_as_modal_inside "admin/meetings/show"
     end
 
-    def show
+    def edit
+    end
+
+    def update
+      if @survey.update(survey_params)
+        @survey.meeting.update!(happens_at: nil) if @survey.meeting_date?
+        redirect_to admin_meeting_path(@survey.meeting), notice: generate_notice_based_on_survey_template
+      else
+        render :edit, status: :unprocessable_content
+      end
     end
 
     private
@@ -34,16 +42,42 @@ module Admin
     end
 
     def set_survey
-      @meeting = @meeting.surveys.find(params[:id])
+      @survey = @meeting.surveys.find(params[:id])
     end
 
     def survey_params
       params.require(:survey).permit(
+        :template,
         questions_attributes: [
           :id, :title, :category, :_destroy,
-          alternatives_attributes: [ :id, :_destroy ]
+          alternatives_attributes: [:id, :title, :_destroy]
         ]
       )
+    end
+
+    def build_survey_from_template
+      survey = @meeting.surveys.build(template: params[:template])
+
+      case survey.template
+      when "meeting_date"
+        question = survey.questions.build(title: "When are you available?", category: :multiple_choice)
+        question.alternatives.build
+        question.alternatives.build
+      else
+        # make an empty question
+        survey.questions.build(category: :free_text)
+      end
+
+      survey
+    end
+
+    def generate_notice_based_on_survey_template
+      case @survey.template
+      when "meeting_date"
+        "Will ask guests for suggestions."
+      else
+        "Question saved."
+      end
     end
   end
 end

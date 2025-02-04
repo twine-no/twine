@@ -5,7 +5,11 @@ export default class extends Controller {
     static targets = ['menu']
 
     connect() {
-        useClickOutside(this, this.close)
+        useClickOutside(this, {element: this.menuTarget})
+    }
+
+    clickOutside(event) {
+        this.close(event)
     }
 
     toggle(event) {

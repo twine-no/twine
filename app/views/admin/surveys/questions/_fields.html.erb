@@ -2,14 +2,17 @@
 
 <%= card do %>
   <div class="form-group">
-    <%= question_fields.label :title, "What do you want to ask?" %>
-    <%= question_fields.text_field :title, class: "form-control", placeholder: surveys_question_placeholder %>
+    <% if @survey.custom? %>
+      <%= question_fields.label :title, "What do you want to ask your guests?" %>
+    <% end %>
+    <%= question_fields.text_field :title, class: "form-control",
+                                   placeholder: surveys_question_placeholder %>
   </div>
 
-  <div class="form-group">
+  <div class="form-group <%= "hidden" unless @survey.custom? %>">
     <%= question_fields.label :category, "How should they answer?" %>
     <%= question_fields.select :category,
-                               [['Free Text', 'free_text'], ['Multiple Choice', 'multiple_choice']],
+                               [['Text', 'free_text'], ['Multiple Choice', 'multiple_choice']],
                                {},
                                data: { action: "change->surveys#toggleAlternatives", surveys_target: "category" },
                                class: "form-control" %>
@@ -17,27 +20,32 @@
 
   <div
     data-category="alternatives"
-    class="mb-3 grid grid-cols-12 <%= "hidden" unless question_fields.object.multiple_choice? %>"
+    class="mb-3 <%= "hidden" unless question_fields.object.multiple_choice? %>"
   >
+    <h5 class="mb-1">Alternatives</h5>
+
     <%= question_fields.fields_for :alternatives do |alternative_fields| %>
-      <%= render "admin/surveys/alternatives/fields", alternative_fields: alternative_fields %>
+      <%= render "admin/surveys/alternatives/fields", alternative_fields: alternative_fields, index: alternative_fields.options[:child_index].to_i + 1 %>
     <% end %>
 
     <template data-alternative-template>
       <%= question_fields.fields_for :alternatives, Surveys::Alternative.new, child_index: "NEW_ALT_RECORD" do |alternative_fields| %>
-        <%= render "admin/surveys/alternatives/fields", alternative_fields: alternative_fields %>
+        <%= render "admin/surveys/alternatives/fields", alternative_fields: alternative_fields, index: nil %>
       <% end %>
     </template>
 
-    <div class="col-span-11 col-start-2 flex justify-between mb-3">
-      <h6>Alternatives</h6>
-      <%= button_tag "Add alternative",
-                     data: { action: "click->surveys#addAlternative" },
-                     tabindex: "-1",
-                     class: "button button-secondary button-xs" %>
-    </div>
+  </div>
+
+  <div class="col-span-11 col-start-2 flex justify-end mb-3">
+    <%= button_tag "Add alternative",
+                   data: { action: "click->surveys#addAlternative" },
+                   tabindex: "-1",
+                   class: "button button-secondary button-xs" %>
   </div>
 
   <%= question_fields.hidden_field :_destroy %>
-  <%= button_tag "Remove question", data: { action: "click->surveys#removeQuestion" }, class: "button button-secondary" %>
+
+  <% if @survey.custom? %>
+    <%= button_tag "Remove question", data: { action: "click->surveys#removeQuestion" }, class: "button button-secondary" %>
+  <% end %>
 <% end %>

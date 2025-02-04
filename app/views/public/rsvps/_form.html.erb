@@ -1,5 +1,7 @@
 <%# locals: (rsvp:) %>
 <%= form_with model: [:public, rsvp], data: { turbo_frame: "_top" } do |form| %>
+  <%= render "navigation/form_errors", model: rsvp %>
+
   <%= hidden_field_tag :meeting_guid, params[:meeting_guid] %>
   <%= hidden_field_tag :invite_guid, params[:invite_guid] %>
 
@@ -12,13 +14,17 @@
                       class: "form-control" %>
     </div>
   <% else %>
-    <%= hidden_field_tag :answer, "yes" %>
+    <%= form.hidden_field :answer, value: "yes" %>
   <% end %>
+
+  <div class="form-group">
+    <%= form.label :full_name, "Your name" %>
+    <%= form.text_field :full_name, class: "form-control" %>
+  </div>
 
   <div class="form-group">
     <%= form.label :email, "Your email" %>
     <%= form.email_field :email, class: "form-control" %>
-    This is to send you
   </div>
 
   <%= form.submit rsvp.persisted? ? "Update" : "Sign up", class: "button button-primary button-full" %>

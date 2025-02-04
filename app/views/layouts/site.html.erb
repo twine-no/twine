@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= content_for(:title) || 'Twine' %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= yield :head %>
+
+  <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+  <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+  <link rel="icon" href="/icon.png" type="image/png">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.png">
+
+  <%# Includes all stylesheet files in app/assets/stylesheets %>
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+
+<body
+  class="bg-gradient-to-b from-purple-500 to-indigo-600"
+  style="overflow: unset;"
+  data-controller="modal"
+  data-modal-origin-url-value="<%= @encapsulating_view_url || url_for %>"
+  data-modal-open-on-page-load-value="<%= @modal_content.present? %>"
+>
+<div class="flex-1">
+  <%= yield %>
+
+  <div class="fixed inset-x-0 bottom-0 flex flex-col w-full pointer-events-none dynamic-flash-container">
+    <%= render 'navigation/flash' %>
+  </div>
+
+  <%= render 'navigation/modal', modal_content: @modal_content %>
+</div>
+</body>
+</html>

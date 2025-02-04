@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_09_173423) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_04_182238) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -69,7 +69,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_173423) do
 
   create_table "invites", force: :cascade do |t|
     t.integer "meeting_id", null: false
-    t.integer "membership_id", null: false
+    t.integer "membership_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "guid", null: false
@@ -77,6 +77,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_173423) do
     t.index ["meeting_id", "membership_id"], name: "index_invites_on_meeting_id_and_membership_id", unique: true
     t.index ["meeting_id"], name: "index_invites_on_meeting_id"
     t.index ["membership_id"], name: "index_invites_on_membership_id"
+  end
+
+  create_table "links", force: :cascade do |t|
+    t.string "name"
+    t.string "url"
+    t.integer "platform_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["platform_id"], name: "index_links_on_platform_id"
   end
 
   create_table "meeting_log_entries", force: :cascade do |t|
@@ -129,6 +138,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_173423) do
     t.integer "category", default: 0, null: false
     t.string "shortname"
     t.boolean "listed"
+    t.string "tagline"
     t.index ["shortname"], name: "index_platforms_on_shortname", unique: true
   end
 
@@ -140,6 +150,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_173423) do
     t.integer "meeting_id", null: false
     t.string "email"
     t.string "guid", null: false
+    t.string "full_name"
     t.index ["answer"], name: "index_rsvps_on_answer"
     t.index ["guid"], name: "index_rsvps_on_guid", unique: true
     t.index ["invite_id"], name: "index_rsvps_on_invite_id"
@@ -163,6 +174,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_173423) do
     t.boolean "open", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "template", default: "custom", null: false
     t.index ["guid"], name: "index_surveys_on_guid", unique: true
     t.index ["meeting_id"], name: "index_surveys_on_meeting_id"
   end
@@ -175,16 +187,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_173423) do
     t.index ["question_id"], name: "index_surveys_alternatives_on_question_id"
   end
 
-  create_table "surveys_answers", force: :cascade do |t|
-    t.integer "question_id", null: false
-    t.integer "alternative_id"
-    t.string "answer"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["alternative_id"], name: "index_surveys_answers_on_alternative_id"
-    t.index ["question_id"], name: "index_surveys_answers_on_question_id"
-  end
-
   create_table "surveys_questions", force: :cascade do |t|
     t.integer "survey_id", null: false
     t.string "title"
@@ -192,6 +194,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_173423) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["survey_id"], name: "index_surveys_questions_on_survey_id"
+  end
+
+  create_table "surveys_responses", force: :cascade do |t|
+    t.integer "question_id", null: false
+    t.integer "alternative_id"
+    t.string "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["alternative_id"], name: "index_surveys_responses_on_alternative_id"
+    t.index ["question_id"], name: "index_surveys_responses_on_question_id"
   end
 
   create_table "users", force: :cascade do |t|

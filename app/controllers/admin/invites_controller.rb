@@ -6,17 +6,17 @@ module Admin
     def create
       @invite = @meeting.invites.new(invite_params)
       if @invite.save!
-        render "admin/meetings/show"
+        redirect_to admin_meeting_path(@meeting)
       else
-        render "admin/meetings/show", status: :unprocessable_content
+        redirect_to admin_meeting_path(@meeting), notice: "Unable to invite #{@invite.user.full_name}"
       end
     end
 
     def destroy
       if @invite.destroy!
-        render "admin/meetings/show"
+        redirect_to admin_meeting_path(@meeting)
       else
-        render "admin/meetings/show", status: :unprocessable_content
+        redirect_to admin_meeting_path(@meeting), notice: "Unable to remove #{@invite.user.full_name}"
       end
     end
 

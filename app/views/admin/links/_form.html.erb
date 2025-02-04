@@ -1,0 +1,22 @@
+<%# locals: (platform:) %>
+
+<% platform.links.each do |link| %>
+  <%= card do %>
+    <%= form_with model: link, url: admin_link_path(link) do |form| %>
+      <%= render "navigation/form_errors", model: link %>
+      <div class="flex gap-3">
+        <%= form.text_field :name, class: "form-control" %>
+        <%= form.text_field :url, class: "form-control" %>
+        <%= form.submit "Save", class: "form-control" %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= turbo_frame_tag @platform, :new_link do %>
+  <%= card class: "text-center" do %>
+    <%= link_to new_admin_link_path do %>
+      <%= svg_tag "icons/mingcute/add_circle_line", class: "inline-block h-4" %> Add new link
+    <% end %>
+  <% end %>
+<% end %>

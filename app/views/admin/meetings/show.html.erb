@@ -24,19 +24,34 @@
 
 <%= card class: "mt-3" do %>
   <%= turbo_frame_tag @meeting, :invites do %>
-    <%= render "admin/invites/form", meeting: @meeting %>
+    <div class="flex justify-between">
+      <%= render "admin/invites/form", meeting: @meeting %>
+    </div>
+    <div class="flex gap-1">
+      <% if @meeting.invitable_memberships.any? %>
+        <%= button_to admin_meeting_mass_invites_path(meeting_id: @meeting.id),
+                      method: :post,
+                      class: "button button-secondary button-xs" do %>
+          <%= svg_tag "icons/mingcute/group_2_line.svg" %>
+          <%= invite_remaining_members_text(@meeting) %>
+        <% end %>
 
-    <% if @meeting.invitable_memberships.any? %>
-      <%= button_to admin_meeting_mass_invites_path(meeting_id: @meeting.id),
-                    method: :post,
-                    class: "button button-secondary button-xs" do %>
-        <%= svg_tag "icons/mingcute/group_2_line.svg" %>
-        <%= invite_remaining_members_text(@meeting) %>
+        <% Current.platform.groups.includes(:memberships).where.associated(:memberships).each do |group| %>
+          <% next if @meeting.invitable_memberships(from: group).none? %>
+
+          <%= button_to admin_meeting_mass_invites_path(meeting_id: @meeting.id, group_id: group.id),
+                        method: :post,
+                        class: "button button-secondary button-xs" do %>
+            <%= svg_tag "icons/mingcute/group_2_line.svg" %>
+            Add <%= group.name %>
+          <% end %>
+        <% end %>
+
+      <% else %>
+        <%= badge "Added everyone", color: "green" %>
       <% end %>
-    <% else %>
-      <%= badge "Invited everyone", color: "green" %>
-    <% end %>
+    </div>
 
-    <%= render "admin/invites/index", meeting: @meeting %>
+    <%= render "admin/invites/index", invites: @page %>
   <% end %>
 <% end %>

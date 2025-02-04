@@ -14,8 +14,17 @@
     </dt>
 
     <dd>
-      <%= turbo_frame_tag @meeting, :date do %>
-        <%= link_to @meeting.scheduled? ? datetime_format(@meeting.happens_at, format: :datetime) : "Set a date", edit_admin_meeting_path(@meeting), class: "editable #{'link link-underline' unless @meeting.scheduled?}" %>
+      <%= turbo_frame_tag @meeting, :happens_at do %>
+        <% if @meeting.scheduled? %>
+          <%= link_to datetime_format(@meeting.happens_at, format: :datetime),
+                      edit_admin_meeting_path(@meeting),
+                      class: "editable" %>
+        <% else %>
+          <% meeting_date_survey = @meeting.surveys.find_by(template: :meeting_date) %>
+          <%= link_to meeting_date_survey ? "Asking guests to suggest date" : "Set a date",
+                      edit_admin_meeting_path(@meeting),
+                      class: "editable #{'link link-underline' unless meeting_date_survey}" %>
+        <% end %>
       <% end %>
     </dd>
   </div>
@@ -46,5 +55,36 @@
         <% end %>
       <% end %>
     </dd>
+  </div>
+
+  <div class="flex w-full flex-none gap-x-4 mt-5">
+    <%= turbo_frame_tag @meeting, :open do %>
+      <dd class="flex ml-9 gap-2 align-middle">
+        <%= link_to admin_meeting_path(meeting: { open: !@meeting.open? }),
+                    class: "toggle toggle-#{@meeting.open? ? "on" : "off"}",
+                    data: {
+                      turbo_method: :patch,
+                      controller: "forms--toggle",
+                      action: "click->forms--toggle#toggle"
+                    } do %>
+          <span class="sr-only">Click to toggle</span>
+          <span></span>
+        <% end %>
+        <% if @meeting.open? %>
+          Event is public
+          <%= link_to "Preview page",
+                      public_event_path(@meeting.guid),
+                      target: "_blank",
+                      class: "button button-secondary button-xs" %>
+
+      <% else %>
+          Event is invite-only
+          <%= link_to "Preview page",
+                      admin_meeting_meeting_previews_path(@meeting),
+                      target: "_blank",
+                      class: "button button-secondary button-xs mr-2" %>
+        <% end %>
+      </dd>
+    <% end %>
   </div>
 </dl>

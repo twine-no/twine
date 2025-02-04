@@ -4,6 +4,12 @@ import {Controller} from "@hotwired/stimulus"
 export default class extends Controller {
     static targets = ["template", "questions", "category", "alternatives", "alternativeTemplate"]
 
+    connect() {
+        this.categoryTargets.forEach((categoryTarget) => {
+            this.toggleAlternativeSection(categoryTarget)
+        })
+    }
+
     addQuestion(event) {
         event.preventDefault()
         const content = this.templateTarget.innerHTML.replace(/NEW_RECORD/g, new Date().getTime())
@@ -22,13 +28,16 @@ export default class extends Controller {
     }
 
     toggleAlternatives(event) {
-        const question = event.target.closest(".question")
+        this.toggleAlternativeSection(event.target)
+    }
+
+    toggleAlternativeSection(categoryTarget) {
+        const question = categoryTarget.closest(".question")
         const alternativesSection = question.querySelector("[data-category='alternatives']")
-        if (event.target.value === "multiple_choice") {
+        if (categoryTarget.value === "multiple_choice") {
             alternativesSection.classList.remove("hidden")
         } else {
             alternativesSection.classList.add("hidden")
-            // Optionally clear alternatives if switching away from multiple choice
             const alternativesInputs = alternativesSection.querySelectorAll("input")
             alternativesInputs.forEach(input => (input.value = ""))
         }
@@ -41,5 +50,19 @@ export default class extends Controller {
         const alternativesSection = question.querySelector("[data-category='alternatives']")
         const content = alternativeTemplate.innerHTML.replace(/NEW_ALT_RECORD/g, new Date().getTime())
         alternativesSection.insertAdjacentHTML("beforeend", content)
+    }
+
+    removeAlternative(event) {
+        event.preventDefault()
+        const alternative = event.target.closest("[data-surveys-alternative]")
+        const destroyInputElement = alternative.querySelector("input[name*='_destroy']")
+        console.log("destroyInputElement", destroyInputElement)
+        if (destroyInputElement) {
+            destroyInputElement.value = 1
+            alternative.classList.add("hidden")
+        } else {
+            // New record, remove entirely from page
+            alternative.remove()
+        }
     }
 }

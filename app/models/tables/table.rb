@@ -21,7 +21,7 @@ module Tables
       turbo_streamable: false,
       update_address_bar: true,
       row_link_to: nil,
-      no_results_placeholder: "No results yet",
+      no_results_placeholder: "No entries",
       guid: nil
     )
       if records.is_a?(GearedPagination::Page)

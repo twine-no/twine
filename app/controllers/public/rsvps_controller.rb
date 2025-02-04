@@ -12,7 +12,7 @@ module Public
       @rsvp = @meeting.rsvps.new(
         rsvp_params.merge(
           {
-            invite: @invite,
+            invite: @invite || @meeting.invites.new,
             email: @invite&.email
           }.compact
         )
@@ -61,7 +61,7 @@ module Public
     end
 
     def rsvp_params
-      params.require(:rsvp).permit(:email, :answer)
+      params.require(:rsvp).permit(:full_name, :email, :answer)
     end
   end
 end

@@ -1,9 +1,41 @@
-  <%# locals: (meeting:) %>
+<%# locals: (invites:) %>
 
-<%= table_of meeting.invites.includes(membership: :user),
-    columns: [
-      {
-        content: -> (invite) { invite.membership.user.full_name }
-      }
-    ]
+<%= table_of invites,
+             columns: [
+               {
+                 header: "Name",
+                 content: -> (invite) { invite.contact.full_name }
+               },
+               {
+                 header: "RSVP",
+                 content: -> (invite) do
+                   case invite.rsvp_status
+                   when "yes"
+                     badge invite.self_signup? ? "Signed up" : "Accepted", color: :green
+                   when "no"
+                     badge "Declined", color: :red
+                   else
+                     badge invite.rsvp_status.humanize, color: :yellow
+                   end
+                 end
+               },
+               {
+                 header: "Contact info",
+                 content: -> (invite) do
+                   invite.contact.email
+                 end
+               },
+               {
+                 header: "",
+                 content: ->(invite) {
+                   link_to("Remove",
+                           admin_meeting_invite_path(invite, meeting_id: invite.meeting_id),
+                           data: {
+                             turbo_method: :delete,
+                             turbo_frame: "_top"
+                           },
+                           class: "button button-secondary button-xs")
+                 }
+               }
+             ]
 %>

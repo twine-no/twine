@@ -25,6 +25,9 @@ module Admin
     end
 
     def show
+      set_data_table_page @meeting.invites.includes(:rsvp, :messages, membership: :user),
+                          default_sort_by: "users.first_name",
+                          default_sort_direction: :asc
     end
 
     def edit
@@ -32,6 +35,9 @@ module Admin
 
     def update
       if @meeting.update(meeting_params)
+        set_data_table_page @meeting.invites.includes(:rsvp, :messages, membership: :user),
+                            default_sort_by: "users.first_name",
+                            default_sort_direction: :asc
         render "admin/meetings/show"
       else
         render :edit, status: :unprocessable_content

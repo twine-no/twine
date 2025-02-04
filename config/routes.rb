@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     resources :memberships, path: "members"
     resources :groups, only: [:new, :create, :edit, :update, :destroy]
     resources :groups_memberships, only: [:create, :destroy]
+    resources :links, only: [:new, :create, :update]
     resource :site, only: [:show, :update]
     resources :meetings do
       resources :invites, only: [:create, :index, :destroy]
@@ -28,8 +29,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get "p/:shortname", to: "public/platforms#show", as: :public_site
+
   namespace :public do
-    resources :platforms, only: [:show]
     resources :events, only: [:show], controller: :meetings
     resources :rsvps, only: [:new, :create, :edit, :update]
   end

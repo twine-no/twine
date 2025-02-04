@@ -1,9 +1,16 @@
-<%# locals: (alternative_fields:) %>
+<%# locals: (alternative_fields:, index:) %>
 
-<div class="form-group inline-form-group col-span-11 col-start-2">
-  <%= alternative_fields.text_field :title, class: "form-control", placeholder: "Alternative 1 ..." %>
-  <%= button_tag "Remove",
-                 data: { action: "click->surveys#removeAlternative" },
-                 tabindex: "-1",
-                 class: "button button-danger" %>
+<div class="form-group inline-form-group" data-surveys-alternative>
+  <%= alternative_fields.text_field :title, class: "form-control", placeholder: surveys_alternative_placeholder %>
+  <% if index.nil? || index > 2
+       # Must have at least two questions %>
+    <%= button_tag "Remove",
+                   data: { action: "click->surveys#removeAlternative" },
+                   tabindex: "-1",
+                   class: "button button-danger button-xs" %>
+  <% end %>
+
+  <% unless index.nil? # new record %>
+    <%= alternative_fields.hidden_field :_destroy %>
+  <% end %>
 </div>

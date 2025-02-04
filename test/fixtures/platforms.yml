@@ -1,10 +1,12 @@
 football_meetup:
   name: Casual Football Meetup
   category: 0
+  shortname: footballmeetup
 
 coffee_shop:
   name: Spring Coffee
   category: 1
+  shortname: springcoffee
 
 political_chapter:
   name: Kjelsås Labour Party
