@@ -2,20 +2,29 @@
 
 <% platform.links.each do |link| %>
   <%= card do %>
-    <%= form_with model: link, url: admin_link_path(link) do |form| %>
+    <%= form_with model: link, url: admin_link_path(link), data: { controller: "submit-on-change" } do |form| %>
       <%= render "navigation/form_errors", model: link %>
       <div class="flex gap-3">
-        <%= form.text_field :name, class: "form-control" %>
-        <%= form.text_field :url, class: "form-control" %>
-        <%= form.submit "Save", class: "form-control" %>
+        <%= form.text_field :name, class: "form-control", data: { action: "change->submit-on-change#submit" } %>
+        <%= form.text_field :url, class: "form-control", data: { action: "change->submit-on-change#submit" } %>
+        <%= form.submit "", class: "hidden", data: { "submit-on-change-target": "submitButton" } %>
+        <%= link_to admin_link_path(link),
+                    data: {
+                      turbo_method: :delete,
+                      turbo_frame: "_top"
+                    },
+                    class: "button button-secondary" do
+        %>
+          Delete
+        <% end %>
       </div>
     <% end %>
   <% end %>
 <% end %>
 
 <%= turbo_frame_tag @platform, :new_link do %>
-  <%= card class: "text-center" do %>
-    <%= link_to new_admin_link_path do %>
+  <%= link_to new_admin_link_path do %>
+    <%= card class: "text-center" do %>
       <%= svg_tag "icons/mingcute/add_circle_line", class: "inline-block h-4" %> Add new link
     <% end %>
   <% end %>

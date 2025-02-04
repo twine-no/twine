@@ -18,7 +18,7 @@ module Admin
 
     def update
       if @link.update(link_params)
-        redirect_to admin_site_path
+        redirect_to admin_site_path, notice: "#{@link.name} updated"
       else
         redirect_to admin_site_path, notice: "Couldn't update link"
       end

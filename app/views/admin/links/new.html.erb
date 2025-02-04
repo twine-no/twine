@@ -1,10 +1,10 @@
 <%= turbo_frame_tag Current.platform, :new_link do %>
   <%= card do %>
-    <%= form_with model: @link, url: admin_links_path do |form| %>
+    <%= form_with model: @link, url: admin_links_path, data: { turbo_frame: "_top" } do |form| %>
       <div class="flex gap-3">
         <%= render "navigation/form_errors", model: @link %>
         <%= form.text_field :name, placeholder: links_name_placeholder, class: "form-control" %>
-        <%= form.text_field :url, placeholder: "https://...", class: "form-control" %>
+        <%= form.text_field :url, placeholder: "example.com/abc", class: "form-control" %>
         <%= form.submit "Add", class: "button button-primary" %>
       </div>
     <% end %>

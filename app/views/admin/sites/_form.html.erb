@@ -26,9 +26,9 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <%= form.label :listed, "Page is public" %>
-    <%= form.check_box :listed %>
+  <div class="form-group inline-form-group gap-2">
+    <%= form.check_box :listed, class: "checkbox" %>
+    <%= form.label :listed, "Publish website" %>
   </div>
 
   <%= form.submit "Save", class: "button button-primary" %>

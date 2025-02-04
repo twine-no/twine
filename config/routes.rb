@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     resources :memberships, path: "members"
     resources :groups, only: [:new, :create, :edit, :update, :destroy]
     resources :groups_memberships, only: [:create, :destroy]
-    resources :links, only: [:new, :create, :update]
+    resources :links, only: [:new, :create, :update, :destroy]
     resource :site, only: [:show, :update]
     resources :meetings do
       resources :invites, only: [:create, :index, :destroy]
