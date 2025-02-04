@@ -19,6 +19,10 @@ class Platform < ApplicationRecord
 
   has_one_attached :logo
 
+  def full_url(hostname)
+    "#{hostname}/p/#{shortname}"
+  end
+
   private
 
   def generate_shortname

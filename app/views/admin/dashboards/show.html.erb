@@ -4,9 +4,9 @@
     <h3 class="mt-0 mb-2">
       <%= svg_tag "icons/mingcute/calendar_2_line", class: "inline" %>
       <% if Current.platform.meetings.planned.any? %>
-        You're planning <%= pluralize Current.platform.meetings.planned.size, "event" %>.
+        You're planning <%= pluralize Current.platform.meetings.planned.size, "event" %>
       <% else %>
-        You're not planning any events.
+        You're not planning any events
       <% end %>
     </h3>
     <p class="min-h-12">
@@ -58,10 +58,18 @@
   <%= card class: "col-span-1" do %>
     <h3 class="mt-0 mb-2">
       <%= svg_tag "icons/mingcute/web_line", class: "inline" %>
-      You haven't published a website
+      <% if Current.platform.listed? %>
+        You have a website
+      <% else %>
+        You haven't published a website
+      <% end %>
     </h3>
     <p class="min-h-12">
-      Keep people in the loop with a really simple, <%= link_to "free website", admin_site_path, class: "link link-tertiary" %>.
+      <% if Current.platform.listed? %>
+        It's <%= link_to Current.platform.full_url(request.base_url), Current.platform.full_url(request.base_url), target: "_blank", class: "link link-tertiary" %>.
+      <% else %>
+        Keep people in the loop with a really simple, <%= link_to "free website", admin_site_path, class: "link link-tertiary" %>.
+      <% end %>
     </p>
     <div class="mt-4">
       <%= link_to "Manage", admin_site_path, class: "link link-underline" %>
