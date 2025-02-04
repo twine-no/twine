@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_04_182238) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_04_203957) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -135,10 +135,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_04_182238) do
 
   create_table "platforms", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "category", default: 0, null: false
     t.string "shortname"
     t.boolean "listed"
     t.string "tagline"
+    t.string "category", default: "unorganised", null: false
     t.index ["shortname"], name: "index_platforms_on_shortname", unique: true
   end
 
