@@ -1,0 +1,17 @@
+<%= turbo_frame_tag :modal_content do %>
+  <h3>
+    Invite members to <%= @meeting.title %>
+  </h3>
+  <div class="w-full">
+    <%= form_with model: @message, url: admin_messages_meeting_invites_path, data: { turbo_frame: "_top" } do |form| %>
+      <%= hidden_field_tag :meeting_id, @meeting.id %>
+
+      <div class="form-group">
+        <%= form.label :content, "Write an invitation email" %>
+        <%= form.text_area :content, value: @meeting.description.to_plain_text, class: "form-control min-h-[250px]" %>
+      </div>
+
+      <%= form.submit "Send invite to #{pluralize @meeting.invites.not_messaged.size, "member"}", class: "button button-primary" %>
+    <% end %>
+  </div>
+<% end %>

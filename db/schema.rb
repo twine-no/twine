@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_04_203957) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_05_102528) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -127,7 +127,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_04_203957) do
     t.string "messageable_type", null: false
     t.integer "messageable_id", null: false
     t.string "category", null: false
-    t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["messageable_type", "messageable_id"], name: "index_messages_on_messageable"
@@ -139,6 +138,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_04_203957) do
     t.boolean "listed"
     t.string "tagline"
     t.string "category", default: "unorganised", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["shortname"], name: "index_platforms_on_shortname", unique: true
   end
 

@@ -13,7 +13,7 @@ module Admin
 
       if @membership.save
         notice = "Invited #{@membership.user.first_name}"
-        format.html { redirect_to admin_memberships_path, notice: notice }
+        redirect_to admin_memberships_path, notice: notice
       else
         render_inside_modal :new, status: :unprocessable_content
       end

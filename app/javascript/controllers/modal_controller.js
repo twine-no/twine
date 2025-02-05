@@ -13,8 +13,10 @@ export default class extends Controller {
         }
     }
 
+
     clickOutside(event) {
-        this.close(event)
+        console.log("click inside", this.contentWrapperTarget.contains(event.target))
+        // this.close(event)
     }
 
     async open() {

@@ -26,6 +26,9 @@
   <%= turbo_frame_tag @meeting, :invites do %>
     <div class="flex justify-between">
       <%= render "admin/invites/form", meeting: @meeting %>
+      <div>
+        <%= modal_link_to "Write an invite", new_admin_messages_meeting_invite_path(meeting_id: @meeting.id), class: "button button-primary" %>
+      </div>
     </div>
     <div class="flex gap-1">
       <% if @meeting.invitable_memberships.any? %>

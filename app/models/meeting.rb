@@ -1,6 +1,7 @@
 class Meeting < ApplicationRecord
-  include UsesGuid
+  include Messageable
   include Tables::SupportsAdvancedQueries
+  include UsesGuid
 
   belongs_to :platform, required: true
   validates :title, presence: true

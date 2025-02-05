@@ -27,6 +27,10 @@ Rails.application.routes.draw do
       resources :surveys, only: [:new, :create, :index, :edit, :update]
       resources :meeting_previews, only: [:index]
     end
+
+    namespace :messages do
+      resources :meeting_invites, only: [:new, :create]
+    end
   end
 
   get "p/:shortname", to: "public/platforms#show", as: :public_site

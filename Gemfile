@@ -45,6 +45,12 @@ gem "tailwindcss-rails"
 # Paginate records and load them automatically as you scroll
 gem "geared_pagination"
 
+# Postmark for sending and receiving emails
+gem 'postmark-rails'
+
+# Letter opener for intercepting emails in development
+gem "letter_opener", group: :development
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
