@@ -1,6 +1,6 @@
 module Admin
   class LinksController < AdminController
-    before_action :set_link, only: [:update, :destroy]
+    before_action :set_link, only: [ :update, :destroy ]
 
     def new
       @link = Current.platform.links.new
@@ -18,7 +18,7 @@ module Admin
 
     def update
       if @link.update(link_params)
-        redirect_to admin_site_path, notice: "#{@link.name} updated"
+        redirect_to admin_site_path, notice: "#{@link.name} updated."
       else
         redirect_to admin_site_path, notice: "Couldn't update link"
       end

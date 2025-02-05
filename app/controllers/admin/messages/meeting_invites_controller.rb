@@ -1,7 +1,7 @@
 module Admin
   module Messages
     class MeetingInvitesController < AdminController
-      before_action :set_meeting, only: [:new, :create]
+      before_action :set_meeting, only: [ :new, :create ]
       before_action :redirect_back_to_meeting_page, unless: :turbo_frame_request?, only: :new
 
       def new

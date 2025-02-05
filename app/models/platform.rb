@@ -10,6 +10,7 @@ class Platform < ApplicationRecord
 
   scope :listed, -> { where(listed: true) }
 
+  normalizes :name, :tagline, with: ->(string) { string.strip }
   normalizes :shortname, with: ->(shortname) { shortname.parameterize }
 
   before_validation :generate_shortname, on: :create

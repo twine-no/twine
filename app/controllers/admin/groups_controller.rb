@@ -20,7 +20,7 @@ module Admin
 
     def update
       if @group.update(group_params)
-        redirect_to admin_memberships_path(tab: @group.id), notice: "#{@group.name} updated"
+        redirect_to admin_memberships_path(tab: @group.id), notice: "#{@group.name} updated."
       else
         render :edit, status: :unprocessable_content
       end

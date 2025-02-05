@@ -3,7 +3,7 @@ class Link < ApplicationRecord
 
   broadcasts_refreshes
 
-  normalizes :url, with: -> (url) do
+  normalizes :url, with: ->(url) do
     uri = URI.parse(url)
     uri.scheme.nil? ? "https://#{url}" : url
   rescue URI::InvalidURIError

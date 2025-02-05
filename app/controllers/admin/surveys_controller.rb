@@ -1,7 +1,7 @@
 module Admin
   class SurveysController < AdminController
-    before_action :set_meeting, only: [:new, :create, :index, :edit, :update]
-    before_action :set_survey, only: [:edit, :update]
+    before_action :set_meeting, only: [ :new, :create, :index, :edit, :update ]
+    before_action :set_survey, only: [ :edit, :update ]
 
     def new
       @survey = build_survey_from_template
@@ -50,7 +50,7 @@ module Admin
         :template,
         questions_attributes: [
           :id, :title, :category, :_destroy,
-          alternatives_attributes: [:id, :title, :_destroy]
+          alternatives_attributes: [ :id, :title, :_destroy ]
         ]
       )
     end

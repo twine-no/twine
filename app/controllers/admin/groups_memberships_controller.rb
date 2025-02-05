@@ -1,6 +1,6 @@
 module Admin
   class GroupsMembershipsController < AdminController
-    before_action :set_group, only: [:create, :destroy]
+    before_action :set_group, only: [ :create, :destroy ]
 
     # Create group memberships in bulk
     def create

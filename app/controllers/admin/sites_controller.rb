@@ -1,6 +1,6 @@
 module Admin
   class SitesController < AdminController
-    before_action :set_platform, only: [:show, :update]
+    before_action :set_platform, only: [ :show, :update ]
 
     def show
     end
@@ -9,7 +9,7 @@ module Admin
       if @platform.update(platform_params)
         redirect_to admin_site_path, notice: "Site updated."
       else
-        render 'admin/sites/show', status: :unprocessable_content
+        render "admin/sites/show", status: :unprocessable_content
       end
     end
 

@@ -1,8 +1,8 @@
 module Public
   class RsvpsController < PublicController
-    before_action :set_meeting, only: [:new, :create]
-    before_action :set_invite, only: [:new, :create]
-    before_action :set_rsvp, only: [:edit, :update]
+    before_action :set_meeting, only: [ :new, :create ]
+    before_action :set_invite, only: [ :new, :create ]
+    before_action :set_rsvp, only: [ :edit, :update ]
 
     def new
       @rsvp = @invite&.rsvp || Rsvp.new

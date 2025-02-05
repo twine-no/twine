@@ -46,7 +46,7 @@ gem "tailwindcss-rails"
 gem "geared_pagination"
 
 # Postmark for sending and receiving emails
-gem 'postmark-rails'
+gem "postmark-rails"
 
 # Letter opener for intercepting emails in development
 gem "letter_opener", group: :development

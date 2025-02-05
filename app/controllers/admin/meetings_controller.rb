@@ -76,7 +76,7 @@ module Admin
       return unless group_ids&.any?
 
       if group_ids.include?("everyone")
-        invite_groups = [Current.platform]
+        invite_groups = [ Current.platform ]
       else
         invite_groups = Current.platform.groups.where(id: group_ids)
       end

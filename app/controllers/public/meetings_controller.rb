@@ -6,9 +6,9 @@ module Public
     def show
       @rsvp = if cookies["#{@meeting.guid}_rsvp_guid"]
                 @meeting.rsvps.find_by(guid: cookies["#{@meeting.guid}_rsvp_guid"])
-              else
+      else
                 @invite&.rsvp || Rsvp.new
-              end
+      end
     end
 
     private
