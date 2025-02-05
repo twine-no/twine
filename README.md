@@ -2,7 +2,7 @@
 A simple, free, open-source system to manage your business, group or organisation -- whether you're incorporated or not.
 
 ## Inquiries?
-This project is maintained by Tomas! Reach out to me on tomasbv@hey.com
+This project is maintained by Tomas! Reach out to me on hey@twine.no
 
 ## How to get the project up and running
 Proper instructions will come later, but it's a Ruby on Rails project, so install Ruby, Rails, run bundle, migrate DB etc.
