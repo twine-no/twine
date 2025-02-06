@@ -10,6 +10,7 @@
       <div class="form-group">
         <%= form.label :title, "Subject" %>
         <%= form.text_field :title,
+                            required: true,
                             placeholder: "Write the email title",
                             value: (@meeting.description.to_plain_text if params[:template] == "invite"), class: "form-control" %>
       </div>
@@ -18,8 +19,9 @@
       <div class="form-group mb-0">
         <%= form.label :content, "Text" %>
         <%= form.rich_text_area :content,
-                           placeholder: "Write a message",
-                           value: (@meeting.description if params[:template] == "invite"), class: "form-control min-h-[250px]" %>
+                                placeholder: "Write a message",
+                                required: true,
+                                value: (@meeting.description if params[:template] == "invite"), class: "form-control min-h-[250px]" %>
       </div>
 
       <p class="text-gray-500 text-sm mt-1 mb-3">
@@ -34,7 +36,7 @@
           %>
           <%= form.submit "Send invite to all guests",
                           class: "button button-secondary",
-                          data: { turbo_confirm: "Are you sure you want to send this invite to new guests as well?" }
+                          data: { turbo_confirm: "Are you sure you want to send this ?" }
           %>
         </div>
       <% else %>

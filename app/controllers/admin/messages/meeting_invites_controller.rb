@@ -9,7 +9,7 @@ module Admin
       end
 
       def create
-        recipient_invites = @meeting.invites.where(id: params[:recipient_ids].split(","))
+        recipient_invites = @meeting.invites.where(id: params[:recipient_ids].split(" "))
         messages = recipient_invites.map do |invite|
           invite.messages.new(message_params.merge(category: :email))
         end
