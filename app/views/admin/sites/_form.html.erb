@@ -28,10 +28,5 @@
     </div>
   </div>
 
-  <div class="form-group inline-form-group gap-2">
-    <%= form.check_box :listed, class: "checkbox" %>
-    <%= form.label :listed, "Publish website", data: { action: "submit-on-change#submit" } %>
-  </div>
-
   <%= form.submit "", class: "hidden", data: { "submit-on-change-target": "submitButton" } %>
 <% end %>

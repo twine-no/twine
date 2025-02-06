@@ -5,7 +5,7 @@
     <%= card do %>
       <%= render "admin/sites/form", platform: @platform %>
     <% end %>
-    <h4 class="mb-0">Links</h4>
+    <h4 class="mb-1">Links</h4>
     <%= render "admin/links/form", platform: @platform %>
   </div>
   <div class="flex flex-col items-center w-full">
@@ -16,12 +16,33 @@
         <% end %>
       </div>
     </div>
-    <div class="m-4 text-center">
-      <%= svg_tag "icons/mingcute/add_circle_line", class: "" %>
-      <%= link_to public_site_path(@platform.shortname),
-                  target: "_blank",
-                  class: "button button-secondary w-[100px]" do %>
-        Go to twine.no/p/<%= @platform.shortname %>
+    <div class="m-4 text-center flex gap-1 items-center">
+      <% if @platform.listed? %>
+        <%= link_to public_site_path(@platform.shortname),
+                    target: "_blank",
+                    class: "button button-primary flex items-center" do %>
+          <%= svg_tag "icons/mingcute/world_2_line", class: "h-3" %>
+          Live on <%= @platform.full_url("twine.no") %>
+        <% end %>
+        <%= button_to admin_site_path,
+                      method: :patch,
+                      params: {
+                        platform: { listed: !@platform.listed? }
+                      },
+                      target: "_blank",
+                      class: "button button-secondary w-full" do %>
+         Unpublish
+        <% end %>
+      <% else %>
+        <%= button_to admin_site_path,
+                      method: :patch,
+                      params: {
+                        platform: { listed: !@platform.listed? }
+                      },
+                      target: "_blank",
+                      class: "button button-primary" do %>
+          Publish to <%= @platform.full_url("twine.no") %>
+        <% end %>
       <% end %>
     </div>
   </div>
