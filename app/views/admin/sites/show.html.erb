@@ -17,10 +17,12 @@
       </div>
     </div>
     <div class="m-4 text-center">
-      <%= link_to "Go to page",
-                  public_site_path(@platform.shortname),
+      <%= svg_tag "icons/mingcute/add_circle_line", class: "" %>
+      <%= link_to public_site_path(@platform.shortname),
                   target: "_blank",
-                  class: "button button-secondary w-[100px]" %>
+                  class: "button button-secondary w-[100px]" do %>
+        Go to twine.no/p/<%= @platform.shortname %>
+      <% end %>
     </div>
   </div>
 </div>
