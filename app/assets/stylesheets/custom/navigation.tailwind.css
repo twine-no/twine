@@ -89,7 +89,7 @@
 
 
     .modal {
-        @apply overflow-hidden w-96 items-center justify-center p-4 rounded;
+        @apply items-center justify-center rounded;
     }
 
     @media (max-width: 767px) {

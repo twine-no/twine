@@ -27,7 +27,29 @@
     <div class="flex justify-between">
       <%= render "admin/invites/form", meeting: @meeting %>
       <div>
-        <%= modal_link_to "Write an invite", new_admin_messages_meeting_invite_path(meeting_id: @meeting.id), class: "button button-primary" %>
+        <% if @meeting.invites.not_messaged.any? %>
+          <%= modal_link_to "Invite #{pluralize @meeting.invites.not_messaged.size, "guest"}",
+                            new_admin_messages_meeting_invite_path(
+                              meeting_id: @meeting.id,
+                              template: "invite",
+                              recipient_ids: @meeting.invites.not_messaged.ids
+                            ),
+                            class: "button button-primary"
+          %>
+          <%= modal_link_to "Write a message",
+                            new_admin_messages_meeting_invite_path(
+                              meeting_id: @meeting.id,
+                              recipient_ids: @meeting.invites.ids
+                            ),
+                            class: "button button-secondary" %>
+        <% else %>
+          <%= modal_link_to "Write a message",
+                            new_admin_messages_meeting_invite_path(
+                              meeting_id: @meeting.id,
+                              recipient_ids: @meeting.invites.ids
+                            ),
+                            class: "button button-primary" %>
+        <% end %>
       </div>
     </div>
     <div class="flex gap-1">

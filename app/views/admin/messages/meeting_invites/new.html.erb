@@ -1,17 +1,48 @@
 <%= turbo_frame_tag :modal_content do %>
-  <h3>
+  <h3 class="mt-0">
     Invite members to <%= @meeting.title %>
   </h3>
   <div class="w-full">
     <%= form_with model: @message, url: admin_messages_meeting_invites_path, data: { turbo_frame: "_top" } do |form| %>
       <%= hidden_field_tag :meeting_id, @meeting.id %>
+      <%= hidden_field_tag :recipient_ids, params[:recipient_ids] %>
 
       <div class="form-group">
-        <%= form.label :content, "Write an invitation email" %>
-        <%= form.text_area :content, value: @meeting.description.to_plain_text, class: "form-control min-h-[250px]" %>
+        <%= form.label :title, "Subject" %>
+        <%= form.text_field :title,
+                            placeholder: "Write the email title",
+                            value: (@meeting.description.to_plain_text if params[:template] == "invite"), class: "form-control" %>
       </div>
 
-      <%= form.submit "Send invite to #{pluralize @meeting.invites.not_messaged.size, "member"}", class: "button button-primary" %>
+
+      <div class="form-group mb-0">
+        <%= form.label :content, "Text" %>
+        <%= form.rich_text_area :content,
+                           placeholder: "Write a message",
+                           value: (@meeting.description if params[:template] == "invite"), class: "form-control min-h-[250px]" %>
+      </div>
+
+      <p class="text-gray-500 text-sm mt-1 mb-3">
+        This email will be sent from <%= "hey@twine.no" %>
+      </p>
+
+      <% if @meeting.invites.not_messaged.any? %>
+        <div class="flex gap-1">
+          <%= form.submit "Send to #{pluralize @meeting.invites.not_messaged.size, "uninvited guest"}",
+                          class: "button button-primary",
+                          data: { turbo_confirm: "Are you ready to send the invite?" }
+          %>
+          <%= form.submit "Send invite to all guests",
+                          class: "button button-secondary",
+                          data: { turbo_confirm: "Are you sure you want to send this invite to new guests as well?" }
+          %>
+        </div>
+      <% else %>
+        <%= form.submit "Send message to all guests",
+                        class: "button button-primary",
+                        data: { turbo_confirm: "Ready to send the message?" }
+        %>
+      <% end %>
     <% end %>
   </div>
 <% end %>

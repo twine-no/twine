@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_05_102528) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_06_135638) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -129,6 +129,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_05_102528) do
     t.string "category", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
     t.index ["messageable_type", "messageable_id"], name: "index_messages_on_messageable"
   end
 
