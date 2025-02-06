@@ -106,7 +106,7 @@ module Tables
     end
 
     def show_toolbar?
-      title.present? || searchable? || exportable? || actions.any? || tabs.any?
+      title.present? || searchable? || exportable? || actions.any? || tabs.any? || multi_select_options.any?
     end
 
     # Ensures we include the multi select checkbox column in the column count

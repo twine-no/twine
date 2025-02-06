@@ -8,11 +8,11 @@
       <%= hidden_field_tag :recipient_ids, params[:recipient_ids] %>
 
       <div class="form-group">
-        <%= form.label :title, "Subject" %>
+        <%= form.label :title %>
         <%= form.text_field :title,
                             required: true,
                             placeholder: "Write the email title",
-                            value: (@meeting.description.to_plain_text if params[:template] == "invite"), class: "form-control" %>
+                            value: ("Invitation to #{@meeting.title}" if params[:template] == "invite"), class: "form-control" %>
       </div>
 
 

@@ -45,6 +45,9 @@ gem "tailwindcss-rails"
 # Paginate records and load them automatically as you scroll
 gem "geared_pagination"
 
+# We use Hetzner for object storage, but it's S3 compatible
+gem "aws-sdk-s3", require: false
+
 # Postmark for sending and receiving emails
 gem "postmark-rails"
 
