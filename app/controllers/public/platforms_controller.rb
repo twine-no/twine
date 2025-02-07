@@ -5,16 +5,13 @@ module Public
     before_action :set_platform, only: :show
 
     def show
+      expires_in ActiveStorage.service_urls_expire_in
     end
 
     private
 
     def set_platform
       @platform = Platform.listed.find_by!(shortname: params[:shortname])
-    end
-
-    def set_expiry
-      no_store
     end
   end
 end
