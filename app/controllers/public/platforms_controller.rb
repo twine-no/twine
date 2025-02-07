@@ -12,5 +12,9 @@ module Public
     def set_platform
       @platform = Platform.listed.find_by!(shortname: params[:shortname])
     end
+
+    def set_expiry
+      expires_in ActiveStorage.service_urls_expire_in
+    end
   end
 end
