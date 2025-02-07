@@ -14,7 +14,7 @@ module Public
     end
 
     def set_expiry
-      expires_in ActiveStorage.service_urls_expire_in
+      no_store
     end
   end
 end
