@@ -1,90 +1,114 @@
 <%# locals: (meeting:) %>
 
-<dl class="flex flex-wrap mt-2">
-  <h2 class="mt-0 mb-2">
-    <%= turbo_frame_tag @meeting, :title do %>
-      <%= link_to @meeting.title, edit_admin_meeting_path(@meeting), class: "editable" %>
+<div class="flex flex-row gap-4">
+  <div class="flex-wrap">
+    <%= form_with model: meeting, url: admin_meeting_path(meeting), data: { controller: "submit-on-change" } do |form| %>
+      <%= render "navigation/form_errors", model: meeting %>
+
+      <div class="flex items-center justify-center w-full">
+        <%= form.label :logo, class: "flex flex-col items-center justify-center w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-gray-100" do %>
+          <div class="flex flex-col items-center justify-center h-32 w-32">
+            <% if meeting.logo.attached? %>
+              <%= image_tag meeting.logo, class: "w-full h-full" %>
+            <% else %>
+              <p class="text-sm text-gray-500 text-center">
+                Click or drag and drop and image.
+              </p>
+            <% end %>
+
+          </div>
+          <%= form.file_field :logo, class: "hidden", data: { action: "submit-on-change#submit" } %>
+          <%= form.submit "", class: "hidden", data: {"submit-on-change-target": "submitButton"} %>
+        <% end %>
+      </div>
     <% end %>
-  </h2>
-
-  <div class="flex w-full flex-none gap-x-4">
-    <dt class="flex-none">
-      <span class="sr-only">Date</span>
-      <%= svg_tag "icons/mingcute/calendar_2_line", class: "h-6 w-5 text-primary" %>
-    </dt>
-
-    <dd>
-      <%= turbo_frame_tag @meeting, :happens_at do %>
-        <% if @meeting.scheduled? %>
-          <%= link_to datetime_format(@meeting.happens_at, format: :datetime),
-                      edit_admin_meeting_path(@meeting),
-                      class: "editable" %>
-        <% else %>
-          <% meeting_date_survey = @meeting.surveys.find_by(template: :meeting_date) %>
-          <%= link_to meeting_date_survey ? "Asking guests to suggest date" : "Set a date",
-                      edit_admin_meeting_path(@meeting),
-                      class: "editable #{'link link-underline' unless meeting_date_survey}" %>
-        <% end %>
-      <% end %>
-    </dd>
   </div>
-
-  <div class="flex w-full flex-none gap-x-4">
-    <dt class="flex-none">
-      <span class="sr-only">Location</span>
-      <%= svg_tag "icons/mingcute/location_line", class: "h-6 w-5 text-secondary" %>
-    </dt>
-    <dd>
-      <%= turbo_frame_tag @meeting, :location do %>
-        <%= link_to @meeting.location.present? ? @meeting.location : "Decide location", edit_admin_meeting_path(@meeting), class: "editable #{'link link-underline' unless @meeting.location.present?}" %>
+  <div class="flex flex-wrap">
+    <h2 class="mt-0 mb-2">
+      <%= turbo_frame_tag @meeting, :title do %>
+        <%= link_to @meeting.title, edit_admin_meeting_path(@meeting), class: "editable" %>
       <% end %>
-    </dd>
-  </div>
+    </h2>
 
-  <div class="flex w-full flex-none gap-x-4">
-    <dt class="flex-none">
-      <span class="sr-only">Description</span>
-      <%= svg_tag "icons/mingcute/information_line", class: "h-6 w-5 text-tertiary" %>
-    </dt>
-    <dd>
-      <%= turbo_frame_tag @meeting, :description do %>
-        <% if @meeting.description.present? %>
-          <%= link_to @meeting.description.to_plain_text&.truncate_words(60), edit_admin_meeting_path(@meeting), class: "editable" %>
-        <% else %>
-          <%= link_to "Write a description", edit_admin_meeting_path(@meeting), class: "link link-underline editable" %>
-        <% end %>
-      <% end %>
-    </dd>
-  </div>
+    <div class="flex w-full flex-none gap-x-4">
+      <dt class="flex-none">
+        <span class="sr-only">Date</span>
+        <%= svg_tag "icons/mingcute/calendar_2_line", class: "h-6 w-5 text-primary" %>
+      </dt>
 
-  <div class="flex w-full flex-none gap-x-4 mt-5">
-    <%= turbo_frame_tag @meeting, :open do %>
-      <dd class="flex ml-9 gap-2 align-middle">
-        <%= link_to admin_meeting_path(meeting: { open: !@meeting.open? }),
-                    class: "toggle toggle-#{@meeting.open? ? "on" : "off"}",
-                    data: {
-                      turbo_method: :patch,
-                      controller: "forms--toggle",
-                      action: "click->forms--toggle#toggle"
-                    } do %>
-          <span class="sr-only">Click to toggle</span>
-          <span></span>
-        <% end %>
-        <% if @meeting.open? %>
-          Event is public
-          <%= link_to "Preview page",
-                      public_event_path(@meeting.guid),
-                      target: "_blank",
-                      class: "button button-secondary button-xs" %>
-
-      <% else %>
-          Event is invite-only
-          <%= link_to "Preview page",
-                      admin_meeting_meeting_previews_path(@meeting),
-                      target: "_blank",
-                      class: "button button-secondary button-xs mr-2" %>
+      <dd>
+        <%= turbo_frame_tag @meeting, :happens_at do %>
+          <% if @meeting.scheduled? %>
+            <%= link_to datetime_format(@meeting.happens_at, format: :pretty_datetime),
+                        edit_admin_meeting_path(@meeting),
+                        class: "editable" %>
+          <% else %>
+            <% meeting_date_survey = @meeting.surveys.find_by(template: :meeting_date) %>
+            <%= link_to meeting_date_survey ? "Asking guests to suggest date" : "Set a date",
+                        edit_admin_meeting_path(@meeting),
+                        class: "editable #{'link link-underline' unless meeting_date_survey}" %>
+          <% end %>
         <% end %>
       </dd>
-    <% end %>
+    </div>
+
+    <div class="flex w-full flex-none gap-x-4">
+      <dt class="flex-none">
+        <span class="sr-only">Location</span>
+        <%= svg_tag "icons/mingcute/location_line", class: "h-6 w-5 text-secondary" %>
+      </dt>
+      <dd>
+        <%= turbo_frame_tag @meeting, :location do %>
+          <%= link_to @meeting.location.present? ? @meeting.location : "Decide location", edit_admin_meeting_path(@meeting), class: "editable #{'link link-underline' unless @meeting.location.present?}" %>
+        <% end %>
+      </dd>
+    </div>
+
+    <div class="flex w-full flex-none gap-x-4">
+      <dt class="flex-none">
+        <span class="sr-only">Description</span>
+        <%= svg_tag "icons/mingcute/information_line", class: "h-6 w-5 text-tertiary" %>
+      </dt>
+      <dd>
+        <%= turbo_frame_tag @meeting, :description do %>
+          <% if @meeting.description.present? %>
+            <%= link_to @meeting.description.to_plain_text&.truncate_words(60), edit_admin_meeting_path(@meeting), class: "editable" %>
+          <% else %>
+            <%= link_to "Write a description", edit_admin_meeting_path(@meeting), class: "link link-underline editable" %>
+          <% end %>
+        <% end %>
+      </dd>
+    </div>
+
+    <div class="flex w-full flex-none gap-x-4 mt-2">
+      <%= turbo_frame_tag @meeting, :open do %>
+        <dd class="flex gap-2 align-middle">
+          <%= link_to admin_meeting_path(meeting: { open: !@meeting.open? }),
+                      class: "toggle toggle-#{@meeting.open? ? "on" : "off"}",
+                      data: {
+                        turbo_method: :patch,
+                        controller: "forms--toggle",
+                        action: "click->forms--toggle#toggle"
+                      } do %>
+            <span class="sr-only">Click to toggle</span>
+            <span></span>
+          <% end %>
+          <% if @meeting.open? %>
+            Event is public
+            <%= link_to "Preview page",
+                        public_event_path(@meeting.guid),
+                        target: "_blank",
+                        class: "button button-secondary button-xs" %>
+
+          <% else %>
+            Event is invite-only
+            <%= link_to "Preview page",
+                        admin_meeting_meeting_previews_path(@meeting),
+                        target: "_blank",
+                        class: "button button-secondary button-xs mr-2" %>
+          <% end %>
+        </dd>
+      <% end %>
+    </div>
   </div>
-</dl>
+</div>

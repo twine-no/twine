@@ -12,11 +12,13 @@ class Meeting < ApplicationRecord
   has_many :log_entries, class_name: "MeetingLogEntry", dependent: :destroy
   has_many :messages, through: :invites
 
+  has_rich_text :description
+
+  has_one_attached :logo
+
   broadcasts_refreshes
 
   table_filter_by %w[happens_at]
-
-  has_rich_text :description
 
   scope :table_searchable_scope, ->(search_term) do
     where(

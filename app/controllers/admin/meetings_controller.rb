@@ -1,6 +1,11 @@
 module Admin
   class MeetingsController < AdminController
+    include ImageUploadHandling
+
     before_action :set_meeting, only: %i[show edit update destroy]
+    before_action lambda {
+      resize_image_file(meeting_params[:logo], width: 200, height: 200)
+    }, only: [:update]
 
     def new
       @meeting = Meeting.new
@@ -56,7 +61,7 @@ module Admin
     end
 
     def meeting_params
-      params.require(:meeting).permit(:title, :happens_at, :location, :description, :open)
+      params.require(:meeting).permit(:title, :happens_at, :location, :description, :open, :logo)
     end
 
     def by_table_tab(meetings)
