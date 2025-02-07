@@ -5,7 +5,6 @@ module Public
     before_action :set_platform, only: :show
 
     def show
-      no_store
     end
 
     private
