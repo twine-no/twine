@@ -12,7 +12,7 @@
               <%= image_tag meeting.logo, class: "w-full h-full" %>
             <% else %>
               <p class="text-sm text-gray-500 text-center">
-                Click or drag and drop and image.
+                Upload image.
               </p>
             <% end %>
 
@@ -93,15 +93,14 @@
             <span class="sr-only">Click to toggle</span>
             <span></span>
           <% end %>
+          Event is public
           <% if @meeting.open? %>
-            Event is public
             <%= link_to "Preview page",
                         public_event_path(@meeting.guid),
                         target: "_blank",
                         class: "button button-secondary button-xs" %>
 
           <% else %>
-            Event is invite-only
             <%= link_to "Preview page",
                         admin_meeting_meeting_previews_path(@meeting),
                         target: "_blank",

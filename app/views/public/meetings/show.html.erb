@@ -22,7 +22,7 @@
 
         <%= card class: "mt-8 px-4 md:px-8 py-4 text-left" do %>
           <div class="mb-2">
-          <%= @meeting.description %>
+          <%= @meeting.description || "No description" %>
           </div>
           <strong><%= @meeting.platform.name %></strong>
         <% end %>
