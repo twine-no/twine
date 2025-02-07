@@ -5,7 +5,7 @@ module Public
     before_action :set_platform, only: :show
 
     def show
-      expires_in ActiveStorage.service_urls_expire_in
+      no_store
     end
 
     private
