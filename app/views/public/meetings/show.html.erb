@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-center"
      <% if @meeting.logo.attached? %>
-  style="background-image: url(<%= rails_blob_url(@meeting.logo) %>); background-size: 150%;"
+     style="background-image: url(<%= rails_blob_url(@meeting.logo) %>); background-size: 150%;"
      <% elsif @meeting.platform.logo.attached? %>
      style="background-image: url(<%= rails_blob_url(@meeting.platform.logo) %>); background-size: 150%;"
      <% end %>
@@ -10,7 +10,7 @@
     <div class="max-w-lg mx-auto pt-8">
       <div class="text-center mb-8">
         <% if @meeting.logo.attached? %>
-          <%= image_tag @meeting.logo, alt: "#{@meeting.title} logo", class: "rounded-full w-24 h-24 mx-auto mb-4 border-4 border-white" %>
+          <%= image_tag @meeting.logo, alt: "#{@meeting.title} logo", class: "rounded-full bg-white w-24 h-24 mx-auto mb-4 border-4 border-white" %>
         <% elsif @meeting.platform.logo.attached? %>
           <%= image_tag @meeting.platform.logo, alt: "#{@meeting.platform.name} logo", class: "rounded-full w-24 h-24 mx-auto mb-4 border-4 border-white" %>
         <% end %>
@@ -20,13 +20,14 @@
           <%= @meeting.location %>
         </p>
 
-        <%= card class: "mt-8 px-4 md:px-8 py-4 text-left" do %>
-          <div class="mb-2">
-          <%= @meeting.description || "No description" %>
-          </div>
-          <strong><%= @meeting.platform.name %></strong>
+        <% if @meeting.description.present? %>
+          <%= card class: "mt-8 px-4 md:px-8 py-4 text-left" do %>
+            <div class="mb-2">
+              <%= @meeting.description.presence %>
+            </div>
+            <strong><%= @meeting.platform.name %></strong>
+          <% end %>
         <% end %>
-
 
         <div class="mx-auto max-w-3xl text-center">
           <%= modal_link_to rsvps_action_link(@rsvp, @meeting),

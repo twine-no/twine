@@ -10,9 +10,7 @@
     <div class="max-w-lg mx-auto pt-8">
       <div class="text-center mb-8">
         <% if platform.logo.attached? %>
-          <%= image_tag platform.logo, alt: "#{platform.name} logo", class: "rounded-full w-24 h-24 mx-auto mb-4 border-4 border-white" %>
-        <% else %>
-          <%= image_tag "logo.png", alt: "Twine logo", class: "rounded-full w-24 h-24 mx-auto mb-4 border-4 border-white" %>
+          <%= image_tag platform.logo, alt: "#{platform.name} logo", class: "rounded-full w-24 h-24 mx-auto mb-4 border-4 bg-white border-white" %>
         <% end %>
         <h1 class="text-xl font-bold mb-2"><%= platform.name %></h1>
         <p class="text-opacity-90"><%= platform.tagline %></p>
