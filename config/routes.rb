@@ -13,6 +13,10 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
+  # The route that ensures all your website can be hosted on twine.no/@mypage
+  get "@:shortname", to: "public/platforms#show", constraints: { username: /[^\/]+/ }, as: :public_site
+  get "p/:shortname", to: "public/platforms#show", as: :legacy_public_site
+
   namespace :admin do
     resource :onboarding, only: [ :show, :update ]
     resource :dashboard, only: [ :show ]
@@ -32,8 +36,6 @@ Rails.application.routes.draw do
       resources :meeting_invites, only: [ :new, :create ]
     end
   end
-
-  get "p/:shortname", to: "public/platforms#show", as: :public_site
 
   namespace :public do
     resources :events, only: [ :show ], controller: :meetings
