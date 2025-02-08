@@ -3,7 +3,7 @@
 
 <div class="min-h-screen bg-center"
      <% if platform.logo.attached? %>
-     style="background-image: url(<%= rails_blob_url(@platform.logo, t: Time.current) %>); background-size: 150%;"
+     style="background-image: url(<%= url_for(@platform.logo) %>); background-size: 150%;"
      <% end %>
      >
   <div class="flex justify-between flex-col min-h-screen w-full p-4 backdrop-blur-3xl bg-white/60">
