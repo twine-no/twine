@@ -1,8 +1,8 @@
 <div class="min-h-screen bg-center"
      <% if @meeting.logo.attached? %>
-     style="background-image: url(<%= rails_blob_url(@meeting.logo) %>); background-size: 150%;"
+     style="background-image: url(<%= rails_blob_url(@meeting.logo, t: Time.current) %>); background-size: 150%;"
      <% elsif @meeting.platform.logo.attached? %>
-     style="background-image: url(<%= rails_blob_url(@meeting.platform.logo) %>); background-size: 150%;"
+     style="background-image: url(<%= rails_blob_url(@meeting.platform.logo, t: Time.current) %>); background-size: 150%;"
      <% end %>
      >
 
