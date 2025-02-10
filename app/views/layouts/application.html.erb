@@ -6,10 +6,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
 
-  <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
-
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
+
+  <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
 
   <%= yield :head %>
 
@@ -31,17 +31,20 @@
   <%= javascript_importmap_tags %>
 </head>
 
-<body class="h-full bg-stone-100">
-<div data-controller="sidebar drawer">
+<body
+  class="h-full bg-stone-100">
+<div
+  data-controller="sidebar drawer">
   <%= render 'navigation/desktop_sidebar' %>
 
   <div class="lg:pl-72">
     <%= render 'navigation/top_bar' %>
     <main
       data-controller="modal"
-      data-modal-origin-url-value="<%= @encapsulating_view_url || url_for %>"
       data-modal-open-on-page-load-value="<%= @modal_content.present? %>"
-      class="py-10">
+      data-action="turbo:load@document->modal#close"
+      class="pt-10 pb-32 min-h-[100vh]"
+    >
 
       <div class="px-4 sm:px-6 lg:px-8">
         <% if content_for?(:breadcrumbs) %>
@@ -51,13 +54,16 @@
         <% end %>
 
         <%= yield %>
-
         <div
-          class="fixed inset-x-0 bottom-0 flex flex-col w-full pointer-events-none dynamic-flash-container">
+          class="fixed inset-x-0 bottom-0 flex flex-col w-full pointer-events-none dynamic-flash-container"
+          data-turbo-temporary
+        >
           <%= render 'navigation/flash' %>
         </div>
 
-        <%= render 'navigation/modal', modal_content: @modal_content %>
+        <div>
+          <%= render 'navigation/modal', modal_content: @modal_content %>
+        </div>
       </div>
     </main>
   </div>

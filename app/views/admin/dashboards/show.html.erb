@@ -1,6 +1,6 @@
 <h2 class="mt-0 pt-0"><%= Current.platform.name %></h2>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-  <%= card class: "col-span-1]" do %>
+  <%= card class: "col-span-1" do %>
     <h3 class="mt-0 mb-2">
       <%= svg_tag "icons/mingcute/calendar_2_line", class: "inline" %>
       <% if Current.platform.meetings.planned.any? %>
@@ -20,8 +20,8 @@
     %> <%= time_ago_in_words(next_meeting.happens_at) %> from now.
         <% else %>
           You still haven't set a date for <%= link_to next_meeting.title,
-                              admin_meeting_path(next_meeting),
-                              class: "link link-primary"
+                                                       admin_meeting_path(next_meeting),
+                                                       class: "link link-primary"
     %>.
         <% end %>
       <% else %>
@@ -66,13 +66,29 @@
     </h3>
     <p class="min-h-12">
       <% if Current.platform.listed? %>
-        It's <%= link_to Current.platform.full_url(request.base_url), Current.platform.full_url(request.base_url), target: "_blank", class: "link link-tertiary" %>.
+        It's <%= link_to Current.platform.full_url(request.base_url), Current.platform.full_url(request.base_url), target: "_blank", class: "link link-tertiary" %>
+        .
       <% else %>
-        Keep people in the loop with a really simple, <%= link_to "free website", admin_site_path, class: "link link-tertiary" %>.
+        Keep people in the loop with a really
+        simple, <%= link_to "free website", admin_site_path, class: "link link-tertiary" %>.
       <% end %>
     </p>
     <div class="mt-4">
       <%= link_to "Manage", admin_site_path, class: "link link-underline" %>
+    </div>
+  <% end %>
+
+  <%= card class: "col-span-1" do %>
+    <h3 class="mt-0 mb-2">
+      <%= svg_tag "icons/mingcute/mail_line", class: "inline" %>
+      Can we help?
+    </h3>
+    <p class="min-h-12">
+      What's your biggest organisational challenge? Let us know! Send problems, ideas and support inquiries to:
+    </p>
+    <div class="mt-4 flex gap-3">
+      <%= link_to "help@twine.no", "mailto:help@twine.no", class: "link link-underline" %>
+      <%= link_to "or our Github", "https://github.com/tmbv93/clubhouse", target: "_blank", class: "link link-underline" %>
     </div>
   <% end %>
 </div>

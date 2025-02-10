@@ -1,23 +1,26 @@
 <%# locals: (table:) %>
-<thead
-  id="table-header-<%= table.guid %>"
->
-<tr>
-  <% if table.multi_select? %>
-    <th scope="col" class="border-b border-stroke relative px-7 xl:w-12 xl:px-6">
-      <%=
-        check_box_tag nil, nil, false,
-                      class: 'checkbox',
-                      data: {
-                        action: "change->tables--multi-select#checkAll",
-                        tables__multi_select_target: 'checkAllCheckbox'
-                      } %>
-    </th>
-  <% end %>
-  <% table.headers.each do |header| %>
-    <%= render 'tables/header',
-               header: header,
-               table: table %>
-  <% end %>
-</tr>
-</thead>
+
+<% if table.show_head? %>
+  <thead
+    id="table-header-<%= table.guid %>"
+  >
+  <tr>
+    <% if table.multi_select? %>
+      <th scope="col" class="border-b border-stroke relative px-7 xl:w-12 xl:px-6">
+        <%=
+          check_box_tag nil, nil, false,
+                        class: 'checkbox',
+                        data: {
+                          action: "change->tables--multi-select#checkAll",
+                          tables__multi_select_target: 'checkAllCheckbox'
+                        } %>
+      </th>
+    <% end %>
+    <% table.headers.each do |header| %>
+      <%= render 'tables/header',
+                 header: header,
+                 table: table %>
+    <% end %>
+  </tr>
+  </thead>
+<% end %>

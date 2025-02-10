@@ -14,6 +14,9 @@ class Invite < ApplicationRecord
   validates :membership_id, uniqueness: { scope: :meeting_id }, allow_nil: true
   validate :ensure_member_belongs_to_platform
 
+  def needs_info?
+    self_signup? || meeting.surveys.any?
+  end
 
   def rsvp_status
     return "Not invited" unless rsvp || messages.any?

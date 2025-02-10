@@ -1,6 +1,10 @@
 <%# locals: (group:) %>
 
-<%= form_with model: [:admin, group], data: { turbo_frame: "_top" } do |form| %>
+<%= form_with model: [:admin, group],
+              data: {
+                turbo_frame: "_top",
+                action: "turbo:submit-end->modal#close"
+              } do |form| %>
   <%= render 'navigation/form_errors', model: group %>
 
   <div class="form-group">

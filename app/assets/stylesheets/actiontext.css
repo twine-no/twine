@@ -3,9 +3,14 @@
 */
 
 /* Remove some options from Trix, for now */
-.trix-button-group--block-tools,
 .trix-button-group--file-tools,
-.trix-button-group--history-tools {
+.trix-button-group--history-tools,
+[data-trix-attribute="code"],
+[data-trix-attribute="quote"],
+[data-trix-attribute="heading1"],
+[data-trix-action="decreaseNestingLevel"],
+[data-trix-action="increaseNestingLevel"]
+{
     display: none !important;
 }
 

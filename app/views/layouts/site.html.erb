@@ -41,10 +41,10 @@
 </head>
 
 <body
-  style="overflow: unset;"
+  style="overflow: unset; <%= yield :blur_background if content_for?(:blur_background) %>"
   data-controller="modal"
-  data-modal-origin-url-value="<%= @encapsulating_view_url || url_for %>"
   data-modal-open-on-page-load-value="<%= @modal_content.present? %>"
+
 >
 <div class="flex-1">
   <%= yield %>

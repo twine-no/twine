@@ -21,9 +21,9 @@ class SessionsController < ApplicationController
     membership = Current.user.memberships.with_admin_rights.find_by(platform_id: session_params[:platform_id])
 
     if membership&.platform && Current.session.update(platform: membership.platform)
-      redirect_to request.referrer, notice: "Changed to #{membership.platform.name}"
+      redirect_to root_path, notice: "Changed to #{membership.platform.name}"
     else
-      redirect_to request.referrer, alert: "Couldn't change platform"
+      redirect_to root_path, alert: "Couldn't change platform"
     end
   end
 

@@ -21,6 +21,7 @@ module Tables
       turbo_streamable: false,
       update_address_bar: true,
       row_link_to: nil,
+      modal_row_link_to: nil,
       no_results_placeholder: "No entries",
       guid: nil
     )
@@ -34,7 +35,7 @@ module Tables
       @columns = build_columns(columns)
       @headers = build_headers
       @tabs = build_tabs(tabs, params)
-      @rows = (@page&.records || @collection).map { |record| Tables::Row.new(record, @columns, row_link_to: row_link_to) }
+      @rows = build_rows(modal_row_link_to, row_link_to)
       @title = title
       @sort_by = sort_by&.to_s
       @sort_direction = sort_direction&.to_s
@@ -47,6 +48,7 @@ module Tables
       @update_address_bar = update_address_bar
       @no_results_placeholder = no_results_placeholder
       @guid = guid || params[:table_guid] || SecureRandom.uuid
+      @show_head = false
     end
 
     def turbo_frame_id
@@ -55,6 +57,7 @@ module Tables
 
     def build_headers
       @columns.map do |column|
+        @show_head = true if column.present?
         Tables::Header.new(
           column: column
         )
@@ -105,6 +108,10 @@ module Tables
       @update_address_bar
     end
 
+    def show_head?
+      @show_head
+    end
+
     def show_toolbar?
       title.present? || searchable? || exportable? || actions.any? || tabs.any? || multi_select_options.any?
     end
@@ -136,6 +143,17 @@ module Tables
           filter_by: column[:filter_by],
           fixed: column[:fixed],
           options: column[:options]
+        )
+      end
+    end
+
+    def build_rows(modal_row_link_to, row_link_to)
+      (@page&.records || @collection).map do |record|
+        Tables::Row.new(
+          record,
+          @columns,
+          modal_row_link_to: modal_row_link_to,
+          row_link_to: row_link_to
         )
       end
     end

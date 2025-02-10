@@ -1,15 +1,18 @@
 <%= turbo_frame_tag :modal_content do %>
-  <div class="min-w-md">
-    <h3 class="mt-0"><%= messages_title(@message) %></h3>
+  <%= modal_content do %>
+    <div class="min-w-md">
+      <h3 class="mt-0"><%= messages_title(@message) %></h3>
 
-    <%= form_with model: [:admin, @message] do |form| %>
-      <div class="form-group">
-        <%= form.label :content, "Write a text" %>
-        <%= form.text_area :content, { value: messages_default_content(@message).to_plain_text.presence, class: "form-control min-h-[200px]" }.compact %>
-      </div>
+      <%= form_with model: [:admin, @message] do |form| %>
+        <div class="form-group">
+          <%= form.label :content, "Write a text" %>
+          <%= form.text_area :content, { value: messages_default_content(@message).to_plain_text.presence, class: "form-control min-h-[200px]" }.compact %>
+        </div>
 
-      <%= form.submit messages_action_text(@message), class: "button button-primary" %>
-    <% end %>
+        <%= form.submit messages_action_text(@message), class: "button button-primary" %>
+      <% end %>
 
-  </div>
+    </div>
+  <% end %>
 <% end %>
+

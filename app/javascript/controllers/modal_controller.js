@@ -3,7 +3,7 @@ import {useClickOutside} from 'stimulus-use'
 
 export default class extends Controller {
     static targets = ['modal', 'contentWrapper']
-    static values = {openOnPageLoad: Boolean, originUrl: String}
+    static values = {openOnPageLoad: Boolean}
 
     connect() {
         useClickOutside(this, {element: this.contentWrapperTarget})
@@ -12,7 +12,6 @@ export default class extends Controller {
             this.open()
         }
     }
-
 
     clickOutside(event) {
         this.close(event)

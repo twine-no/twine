@@ -1,6 +1,6 @@
 module Admin
   class MembershipsController < AdminController
-    before_action :set_membership, only: [ :show, :edit, :update, :destroy ]
+    before_action :set_membership, only: [:show, :edit, :update, :destroy]
 
     def new
       @membership = Membership.new
@@ -12,8 +12,7 @@ module Admin
       @membership.user = find_or_invite_user(@membership.user)
 
       if @membership.save
-        notice = "Invited #{@membership.user.first_name}"
-        redirect_to admin_memberships_path, notice: notice
+        redirect_to admin_memberships_path(created: @membership.id), notice: "Added #{@membership.user.first_name}"
       else
         render_inside_modal :new, status: :unprocessable_content
       end
@@ -21,7 +20,9 @@ module Admin
 
     def index
       set_data_table_page by_table_tab(Current.platform.memberships.joins(:user)),
-                          allow_sort_by: %w[users.first_name users.last_name users.email]
+                          allow_sort_by: %w[users.first_name users.last_name users.email],
+                          default_sort_direction: :desc
+
     end
 
     def show
@@ -54,7 +55,7 @@ module Admin
     end
 
     def membership_params
-      params.require(:membership).permit(user_attributes: [ :id, :email, :first_name, :last_name ])
+      params.require(:membership).permit(user_attributes: [:id, :email, :first_name, :last_name])
     end
 
     def membership_role_params

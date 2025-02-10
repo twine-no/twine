@@ -3,12 +3,12 @@ module UiHelper
     render "navigation/card", content: capture(&block), options: options
   end
 
-  def badge(text, color: "gray")
-    render "navigation/badge", text: text, color: color
+  def badge(text, color: "gray", id: nil)
+    render "navigation/badge", text: text, color: color, id: id
   end
 
   def sidebar_active_html_class(option_controller)
-    option_controller = [ option_controller ] if option_controller.is_a?(String)
+    option_controller = [option_controller] if option_controller.is_a?(String)
 
     "active" if option_controller.include?(controller_name)
   end
@@ -50,5 +50,17 @@ module UiHelper
     else
       capture(&block)
     end
+  end
+
+  # Call blur_foreground_classes on the element inside the element with blur_background_styles
+  def blur_foreground_classes
+    "backdrop-blur-3xl bg-white/60"
+  end
+
+  def blur_background_styles(image, fallback_image: nil)
+    blur_image = (image if image.attached?) || (fallback_image if fallback_image.attached?)
+    return unless blur_image
+
+    "background-image: url(#{ url_for(blur_image)}); background-size: 150%;"
   end
 end

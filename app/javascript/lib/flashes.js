@@ -1,19 +1,14 @@
-export async function flash(content, displayTime) {
-    if (typeof displayTime === 'undefined') {
-        displayTime = Math.max(content.length * 80, 3500);
+function cleanupOldFlashes() {
+    const oldFlashes = document.querySelectorAll('.dynamic-flash');
+    oldFlashes.forEach((oldFlash) =>
+        oldFlash.parentElement.removeChild(oldFlash)
+    )
+}
+
+function setAnimationTimes(contentLength, flashDiv, parentElement, displayTime) {
+    if (displayTime === undefined) {
+        displayTime = Math.max(contentLength * 80, 3500);
     }
-
-    let oldFlashDiv = document.querySelector('.dynamic-flash');
-    if (oldFlashDiv) {
-        document.body.removeChild(oldFlashDiv);
-    }
-
-    const parentElement = document.querySelector('.dynamic-flash-container');
-
-    let flashDiv = document.createElement('DIV');
-    flashDiv.innerText = content;
-    flashDiv.classList.add('dynamic-flash');
-    await parentElement.appendChild(flashDiv);
 
     setTimeout(() => {
         flashDiv.classList.add('animate-in');
@@ -22,4 +17,29 @@ export async function flash(content, displayTime) {
     setTimeout(() => {
         parentElement.removeChild(flashDiv);
     }, displayTime);
+}
+
+export async function flash(content, displayTime) {
+    cleanupOldFlashes();
+
+    const parentElement = document.querySelector('.dynamic-flash-container');
+    let flashDiv = document.createElement('DIV');
+    flashDiv.innerText = content;
+    flashDiv.classList.add('dynamic-flash');
+    flashDiv.classList.add('big-flash');
+    await parentElement.appendChild(flashDiv);
+
+    setAnimationTimes(content.length, flashDiv, parentElement, displayTime);
+}
+
+export async function miniFlash(content, displayTime, parentElement) {
+    cleanupOldFlashes();
+
+    let flashDiv = document.createElement('DIV');
+    flashDiv.innerText = content;
+    flashDiv.classList.add("dynamic-flash");
+    flashDiv.classList.add("mini-flash");
+    await parentElement.appendChild(flashDiv);
+
+    setAnimationTimes(content.length, flashDiv, parentElement, displayTime);
 }

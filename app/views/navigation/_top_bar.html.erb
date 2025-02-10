@@ -27,11 +27,7 @@
                           params: { session: { platform_id: membership.platform_id } },
                           class: "block px-3 py-1 text-sm/6 text-left text-gray-900 hover:bg-gray-50 w-full" do
             %>
-
-              <% if membership.platform == Current.platform %>
-                🧶
-              <% end %>
-              <%= membership.platform.name %>
+              <%= "🧶" if membership.platform == Current.platform %> <%= membership.platform.name %>
             <% end %>
 
             <hr class="text-gray-300">

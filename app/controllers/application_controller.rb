@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   # Used to refresh the current page, useful for when successfully submitting a form through a modal
   # Seems to not work with Turbo morphing
-  # Therefore, make sure pages that invoke this action
+  # Therefore, make sure pages that invoke this action use
   # turbo_frame_tag :modal_content, refresh: :replace
   def turbo_page_refresh(notice: nil)
     flash[:notice] = notice if notice

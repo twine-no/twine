@@ -1,7 +1,9 @@
 <%# locals: (row:, table:) %>
 
 <tr
+  id="table_<%= dom_id(row.record) %>"
   data-tables--content-target="row"
+  class="hover:bg-stone-50"
 >
 
   <% if table.multi_select? %>
@@ -21,7 +23,13 @@
 
   <% row.cells.each do |cell| %>
     <td class="text-sm whitespace-nowrap text-gray-500">
-      <%= content_tag(row.url.present? ? :a : :div, { class: "px-3 py-4 block", href: row.url, data: { turbo_frame: '_top' } }.compact) do %>
+      <%= content_tag(row.url.present? ? :a : :div, {
+        class: "px-3 py-4 block",
+        href: row.url
+      }.compact.merge(
+        row.opens_modal? ? modal_link_options({}) : { data: { turbo_frame: '_top' } }
+      )
+          ) do %>
         <% if cell[:content].call(row.record).is_a?(Array) %>
           <% cell[:content].call(row.record).map do |component| %>
             <%= component %>

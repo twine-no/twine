@@ -7,17 +7,24 @@ module NavigationHelper
     request.path.include?("/member/")
   end
 
+  def modal_content(options = {})
+    options[:class] ||= "relative py-6 px-8 min-w-[30vw]"
+    content_tag :div, options do
+      yield
+    end
+  end
+
   def modal_link_to(name = nil, options = nil, html_options = nil, &)
     if block_given?
-      options = modify_link_options(options)
+      options = modal_link_options(options)
     else
-      html_options = modify_link_options(html_options)
+      html_options = modal_link_options(html_options)
     end
 
     link_to(name, options, html_options, &)
   end
 
-  def modify_link_options(link_options)
+  def modal_link_options(link_options)
     link_options ||= {}
     link_options[:data] ||= {}
     link_options[:data][:turbo_frame] = :modal_content

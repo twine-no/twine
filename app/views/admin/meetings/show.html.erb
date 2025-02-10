@@ -1,82 +1,64 @@
 <%= turbo_stream_from @meeting %>
+<div class="grid grid-cols-12 items-start gap-2 lg:gap-4">
+  <div class="col-span-12 lg:col-span-7">
+    <%= card class: "relative p-0" do %>
 
-<div class="grid grid-cols-1 items-start gap-2 lg:gap-4">
-  <div class="lg:col-span-1">
-    <%= card class: "relative" do %>
-      <%= turbo_frame_tag @meeting do %>
-        <div class="absolute top-4 right-4">
-          <%= link_to admin_meeting_path(@meeting),
-                      data: {
-                        turbo_frame: "_top",
-                        turbo_method: :delete,
-                        turbo_confirm: "Are you sure you want to delete the meeting '#{@meeting.title}'#{(", scheduled for #{@meeting.happens_at.strftime("%B %d, %Y %H:%M") }" if @meeting.scheduled?)}?"
-                      },
-                      class: "button button-secondary button-xs inline-flex items-center gap-1" do %>
-            <%= svg_tag "icons/mingcute/delete_2_line.svg", class: "inline h-3 w-3" %> Delete
+      <div class="absolute top-4 right-4">
+        <%= link_to admin_meeting_path(@meeting),
+                    data: {
+                      turbo_frame: "_top",
+                      turbo_method: :delete,
+                      turbo_confirm: "Are you sure you want to delete the meeting '#{@meeting.title}'#{(", scheduled for #{@meeting.happens_at.strftime("%B %d, %Y %H:%M") }" if @meeting.scheduled?)}?"
+                    },
+                    class: "button button-secondary button-xs inline-flex items-center gap-1" do %>
+        <% end %>
+      </div>
+
+      <%= render "admin/meetings/details", meeting: @meeting %>
+    <% end %>
+  </div>
+  <div class="col-span-12 lg:col-span-5">
+    <%= card class: "p-0 pt-4" do %>
+      <h3 class="px-4 mt-0 mb-0">Guests</h3>
+
+      <%= turbo_frame_tag @meeting, :invites do %>
+        <div class="px-4">
+          <%= render "admin/invites/form", meeting: @meeting %>
+        </div>
+        <div class="flex gap-1 px-4 pb-4 border-b border-solid w-100 overflow-x-auto">
+          <% if @meeting.invitable_memberships.any? %>
+            <%= button_to admin_meeting_mass_invites_path(
+                            meeting_id: @meeting.id
+                          ),
+                          method: :post,
+                          form: {
+                            class: "inline-block"
+                          },
+                          class: "button button-secondary button-xs" do %>
+              <%= svg_tag "icons/mingcute/group_2_line.svg" %>
+              <%= invite_remaining_members_text(@meeting) %>
+            <% end %>
+
+            <% Current.platform.groups.includes(:memberships).where.associated(:memberships).each do |group| %>
+              <% next if @meeting.invitable_memberships(from: group).none? %>
+
+              <%= button_to admin_meeting_mass_invites_path(meeting_id: @meeting.id, group_id: group.id),
+                            method: :post,
+                            form: {
+                              class: "inline-block"
+                            },
+                            class: "button button-secondary button-xs" do %>
+                <%= svg_tag "icons/mingcute/group_2_line.svg" %>
+                <%= group.name %>
+              <% end %>
+            <% end %>
+          <% else %>
+            <%= badge "Added everyone", color: "green" %>
           <% end %>
         </div>
 
-        <%= render "admin/meetings/details", meeting: @meeting %>
+        <%= render "admin/invites/index", page: @page %>
       <% end %>
     <% end %>
   </div>
 </div>
-
-<%= card class: "mt-3" do %>
-  <%= turbo_frame_tag @meeting, :invites do %>
-    <div class="flex justify-between">
-      <%= render "admin/invites/form", meeting: @meeting %>
-      <div>
-        <% if @meeting.invites.not_messaged.any? %>
-          <%= modal_link_to "Invite #{pluralize @meeting.invites.not_messaged.size, "guest"}",
-                            new_admin_messages_meeting_invite_path(
-                              meeting_id: @meeting.id,
-                              template: "invite",
-                              recipient_ids: @meeting.invites.not_messaged.ids
-                            ),
-                            class: "button button-primary"
-          %>
-          <%= modal_link_to "Write a message",
-                            new_admin_messages_meeting_invite_path(
-                              meeting_id: @meeting.id,
-                              recipient_ids: @meeting.invites.ids
-                            ),
-                            class: "button button-secondary" %>
-        <% else %>
-          <%= modal_link_to "Write a message",
-                            new_admin_messages_meeting_invite_path(
-                              meeting_id: @meeting.id,
-                              recipient_ids: @meeting.invites.ids
-                            ),
-                            class: "button button-primary" %>
-        <% end %>
-      </div>
-    </div>
-    <div class="flex gap-1">
-      <% if @meeting.invitable_memberships.any? %>
-        <%= button_to admin_meeting_mass_invites_path(meeting_id: @meeting.id),
-                      method: :post,
-                      class: "button button-secondary button-xs" do %>
-          <%= svg_tag "icons/mingcute/group_2_line.svg" %>
-          <%= invite_remaining_members_text(@meeting) %>
-        <% end %>
-
-        <% Current.platform.groups.includes(:memberships).where.associated(:memberships).each do |group| %>
-          <% next if @meeting.invitable_memberships(from: group).none? %>
-
-          <%= button_to admin_meeting_mass_invites_path(meeting_id: @meeting.id, group_id: group.id),
-                        method: :post,
-                        class: "button button-secondary button-xs" do %>
-            <%= svg_tag "icons/mingcute/group_2_line.svg" %>
-            Add <%= group.name %>
-          <% end %>
-        <% end %>
-
-      <% else %>
-        <%= badge "Added everyone", color: "green" %>
-      <% end %>
-    </div>
-
-    <%= render "admin/invites/index", invites: @page %>
-  <% end %>
-<% end %>

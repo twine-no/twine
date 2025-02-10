@@ -1,3 +1,5 @@
-<%= turbo_frame_tag :modal_content, refresh: :replace do %>
-  <%= render 'admin/memberships/form', membership: @membership %>
+<%= turbo_frame_tag :modal_content do %>
+  <%= modal_content do %>
+    <%= render 'admin/memberships/form', membership: @membership %>
+  <% end %>
 <% end %>

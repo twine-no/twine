@@ -1,37 +1,39 @@
 <%= turbo_frame_tag :modal_content do %>
-  <%= form_with model: [:admin, @meeting], data: { turbo_frame: "_top" } do |form| %>
-    <%= render 'navigation/form_errors', model: @meeting %>
+  <%= modal_content do %>
+    <%= form_with model: [:admin, @meeting], data: { turbo_frame: "_top" } do |form| %>
+      <%= render 'navigation/form_errors', model: @meeting %>
 
-    <div class="form-group">
-      <%= form.label :title, "Event title" %>
-      <%= form.text_field :title, class: "form-control", required: true, autocomplete: "off" %>
-    </div>
+      <div class="form-group">
+        <%= form.label :title, "Event title" %>
+        <%= form.text_field :title, class: "form-control", required: true, autocomplete: "off" %>
+      </div>
 
-    <div class="form-group max-w-full">
-      <%= label_tag :participants, "Who's joining?" %>
-      <div data-controller="radio-buttons" class="flex flex-wrap gap-1">
-        <%= hidden_field_tag :invite_group_ids, nil, data: { radio_buttons_target: "hiddenField" } %>
+      <div class="form-group max-w-full">
+        <%= label_tag :participants, "Who's joining?" %>
+        <div data-controller="radio-buttons" class="flex flex-wrap gap-1">
+          <%= hidden_field_tag :invite_group_ids, nil, data: { radio_buttons_target: "hiddenField" } %>
 
-        <div class="radio-button"
-             data-radio-buttons-target="radioButton"
-             data-action="click->radio-buttons#check"
-             data-value="everyone"
-             data-radio-button-exclusive="true"
-        >
-          Everyone
-        </div>
-
-        <% Current.platform.groups.each do |group| %>
           <div class="radio-button"
                data-radio-buttons-target="radioButton"
                data-action="click->radio-buttons#check"
-               data-value="<%= group.id %>">
-            <%= group.name %>
+               data-value="everyone"
+               data-radio-button-exclusive="true"
+          >
+            Everyone
           </div>
-        <% end %>
-      </div>
-    </div>
 
-    <%= form.submit "Save", class: "button button-primary" %>
+          <% Current.platform.groups.each do |group| %>
+            <div class="radio-button"
+                 data-radio-buttons-target="radioButton"
+                 data-action="click->radio-buttons#check"
+                 data-value="<%= group.id %>">
+              <%= group.name %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <%= form.submit "Save", class: "button button-primary" %>
+    <% end %>
   <% end %>
 <% end %>

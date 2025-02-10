@@ -1,6 +1,10 @@
 <%# locals: (membership:) %>
 
-<%= form_with model: [:admin, membership], data: { turbo_frame: "_top" } do |form| %>
+<%= form_with model: [:admin, membership],
+              data: {
+                action: "turbo:submit-end->modal#close",
+                turbo_frame: "_top"
+              } do |form| %>
   <%= render 'navigation/form_errors', model: membership %>
   <%= form.fields_for :user do |user_form| %>
     <%= form.hidden_field :id %>

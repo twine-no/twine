@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     resources :links, only: [ :new, :create, :update, :destroy ]
     resource :site, only: [ :show, :update ]
     resources :meetings do
-      resources :invites, only: [ :create, :index, :destroy ]
+      resources :invites, only: [ :create, :index, :show, :update, :destroy ]
       resources :mass_invites, only: [ :create ]
       resources :surveys, only: [ :new, :create, :index, :edit, :update ]
       resources :meeting_previews, only: [ :index ]

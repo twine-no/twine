@@ -1,11 +1,12 @@
 module Public
   class RsvpsController < PublicController
-    before_action :set_meeting, only: [ :new, :create ]
-    before_action :set_invite, only: [ :new, :create ]
-    before_action :set_rsvp, only: [ :edit, :update ]
+    before_action :set_meeting, only: [:new, :create]
+    before_action :set_invite, only: [:new, :create]
+    before_action :redirect_unless_turbo, only: [:new, :edit]
+    before_action :set_rsvp, only: [:edit, :update]
 
     def new
-      @rsvp = @invite&.rsvp || Rsvp.new
+      @rsvp = @invite&.rsvp || Rsvp.new(invite: @invite)
     end
 
     def create
@@ -13,7 +14,7 @@ module Public
         rsvp_params.merge(
           {
             invite: @invite || @meeting.invites.new,
-            email: @invite&.email
+            email: @invite&.contact&.email,
           }.compact
         )
       )
@@ -53,7 +54,7 @@ module Public
     def set_invite
       return unless params[:invite_guid].present?
 
-      @invite = @meeting.invites.find_by!(params[:invite_guid])
+      @invite = @meeting.invites.find_by!(guid: params[:invite_guid])
     end
 
     def set_rsvp
@@ -62,6 +63,10 @@ module Public
 
     def rsvp_params
       params.require(:rsvp).permit(:full_name, :email, :answer)
+    end
+
+    def redirect_unless_turbo
+      redirect_to public_event_path(@meeting.guid, invite_guid: @invite.guid) unless turbo_frame_request?
     end
   end
 end

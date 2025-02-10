@@ -86,7 +86,7 @@ module Admin
         invite_groups = Current.platform.groups.where(id: group_ids)
       end
 
-      Meetings::MassInviteJob.perform_now(meeting, invite_groups: invite_groups)
+      Meetings::MassInviteJob.perform_later(meeting, invite_groups: invite_groups)
     end
   end
 end
