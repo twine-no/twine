@@ -15,7 +15,10 @@ module RsvpsHelper
     when "yes", "no"
       edit_public_rsvp_path(rsvp)
     else
-      public_rsvps_path(meeting_guid: meeting.guid, invite_guid: rsvp.invite&.guid)
+      public_rsvps_path(
+        meeting_guid: meeting.guid,
+        invite_guid: rsvp.invite&.guid
+      )
     end
   end
 

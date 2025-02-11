@@ -1,6 +1,6 @@
 # Codename: Twine
 
-A simple, free, open-source system to manage your business, group or organisation -- whether you're incorporated or not.
+A simple, free, open-source system to manage your business, organisation or social group.
 
 ## Inquiries?
 

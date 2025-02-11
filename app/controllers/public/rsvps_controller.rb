@@ -2,11 +2,14 @@ module Public
   class RsvpsController < PublicController
     before_action :set_meeting, only: [:new, :create]
     before_action :set_invite, only: [:new, :create]
-    before_action :redirect_unless_turbo, only: [:new, :edit]
     before_action :set_rsvp, only: [:edit, :update]
+    before_action :set_survey, only: [:create, :update]
 
     def new
-      @rsvp = @invite&.rsvp || Rsvp.new(invite: @invite)
+      redirect_to public_event_path(@invite.meeting.guid, invite_guid: @invite.guid) unless turbo_frame_request?
+
+      @rsvp = @invite&.rsvp || Rsvp.new(invite: @invite, meeting: @invite.meeting)
+      build_survey_form
     end
 
     def create
@@ -14,7 +17,8 @@ module Public
         rsvp_params.merge(
           {
             invite: @invite || @meeting.invites.new,
-            email: @invite&.contact&.email,
+            meeting: @invite&.meeting || @meeting,
+            email: @invite&.contact&.email
           }.compact
         )
       )
@@ -34,11 +38,18 @@ module Public
     end
 
     def edit
+      redirect_to public_event_path(@rsvp.invite.meeting.guid, invite_guid: @rsvp.invite.guid) unless turbo_frame_request?
+      build_survey_form
     end
 
     def update
       if @rsvp.update(rsvp_params)
-        redirect_to public_event_path({ id: @rsvp.meeting.guid, invite_guid: @rsvp.invite&.guid }.compact),
+        redirect_to public_event_path(
+                      {
+                        id: @rsvp.meeting.guid,
+                        invite_guid: @rsvp.invite&.guid
+                      }.compact
+                    ),
                     notice: "Updated answer"
       else
         render_inside_modal :edit, status: :unprocessable_content
@@ -61,12 +72,27 @@ module Public
       @rsvp = Rsvp.find_by!(guid: params[:id])
     end
 
-    def rsvp_params
-      params.require(:rsvp).permit(:full_name, :email, :answer)
+    def set_survey
+      @survey = (@rsvp&.meeting || @meeting).surveys.find(params[:survey_id])
     end
 
-    def redirect_unless_turbo
-      redirect_to public_event_path(@meeting.guid, invite_guid: @invite.guid) unless turbo_frame_request?
+    def rsvp_params
+      params.require(:rsvp).permit(
+        :full_name,
+        :email,
+        :answer,
+        survey_responses_attributes: [:id, :question_id, :answer, alternative_ids: []]
+      )
+    end
+
+    def build_survey_form
+      @survey = @rsvp.meeting.surveys.last
+      answered_question_ids = @rsvp.survey_responses.pluck(:question_id)
+      @survey.questions.each do |question|
+        next if question.id.in?(answered_question_ids)
+
+        @rsvp.survey_responses.build(question: question)
+      end
     end
   end
 end

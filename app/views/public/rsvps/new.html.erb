@@ -1,6 +1,6 @@
 <%= turbo_frame_tag :modal_content do %>
   <%= modal_content do %>
     <h3 class="text-center mb-6 mt-0">Great! The host just needs a little info.</h3>
-    <%= render "public/rsvps/form", rsvp: @rsvp %>
+    <%= render "public/rsvps/form", rsvp: @rsvp, survey: @survey %>
   <% end %>
 <% end %>

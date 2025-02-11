@@ -1,4 +1,4 @@
-<%# locals: (rsvp:) %>
+<%# locals: (rsvp:, survey:) %>
 <%= form_with model: [:public, rsvp], data: { turbo_frame: "_top" } do |form| %>
   <%= render "navigation/form_errors", model: rsvp %>
 
@@ -9,13 +9,20 @@
     <div class="form-group">
       <%= form.label :answer, "Are you joining?" %>
       <%= form.select :answer,
-                      options_for_select([["Yes", "yes"], ["No", "no"]], selected: rsvp.answer),
+                      options_for_select(
+                        [
+                          ["Yes", "yes"],
+                          ["No", "no"]
+                        ],
+                        selected: rsvp.answer),
                       {},
                       class: "form-control" %>
     </div>
   <% else %>
     <%= form.hidden_field :answer, value: "yes" %>
   <% end %>
+
+  <%= render("public/rsvps/survey_form", survey: survey, form: form) if survey %>
 
   <% if rsvp.invite.self_signup? %>
     <div class="form-group">

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_06_135638) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_11_003441) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -189,6 +189,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_06_135638) do
     t.index ["question_id"], name: "index_surveys_alternatives_on_question_id"
   end
 
+  create_table "surveys_alternatives_responses", id: false, force: :cascade do |t|
+    t.integer "response_id", null: false
+    t.integer "alternative_id", null: false
+    t.index ["alternative_id"], name: "index_surveys_alternatives_responses_on_alternative_id"
+    t.index ["response_id", "alternative_id"], name: "index_surveys_alternatives_responses", unique: true
+    t.index ["response_id"], name: "index_surveys_alternatives_responses_on_response_id"
+  end
+
   create_table "surveys_questions", force: :cascade do |t|
     t.integer "survey_id", null: false
     t.string "title"
@@ -200,12 +208,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_06_135638) do
 
   create_table "surveys_responses", force: :cascade do |t|
     t.integer "question_id", null: false
-    t.integer "alternative_id"
     t.string "answer"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["alternative_id"], name: "index_surveys_responses_on_alternative_id"
+    t.integer "rsvp_id", null: false
     t.index ["question_id"], name: "index_surveys_responses_on_question_id"
+    t.index ["rsvp_id"], name: "index_surveys_responses_on_rsvp_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -229,4 +237,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_06_135638) do
   add_foreign_key "rsvps", "invites"
   add_foreign_key "sessions", "platforms"
   add_foreign_key "sessions", "users"
+  add_foreign_key "surveys_alternatives_responses", "surveys_alternatives", column: "alternative_id"
+  add_foreign_key "surveys_alternatives_responses", "surveys_responses", column: "response_id"
 end

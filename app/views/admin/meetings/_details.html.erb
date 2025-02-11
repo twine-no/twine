@@ -42,11 +42,16 @@
                         edit_admin_meeting_path(@meeting),
                         class: "editable" %>
           <% else %>
-            <% meeting_date_survey = @meeting.surveys.find_by(template: :meeting_date) %>
+            <% last_survey = @meeting.surveys.last %>
             <%= link_to edit_admin_meeting_path(@meeting),
-                        class: "editable #{'link link-underline' unless meeting_date_survey}" do %>
-              <% if meeting_date_survey %>
-                Asking guests to choose between <strong><%= meeting_date_survey.questions.first.alternatives.pluck(:title).join(", ") %></strong>
+                        class: "editable #{'link link-underline' unless last_survey.meeting_date?}" do %>
+              <% if last_survey.meeting_date? %>
+                Guests can choose between
+                  <ul>
+                  <% last_survey.questions.first.alternatives.includes(:responses).each do |alternative| %>
+                      <li><%= alternative.title %> (<%= alternative.responses.size %> votes)</li>
+                  <% end %>
+                  </ul>
               <% else %>
                 Set a date
               <% end %>
