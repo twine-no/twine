@@ -27,7 +27,7 @@
     }
 
     .button-full {
-        @apply button-xl;
+        @apply block button-xl;
     }
 
     @media (max-width: 768px) {

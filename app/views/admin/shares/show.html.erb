@@ -1,0 +1,31 @@
+<%= turbo_frame_tag :modal_content do %>
+  <%= modal_content do %>
+    <%= turbo_frame_tag @meeting, :open do %>
+      <% event_url = public_event_url(@meeting.guid) %>
+      <div
+        data-controller="clipboard"
+        data-clipboard-copy-text-value="<%= event_url %>"
+        class="form-group inline-form-group mb-3"
+      >
+        <%= text_field_tag :public_url, event_url, disabled: true, class: "form-control" %>
+        <%= link_to "Copy personal invite link",
+                    event_url,
+                    data: { action: "click->clipboard#copy" },
+                    class: "button button-primary" %>
+      </div>
+      <div class="flex align-middle gap-2">
+        <%= link_to admin_meeting_share_path(meeting_id: @meeting, meeting: { open: !@meeting.open? }),
+                    class: "toggle toggle-#{@meeting.open? ? "on" : "off"}",
+                    data: {
+                      turbo_method: :patch,
+                      controller: "forms--toggle",
+                      action: "click->forms--toggle#toggle"
+                    } do %>
+          <span class="sr-only">Click to toggle</span>
+          <span></span>
+        <% end %>
+        Public link is open to guests
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

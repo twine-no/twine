@@ -29,7 +29,7 @@ Rails.application.routes.draw do
       resources :invites, only: [ :create, :index, :show, :update, :destroy ]
       resources :mass_invites, only: [ :create ]
       resources :surveys, only: [ :new, :create, :index, :edit, :update ]
-      resources :meeting_previews, only: [ :index ]
+      resource :share, only: [:show, :update]
     end
 
     namespace :messages do
