@@ -1,28 +1,29 @@
 previous_coffee_shop_board_meeting:
   title: Board meeting
-  scheduled_at: <%= 15.days.ago %>
+  happens_at: <%= 15.days.ago %>
   platform: coffee_shop
   guid: aKU5xRiRM_9uvviqYH9_SQ
 
 next_coffee_shop_board_meeting:
   title: Board meeting
-  scheduled_at: <%= 15.days.from_now %>
+  happens_at: <%= 15.days.from_now %>
   platform: coffee_shop
   guid: bKU5xRiRM_9uvviqYH9_SQ
 
 coffee_shop_general_assembly:
   title: General Assembly <%= Time.current.year %>
-  scheduled_at: <%= (Time.current + 5.months).beginning_of_month + 20.days + 18.hours %>
+  happens_at: <%= (Time.current + 5.months).beginning_of_month + 20.days + 18.hours %>
   platform: coffee_shop
   guid: cKU5xRiRM_9uvviqYH9_SQ
 
 football_club_training:
   title: Training
-  scheduled_at: <%= 15.days.from_now %>
+  happens_at: <%= 15.days.from_now %>
   platform: football_meetup
   guid: dKU5xRiRM_9uvviqYH9_SQ
 
 football_club_movie_night:
   title: Movie night
-  scheduled_at: <%= 2.months.from_now %>
+  happens_at: <%= 2.months.from_now %>
   guid: eKU5xRiRM_9uvviqYH9_SQ
+  platform: football_meetup

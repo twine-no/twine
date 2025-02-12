@@ -1,6 +1,8 @@
 <%= turbo_frame_tag :modal_content do %>
   <%= modal_content do %>
-    <%= form_with model: [:admin, @meeting], data: { turbo_frame: "_top" } do |form| %>
+    <%= form_with id: "new_meeting",
+                  model: [:admin, @meeting],
+                  data: { turbo_frame: "_top" } do |form| %>
       <%= render 'navigation/form_errors', model: @meeting %>
 
       <div class="form-group">

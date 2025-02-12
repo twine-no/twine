@@ -1,5 +1,10 @@
 <%= turbo_frame_tag :modal_content do %>
   <%= modal_content do %>
+    <h3 class="mt-0 mb-0">Share Event</h3>
+    <p class="max-w-md mb-6">
+      Share the link with guests via email, SMS, or wherever they may be.
+    </p>
+
     <%= turbo_frame_tag @meeting, :open do %>
       <% event_url = public_event_url(@meeting.guid) %>
       <div
@@ -8,12 +13,12 @@
         class="form-group inline-form-group mb-3"
       >
         <%= text_field_tag :public_url, event_url, disabled: true, class: "form-control" %>
-        <%= link_to "Copy personal invite link",
+        <%= link_to "Copy",
                     event_url,
                     data: { action: "click->clipboard#copy" },
                     class: "button button-primary" %>
       </div>
-      <div class="flex align-middle gap-2">
+      <div class="flex align-middle gap-1">
         <%= link_to admin_meeting_share_path(meeting_id: @meeting, meeting: { open: !@meeting.open? }),
                     class: "toggle toggle-#{@meeting.open? ? "on" : "off"}",
                     data: {

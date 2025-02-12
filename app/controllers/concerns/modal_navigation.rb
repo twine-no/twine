@@ -8,9 +8,8 @@ module ModalNavigation
         render_to_string(
           view,
           layout: false
-        ),
-      status: status
-    )
+        )
+    ), status: status
   end
 
   # Allows a modal view to be displayed inside another encapsulating view,

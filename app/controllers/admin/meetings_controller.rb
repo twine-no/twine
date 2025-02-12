@@ -8,6 +8,7 @@ module Admin
     }, only: [:update]
 
     def new
+      redirect_to admin_meetings_path unless turbo_frame_request?
       @meeting = Meeting.new
     end
 
@@ -86,7 +87,9 @@ module Admin
         invite_groups = Current.platform.groups.where(id: group_ids)
       end
 
-      Meetings::MassInviteJob.perform_later(meeting, invite_groups: invite_groups)
+      invite_groups.each do |invite_group|
+        Meetings::MassInviteJob.perform_later(meeting, invite_group: invite_group)
+      end
     end
   end
 end

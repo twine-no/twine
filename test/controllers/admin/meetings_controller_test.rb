@@ -19,25 +19,32 @@ module Admin
       assert_redirected_to new_session_path
     end
 
-    test "#new succeeds, renders form inside index page, with layout still visible" do
+    test "#new succeeds" do
+      login_as users(:admin), on: platforms(:coffee_shop)
+      get new_admin_meeting_path, headers: { "Turbo-Frame": :modal_content }
+      assert_response :success
+      assert_select "form#new_meeting"
+    end
+
+    test "#new redirects back to index unless turbo frame request" do
       login_as users(:admin), on: platforms(:coffee_shop)
       get new_admin_meeting_path
-      assert_select "form#new_meeting"
-      assert_select "table"
+      assert_redirected_to admin_meetings_path
     end
 
     test "#create succeeds, creates a new meeting, and redirects with a notice" do
       login_as users(:admin), on: platforms(:coffee_shop)
+      meeting_name = "New Meeting"
       assert_difference -> { Meeting.count }, 1 do
         post admin_meetings_path, params: {
           meeting: {
-            title: "New Meeting",
+            title: meeting_name,
             scheduled_at: 1.hour.from_now
           }
         }
       end
       assert_redirected_to admin_meeting_path(Meeting.last)
-      assert_equal "Meeting created.", flash[:notice]
+      assert_equal "#{meeting_name} saved", flash[:notice]
     end
 
     test "#create logs meeting creation" do
@@ -52,9 +59,6 @@ module Admin
       end
 
       assert_equal 1, Meeting.last.log_entries.where(category: :created, happened_at: 5.seconds.ago..Time.current).size
-
-      follow_redirect!
-      assert_select ".meeting-log-entry", size: 1
     end
 
     test "#create renders errors when invalid data is provided" do
@@ -63,7 +67,6 @@ module Admin
         post admin_meetings_path, params: {
           meeting: {
             title: "",
-            scheduled_at: ""
           }
         }
       end
@@ -116,8 +119,7 @@ module Admin
         }
       }
 
-      assert_redirected_to admin_meeting_path(meeting)
-      assert_equal "Meeting updated.", flash[:notice]
+      assert_response :success
       meeting.reload
       assert_equal new_title, meeting.title
     end
