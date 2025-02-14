@@ -14,7 +14,7 @@ class Rsvp < ApplicationRecord
   accepts_nested_attributes_for :survey_responses
 
   def anything_to_fill_out?
-    yes? || no? || invite ? invite.needs_info? : meeting.surveys.any?
+    yes? || no? || invite.nil? || invite.needs_info?
   end
 
   def to_param

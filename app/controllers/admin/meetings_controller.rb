@@ -5,10 +5,9 @@ module Admin
     before_action :set_meeting, only: %i[show edit update destroy]
     before_action lambda {
       resize_image_file(meeting_params[:logo], width: 200, height: 200)
-    }, only: [:update]
+    }, only: [ :update ]
 
     def new
-      redirect_to admin_meetings_path unless turbo_frame_request?
       @meeting = Meeting.new
     end
 

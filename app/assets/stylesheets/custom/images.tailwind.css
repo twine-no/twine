@@ -1,0 +1,5 @@
+@layer components {
+    .avatar {
+        @apply rounded-full mx-auto mb-4 border-4 bg-white border-white h-24 w-24 object-cover;
+    }
+}

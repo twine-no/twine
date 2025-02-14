@@ -1,14 +1,12 @@
 module Public
   class RsvpsController < PublicController
-    before_action :set_meeting, only: [:new, :create]
-    before_action :set_invite, only: [:new, :create]
-    before_action :set_rsvp, only: [:edit, :update]
-    before_action :set_survey, only: [:create, :update]
+    before_action :set_meeting, only: [ :new, :create ]
+    before_action :set_invite, only: [ :new, :create ]
+    before_action :set_rsvp, only: [ :edit, :update ]
+    before_action :set_survey, only: [ :create, :update ]
 
     def new
-      redirect_to public_event_path(@invite.meeting.guid, invite_guid: @invite.guid) unless turbo_frame_request?
-
-      @rsvp = @invite&.rsvp || Rsvp.new(invite: @invite, meeting: @invite.meeting)
+      @rsvp = @invite&.rsvp || Rsvp.new(invite: @invite, meeting: @meeting)
       build_survey_form
     end
 
@@ -25,15 +23,15 @@ module Public
 
       if @invite || @meeting.open?
         if @rsvp.save
-          cookies["#{@meeting.guid}_rsvp_guid"] = @rsvp.guid
+          cookies["#{@meeting.guid}_invite_guid"] = @rsvp.invite.guid
           notice = @rsvp.answer == "yes" ? "You're in. You've received a confirmation on #{@rsvp.email}" : "You declined"
-          redirect_to public_event_path({ id: @meeting.guid, invite_guid: @invite&.guid }.compact), notice: notice
+          redirect_to public_event_path({ guid: @meeting.guid, invite_guid: @invite&.guid }.compact), notice: notice
         else
-          render_inside_modal :new, status: :unprocessable_content
+          render :new, status: :unprocessable_content
         end
       else
         @rsvp.errors.add(:base, "No longer open to new entries")
-        render_inside_modal :new, status: :unprocessable_content
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -46,7 +44,7 @@ module Public
       if @rsvp.update(rsvp_params)
         redirect_to public_event_path(
                       {
-                        id: @rsvp.meeting.guid,
+                        guid: @rsvp.meeting.guid,
                         invite_guid: @rsvp.invite&.guid
                       }.compact
                     ),
@@ -73,7 +71,7 @@ module Public
     end
 
     def set_survey
-      @survey = (@rsvp&.meeting || @meeting).surveys.find(params[:survey_id])
+      @survey = (@rsvp&.meeting || @meeting).surveys.find_by(id: params[:survey_id])
     end
 
     def rsvp_params
@@ -81,12 +79,14 @@ module Public
         :full_name,
         :email,
         :answer,
-        survey_responses_attributes: [:id, :question_id, :answer, alternative_ids: []]
+        survey_responses_attributes: [ :id, :question_id, :answer, alternative_ids: [] ]
       )
     end
 
     def build_survey_form
       @survey = @rsvp.meeting.surveys.last
+      return unless @survey
+
       answered_question_ids = @rsvp.survey_responses.pluck(:question_id)
       @survey.questions.each do |question|
         next if question.id.in?(answered_question_ids)

@@ -5,6 +5,6 @@ class MakeResponseAlternativeManyToMany < ActiveRecord::Migration[8.0]
       t.references :alternative, null: false, foreign_key: { to_table: :surveys_alternatives }
     end
 
-    add_index :surveys_alternatives_responses, [:response_id, :alternative_id], unique: true, name: "index_surveys_alternatives_responses"
+    add_index :surveys_alternatives_responses, [ :response_id, :alternative_id ], unique: true, name: "index_surveys_alternatives_responses"
   end
 end

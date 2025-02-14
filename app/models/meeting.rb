@@ -1,3 +1,5 @@
+require "uri"
+
 class Meeting < ApplicationRecord
   include Messageable
   include Tables::SupportsAdvancedQueries
@@ -53,6 +55,12 @@ class Meeting < ApplicationRecord
 
   def upcoming?
     scheduled? && !happens_at.past?
+  end
+
+  def online?
+    return false if location.blank?
+
+    location =~ URI.regexp
   end
 
   def invitable_memberships(from: platform)

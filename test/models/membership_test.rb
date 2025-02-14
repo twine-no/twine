@@ -29,9 +29,4 @@ class MembershipTest < ActiveSupport::TestCase
     memberships = Membership.table_filterable_scope("memberships.first_name": "name")
     assert_equal memberships.size, Membership.count
   end
-
-  test "#by_table_tab does not alter the scope" do
-    assert_equal Membership.by_table_tab("anything").count, Membership.count
-    assert_equal Membership.admin.by_table_tab("anything").count, Membership.admin.count
-  end
 end

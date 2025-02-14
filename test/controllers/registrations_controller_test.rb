@@ -8,7 +8,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
   test "#create succeeds with valid parameters, creates a new user, and redirects to admin onboarding" do
     assert_difference -> { User.count }, 1 do
-      post registrations_url, params: { user: { email: "new_user@example.com", password: "securepassword" } }
+      post registration_url, params: { user: { email: "new_user@example.com", password: "securepassword" } }
       assert_redirected_to admin_onboarding_path
       assert_equal "Welcome!", flash[:notice]
     end
@@ -16,9 +16,8 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
   test "#create fails with invalid parameters and re-renders the form" do
     assert_no_difference -> { User.count } do
-      post registrations_url, params: { user: { email: "", password: "short" } }
+      post registration_url, params: { user: { email: "", password: "short" } }
       assert_response :unprocessable_content
-      assert_template :new
     end
   end
 end

@@ -1,6 +1,6 @@
 module Admin
   class SharesController < AdminController
-    before_action :set_meeting, only: [:show, :update]
+    before_action :set_meeting, only: [ :show, :update ]
 
     def show
       redirect_to admin_meeting_path(@meeting) unless turbo_frame_request?

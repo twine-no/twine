@@ -21,15 +21,9 @@ module Admin
 
     test "#new succeeds" do
       login_as users(:admin), on: platforms(:coffee_shop)
-      get new_admin_meeting_path, headers: { "Turbo-Frame": :modal_content }
-      assert_response :success
-      assert_select "form#new_meeting"
-    end
-
-    test "#new redirects back to index unless turbo frame request" do
-      login_as users(:admin), on: platforms(:coffee_shop)
       get new_admin_meeting_path
-      assert_redirected_to admin_meetings_path
+      assert_response :success
+      assert_select "form#new-meeting"
     end
 
     test "#create succeeds, creates a new meeting, and redirects with a notice" do
@@ -66,12 +60,12 @@ module Admin
       assert_no_difference -> { Meeting.count } do
         post admin_meetings_path, params: {
           meeting: {
-            title: "",
+            title: ""
           }
         }
       end
       assert_response :unprocessable_content
-      assert_select "form#new_meeting"
+      assert_select "form#new-meeting"
       assert_select ".form-error", text: /Title can't be blank/
     end
 

@@ -7,18 +7,7 @@
 
     <%= turbo_frame_tag @meeting, :open do %>
       <% event_url = public_event_url(@meeting.guid) %>
-      <div
-        data-controller="clipboard"
-        data-clipboard-copy-text-value="<%= event_url %>"
-        class="form-group inline-form-group mb-3"
-      >
-        <%= text_field_tag :public_url, event_url, disabled: true, class: "form-control" %>
-        <%= link_to "Copy",
-                    event_url,
-                    data: { action: "click->clipboard#copy" },
-                    class: "button button-primary" %>
-      </div>
-      <div class="flex align-middle gap-1">
+      <div class="flex align-middle gap-1 mb-3">
         <%= link_to admin_meeting_share_path(meeting_id: @meeting, meeting: { open: !@meeting.open? }),
                     class: "toggle toggle-#{@meeting.open? ? "on" : "off"}",
                     data: {
@@ -29,8 +18,22 @@
           <span class="sr-only">Click to toggle</span>
           <span></span>
         <% end %>
-        Public link is open to guests
+        Make the event shareable by link
       </div>
+
+      <% if @meeting.open? %>
+        <div
+          data-controller="clipboard"
+          data-clipboard-copy-text-value="<%= event_url %>"
+          class="form-group inline-form-group mb-3"
+        >
+          <%= text_field_tag :public_url, event_url, disabled: true, class: "form-control" %>
+          <%= link_to "Copy",
+                      event_url,
+                      data: { action: "click->clipboard#copy" },
+                      class: "button button-primary" %>
+        </div>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>

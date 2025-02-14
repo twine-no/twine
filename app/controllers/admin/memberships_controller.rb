@@ -1,6 +1,6 @@
 module Admin
   class MembershipsController < AdminController
-    before_action :set_membership, only: [:show, :edit, :update, :destroy]
+    before_action :set_membership, only: [ :show, :edit, :update, :destroy ]
 
     def new
       @membership = Membership.new
@@ -22,7 +22,6 @@ module Admin
       set_data_table_page by_table_tab(Current.platform.memberships.joins(:user)),
                           allow_sort_by: %w[users.first_name users.last_name users.email],
                           default_sort_direction: :desc
-
     end
 
     def show
@@ -55,7 +54,7 @@ module Admin
     end
 
     def membership_params
-      params.require(:membership).permit(user_attributes: [:id, :email, :first_name, :last_name])
+      params.require(:membership).permit(user_attributes: [ :id, :email, :first_name, :last_name ])
     end
 
     def membership_role_params

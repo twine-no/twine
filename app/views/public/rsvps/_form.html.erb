@@ -1,5 +1,7 @@
 <%# locals: (rsvp:, survey:) %>
-<%= form_with model: [:public, rsvp], data: { turbo_frame: "_top" } do |form| %>
+<%= form_with model: [:public, rsvp],
+              id: "rsvp-form",
+              data: { turbo_frame: "_top" } do |form| %>
   <%= render "navigation/form_errors", model: rsvp %>
 
   <%= hidden_field_tag :meeting_guid, params[:meeting_guid] %>
@@ -24,7 +26,7 @@
 
   <%= render("public/rsvps/survey_form", survey: survey, form: form) if survey %>
 
-  <% if rsvp.invite.self_signup? %>
+  <% if rsvp.invite.nil? || rsvp.invite.self_signup? %>
     <div class="form-group">
       <%= form.label :full_name, "Your name" %>
       <%= form.text_field :full_name, class: "form-control" %>

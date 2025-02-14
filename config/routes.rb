@@ -14,8 +14,11 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # The route that ensures all your website can be hosted on twine.no/@mypage
-  get "@:shortname", to: "public/platforms#show", constraints: { username: /[^\/]+/ }, as: :public_site
+  get "@:shortname", to: "public/platforms#show", constraints: { shortname: /[^\/]+/ }, as: :public_site
   get "p/:shortname", to: "public/platforms#show", as: :legacy_public_site
+
+  get "e/:guid", to: "public/meetings#show", constraints: { guid: /[^\/]+/ }, as: :public_event
+  resources :events, only: [ :show ], controller: :meetings
 
   namespace :admin do
     resource :onboarding, only: [ :show, :update ]
@@ -29,7 +32,7 @@ Rails.application.routes.draw do
       resources :invites, only: [ :create, :index, :show, :update, :destroy ]
       resources :mass_invites, only: [ :create ]
       resources :surveys, only: [ :new, :create, :index, :edit, :update ]
-      resource :share, only: [:show, :update]
+      resource :share, only: [ :show, :update ]
     end
 
     namespace :messages do
@@ -38,7 +41,6 @@ Rails.application.routes.draw do
   end
 
   namespace :public do
-    resources :events, only: [ :show ], controller: :meetings
     resources :rsvps, only: [ :new, :create, :edit, :update ]
   end
 

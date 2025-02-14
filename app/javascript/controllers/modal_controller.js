@@ -17,7 +17,12 @@ export default class extends Controller {
         this.close(event)
     }
 
-    async open() {
+    async open(event) {
+        // Prevent modal from opening if link is opened in a new tab or window
+        if (event.button === 1 || event.ctrlKey || event.metaKey || event.shiftKey) {
+            return;
+        }
+
         this.modalTarget.showModal()
         this.modalTarget.classList.add("modal-open")
     }

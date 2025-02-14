@@ -1,6 +1,7 @@
 <%# locals: (membership:) %>
 
 <%= form_with model: [:admin, membership],
+              id: "new-membership",
               data: {
                 action: "turbo:submit-end->modal#close",
                 turbo_frame: "_top"

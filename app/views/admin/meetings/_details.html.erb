@@ -10,11 +10,11 @@
       >
         <%= form.label :logo, class: "p-8 flex #{blur_foreground_classes} cursor-pointer" do %>
           <% if meeting.logo.attached? %>
-            <%= image_tag meeting.logo, alt: "#{meeting.title} logo", class: "rounded-full w-24 h-24 mx-auto mb-4 border-4" %>
+            <%= image_tag meeting.logo, alt: "#{meeting.title} logo", class: "avatar" %>
           <% elsif Current.platform.logo.attached? %>
-            <%= image_tag Current.platform.logo, alt: "#{Current.platform.name} logo", class: "rounded-full w-24 h-24 mx-auto mb-4 border-4" %>
+            <%= image_tag Current.platform.logo, alt: "#{Current.platform.name} logo", class: "avatar" %>
           <% else %>
-            <div class="rounded-full w-24 h-24 mx-auto mb-4 border-4 bg-white border-white"></div>
+            <div class="avatar"></div>
           <% end %>
           <%= form.file_field :logo, class: "hidden", data: { action: "submit-on-change#submit" } %>
           <%= form.submit "", class: "hidden", data: { "submit-on-change-target": "submitButton" } %>
@@ -81,7 +81,9 @@
       <dd>
         <%= turbo_frame_tag @meeting, :description do %>
           <% if @meeting.description.present? %>
-            <%= link_to @meeting.description.to_plain_text&.truncate_words(60), edit_admin_meeting_path(@meeting), class: "editable" %>
+            <%= link_to edit_admin_meeting_path(@meeting), class: "editable" do %>
+            <%= @meeting.description %>
+            <% end %>
           <% else %>
             <%= link_to "Write a description", edit_admin_meeting_path(@meeting), class: "link link-underline editable" %>
           <% end %>

@@ -1,7 +1,7 @@
 module Admin
   class InvitesController < AdminController
-    before_action :set_meeting, only: [:create, :show, :update, :destroy]
-    before_action :set_invite, only: [:show, :update, :destroy]
+    before_action :set_meeting, only: [ :create, :show, :update, :destroy ]
+    before_action :set_invite, only: [ :show, :update, :destroy ]
 
     def create
       @invite = @meeting.invites.new(invite_params)

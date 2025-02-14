@@ -1,12 +1,12 @@
 module RsvpsHelper
-  def rsvps_action_text(rsvp, meeting)
+  def rsvps_action_text(rsvp)
     case rsvp&.answer
     when "yes"
       "✅ You accepted (change)"
     when "no"
       "❌ You declined (change)"
     else
-      "✋ Let #{meeting.platform.name} know if you can make it"
+      "✋ Sign up"
     end
   end
 

@@ -43,7 +43,7 @@
   <%= form_with model: [:admin, @meeting] do |form| %>
     <%= render 'navigation/form_errors', model: @meeting %>
     <div class="form-group">
-      <%= form.rich_text_area :description, class: "form-control w-full max-w-[300px] min-h-[100px]", autocomplete: false %>
+      <%= form.rich_text_area :description, class: "form-control w-full max-w-[600px] min-h-[100px]", autocomplete: false %>
     </div>
     <%= form.submit "Save", class: "button button-primary" %>
   <% end %>

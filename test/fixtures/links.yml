@@ -1,0 +1,9 @@
+political_chapter_become_member:
+  platform: political_chapter
+  name: Become a member
+  url: https://party.com/becomemember
+
+political_chapter_our_platform:
+  platform: political_chapter
+  name: Our political platform
+  url: https://party.com/ourplatform

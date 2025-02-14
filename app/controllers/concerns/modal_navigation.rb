@@ -21,9 +21,9 @@ module ModalNavigation
 
     @modal_content = if modal_content_view
                        modal_content_view
-                     else
+    else
                        "#{controller_path}/#{action_name}"
-                     end
+    end
 
     # Used to render view inside the
     yield block if block_given?

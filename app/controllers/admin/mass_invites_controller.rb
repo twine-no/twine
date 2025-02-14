@@ -1,6 +1,6 @@
 module Admin
   class MassInvitesController < AdminController
-    before_action :set_meeting, only: [:create]
+    before_action :set_meeting, only: [ :create ]
 
     def create
       invite_group = Current.platform.groups.find(params[:group_id]) if params[:group_id]

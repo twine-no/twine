@@ -6,22 +6,36 @@
     <div class="max-w-lg mx-auto pt-8">
       <div class="text-center mb-8">
         <% if @meeting.logo.attached? %>
-          <%= image_tag @meeting.logo, alt: "#{@meeting.title} logo", class: "rounded-full bg-white w-24 h-24 mx-auto mb-4 border-4 border-white" %>
+          <%= image_tag @meeting.logo, alt: "#{@meeting.title} logo", class: "avatar" %>
         <% elsif @meeting.platform.logo.attached? %>
-          <%= image_tag @meeting.platform.logo, alt: "#{@meeting.platform.name} logo", class: "rounded-full w-24 h-24 mx-auto mb-4 border-4 border-white" %>
+          <%= image_tag @meeting.platform.logo, alt: "#{@meeting.platform.name} logo", class: "avatar" %>
         <% end %>
-        <h1 class="text-xl font-bold mb-0"><%= @meeting.title %></h1>
+        <h1 class="text-3xl mb-1">
+          <%= @meeting.title %>
+        </h1>
         <p class="text-opacity-90 mt-0">
+          <%= svg_tag "icons/mingcute/calendar_fill", class: "h-4 w-4 inline" %>
           <% if @meeting.scheduled? %>
             <%= datetime_format @meeting.happens_at, format: :pretty_datetime %>
           <% elsif @meeting.surveys.last&.meeting_date? %>
             <% meeting_date_survey = @meeting.surveys.last %>
-            Either <%= meeting_date_survey.questions.first.alternatives.pluck(:title).to_sentence(last_word_connector: " or ") %>
+            Planned for
+            either <%= meeting_date_survey.questions.first.alternatives.pluck(:title).to_sentence(last_word_connector: " or ") %>
           <% else %>
-            No date set.
+            No date set
           <% end %>
           <br>
-          <%= @meeting.location %>
+
+          <%= svg_tag "icons/mingcute/location_fill", class: "h-4 w-4 inline" %>
+          <% if @meeting.location.present? %>
+            <% if @meeting.online? %>
+              <%= link_to @meeting.location, @meeting.location, target: "_blank", class: "underline" %>
+            <% else %>
+              <%= @meeting.location %>
+            <% end %>
+          <% else %>
+          No location specified
+          <% end %>
         </p>
 
         <% if @meeting.description.present? %>
@@ -29,43 +43,18 @@
             <div class="mb-4">
               <%= @meeting.description.presence %>
             </div>
-            <strong><%= @meeting.platform.name %></strong>
           <% end %>
         <% end %>
 
-        <div class="mx-auto max-w-3xl text-center">
-          <% if @rsvp.anything_to_fill_out? %>
-            <%= modal_link_to @rsvp.id ? edit_public_rsvp_path(@rsvp) : new_public_rsvp_path(invite_guid: @rsvp.invite&.guid, meeting_guid: @meeting.guid),
-                              class: "text-center block p-4 bg-white bg-opacity-90 rounded-lg shadow-lg hover:bg-opacity-100 transition-all duration-200 transform hover:-translate-y-1" do %>
-              <%= rsvps_action_text(@rsvp, @meeting) %>
-            <% end %>
-          <% else %>
-            <%= button_to rsvps_action_link(@rsvp, @meeting),
-                          method: :post,
-                          data: { turbo_frame: "_top" },
-                          params: {
-                            invite_guid: @rsvp.invite.guid,
-                            rsvp: {
-                              answer: "yes"
-                            }
-                          },
-                          class: "text-center w-full mb-2 block p-4 bg-white bg-opacity-90 rounded-lg shadow-lg hover:bg-opacity-100 transition-all duration-200 transform hover:-translate-y-1" do %>
-              ✅ I'm in
-            <% end %>
+        <div class="mt-10 mx-auto max-w-3xl text-center">
+          <h3>
+            Let <%= @meeting.platform.name %> know if you can attend
+          </h3>
 
-            <%= button_to rsvps_action_link(@rsvp, @meeting),
-                          method: :post,
-                          data: { turbo_frame: "_top" },
-                          params: {
-                            invite_guid: @rsvp.invite.guid,
-                            rsvp: {
-                              answer: "no"
-                            }
-                          },
-                          class: "text-center w-full block p-4 bg-white bg-opacity-90 rounded-lg shadow-lg hover:bg-opacity-100 transition-all duration-200 transform hover:-translate-y-1" do %>
-              ❌ Can't make it
-            <% end %>
-          <% end %>
+          <%=
+            render "public/meetings/rsvp",
+                   rsvp: @invite&.rsvp || Rsvp.new(invite: @invite, meeting: @meeting)
+          %>
         </div>
       </div>
     </div>
