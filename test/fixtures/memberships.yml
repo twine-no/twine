@@ -18,6 +18,11 @@ dave_is_a_coffee_shop_shareholder:
   platform: coffee_shop
   role: member
 
+eve_is_a_coffee_shop_shareholder:
+  user: eve
+  platform: coffee_shop
+  role: member
+
 dave_sits_on_the_political_chapter_board:
   user: dave
   platform: political_chapter

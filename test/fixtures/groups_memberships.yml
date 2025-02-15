@@ -1,0 +1,23 @@
+you_sit_on_the_political_chapter_board:
+  membership_id: you_sit_on_the_political_chapter_board
+  group_id: political_chapter_board
+  created_at: <%= 2.days.ago %>
+  updated_at: <%= 2.days.ago %>
+
+dave_sits_on_the_political_chapter_board:
+  membership_id: dave_sits_on_the_political_chapter_board
+  group_id: political_chapter_board
+  created_at: <%= 2.days.ago %>
+  updated_at: <%= 2.days.ago %>
+
+dave_is_a_coffee_shop_shareholder:
+  membership_id: dave_is_a_coffee_shop_shareholder
+  group_id: coffee_shop_shareholders
+  created_at: <%= 2.days.ago %>
+  updated_at: <%= 2.days.ago %>
+
+eve_is_a_coffee_shop_shareholder:
+  membership_id: eve_is_a_coffee_shop_shareholder
+  group_id: coffee_shop_shareholders
+  created_at: <%= 2.days.ago %>
+  updated_at: <%= 2.days.ago %>

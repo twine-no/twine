@@ -29,7 +29,6 @@ football_club_movie_night:
   guid: eKU5xRiRM_9uvviqYH9_SQ
   platform: football_meetup
 
-
 next_political_chapter_board_meeting:
   title: Board meeting
   happens_at: <%= 2.days.from_now %>

@@ -30,7 +30,7 @@ module RsvpsHelper
     when "no"
       badge "Declined", color: :red, id: id
     when "Not invited"
-      badge "Invite not sent", color: :gray, id: id
+      badge "Unanswered", color: :gray, id: id
     else
       badge invite.rsvp_status.humanize, color: :gray, id: id
     end

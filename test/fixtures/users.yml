@@ -50,3 +50,11 @@ new_recruit:
   first_name: New
   last_name: Recruit
   registered_at: <%= 10.seconds.ago %>
+
+# Eve is a coffee shop shareholder
+eve:
+  email: mia@mail.com
+  password_digest: <%= password_digest %>
+  first_name: Eve
+  last_name: Evenson
+  registered_at: <%= 7.days.ago %>

@@ -32,8 +32,7 @@ module Admin
       assert_difference -> { Meeting.count }, 1 do
         post admin_meetings_path, params: {
           meeting: {
-            title: meeting_name,
-            scheduled_at: 1.hour.from_now
+            title: meeting_name
           }
         }
       end
@@ -41,13 +40,46 @@ module Admin
       assert_equal "#{meeting_name} saved", flash[:notice]
     end
 
+    test "#create allows you to invite all platform members to meeting" do
+      login_as users(:admin), on: platforms(:coffee_shop)
+
+        perform_enqueued_jobs do
+          post admin_meetings_path, params: {
+            meeting: {
+              title: "New Meeting"
+            },
+            invite_group_ids: "everyone"
+          }
+        end
+      new_meeting = Meeting.last
+      assert_performed_jobs 1, only: Meetings::MassInviteJob
+      assert_redirected_to admin_meeting_path(new_meeting)
+      assert_equal platforms(:coffee_shop).memberships.count, new_meeting.invites.count
+    end
+
+    test "#create allows you to invite groups to meeting" do
+      login_as users(:admin), on: platforms(:coffee_shop)
+
+      perform_enqueued_jobs do
+        post admin_meetings_path, params: {
+          meeting: {
+            title: "New Meeting"
+          },
+          invite_group_ids: "#{groups(:coffee_shop_board).id},#{groups(:coffee_shop_shareholders).id}"
+        }
+      end
+      new_meeting = Meeting.last
+      assert_performed_jobs 2, only: Meetings::MassInviteJob
+      assert_redirected_to admin_meeting_path(new_meeting)
+      assert_equal (groups(:coffee_shop_board).membership_ids + groups(:coffee_shop_shareholders).membership_ids).uniq.size, new_meeting.invites.count
+    end
+
     test "#create logs meeting creation" do
       login_as users(:admin), on: platforms(:coffee_shop)
       assert_difference -> { MeetingLogEntry.count }, 1 do
         post admin_meetings_path, params: {
           meeting: {
-            title: "New Meeting",
-            scheduled_at: 1.hour.from_now
+            title: "New Meeting"
           }
         }
       end
