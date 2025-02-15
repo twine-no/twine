@@ -40,12 +40,5 @@ module Admin
     def group_params
       params.require(:group).permit(:name)
     end
-
-    def by_table_tab(memberships)
-      return memberships unless params[:tab].present?
-
-      @group = Current.platform.groups.find(params[:tab])
-      @group.memberships
-    end
   end
 end
