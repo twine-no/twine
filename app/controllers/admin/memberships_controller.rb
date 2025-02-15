@@ -61,7 +61,8 @@ module Admin
       return {} unless Current.user.has_super_admin_rights_at?(Current.platform)
       return {} if Current.user == @membership.user
 
-      params.require(:membership).permit(:role)
+      # Brakeman warning: The two lines above ensures this is safe
+      params.require(:membership).permit(:role) # brakeman:ignore
     end
 
     def find_or_invite_user(user)
