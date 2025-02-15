@@ -10,7 +10,10 @@
 
   <div class="form-group">
     <%= form.label :name, "Name" %>
-    <%= form.text_field :name, class: "form-control", data: { action: "change->submit-on-change#submit" } %>
+    <%= form.text_field :name,
+                        class: "form-control",
+                        autofocus: params[:focus] == "name",
+                        data: { action: "change->submit-on-change#submit" } %>
   </div>
 
   <div class="form-group">

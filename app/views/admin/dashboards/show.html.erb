@@ -1,5 +1,38 @@
-<h2 class="mt-0 pt-0"><%= Current.platform.name %></h2>
+<h2 class="mt-0 pt-0">
+  <%= link_to Current.platform.name,
+              admin_site_path(focus: :name),
+              class: "editable" %>
+</h2>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+  <%= card class: "col-span-1" do %>
+    <h3 class="mt-0 mb-2">
+      <%= svg_tag "icons/mingcute/group_2_line", class: "inline" %>
+      <% if Current.platform.memberships.size > 1 %>
+        You're organising <%= Current.platform.memberships.size %> people
+      <% else %>
+        You haven't added any members yet.
+      <% end %>
+    </h3>
+    <p class="min-h-12">
+      <% if Current.platform.memberships.size > 1 %>
+        <% newest_membership = Current.platform.memberships.order(created_at: :desc).first %>
+        Your newest member <%= link_to newest_membership.user.first_name,
+                                       admin_membership_path(newest_membership),
+                                       class: "link link-secondary"
+
+    %> joined <%= time_ago_in_words(newest_membership.created_at) %> ago.
+      <% else %>
+        Add a <%= link_to "member",
+                          admin_memberships_path,
+                          class: "link link-secondary" %> to get started!
+      <% end %>
+    </p>
+    <div class="mt-4">
+      <%= link_to Current.platform.memberships.size > 1 ? "See all" : "Add a member", admin_memberships_path, class: "link link-underline" %>
+    </div>
+  <% end %>
+
   <%= card class: "col-span-1" do %>
     <h3 class="mt-0 mb-2">
       <%= svg_tag "icons/mingcute/calendar_2_line", class: "inline" %>
@@ -30,28 +63,6 @@
     </p>
     <div class="mt-4">
       <%= link_to Current.platform.meetings.planned.any? ? "See all" : "Add an event", admin_meetings_path, class: "link link-underline" %>
-    </div>
-  <% end %>
-
-  <%= card class: "col-span-1" do %>
-    <h3 class="mt-0 mb-2">
-      <%= svg_tag "icons/mingcute/group_2_line", class: "inline" %>
-      You're organising <%= pluralize Current.platform.memberships.size, "person", "people" %>
-    </h3>
-    <p class="min-h-12">
-      <% if Current.platform.memberships.any? %>
-        <% newest_membership = Current.platform.memberships.order(created_at: :desc).first %>
-        Your newest member <%= link_to newest_membership.user.first_name,
-                                       admin_membership_path(newest_membership),
-                                       class: "link link-secondary"
-
-    %> joined <%= time_ago_in_words(newest_membership.created_at) %> ago.
-      <% else %>
-        Add a member to get started.
-      <% end %>
-    </p>
-    <div class="mt-4">
-      <%= link_to Current.platform.memberships.any? ? "See all" : "Add a member", admin_memberships_path, class: "link link-underline" %>
     </div>
   <% end %>
 
