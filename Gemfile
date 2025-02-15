@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.0"
+gem "rails", "~> 8.0.1"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use sqlite3 as the database for Active Record
@@ -38,9 +38,21 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.2"
 
 gem "tailwindcss-rails"
+
+# Paginate records and load them automatically as you scroll
+gem "geared_pagination"
+
+# We use Hetzner for object storage, but it's S3 compatible
+gem "aws-sdk-s3", require: false
+
+# Postmark for sending and receiving emails
+gem "postmark-rails"
+
+# Letter opener for intercepting emails in development
+gem "letter_opener", group: :development
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -53,12 +65,15 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   # Store environment variables in a .env file in the project root folder
-  gem 'dotenv-rails', require: 'dotenv/rails-now'
+  gem "dotenv-rails", require: "dotenv/load"
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+
+  # Live reload in development
+  # gem "hotwire-spark"
 end
 
 group :test do
@@ -66,3 +81,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "bugsnag", "~> 6.27"

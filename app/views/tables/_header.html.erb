@@ -1,0 +1,28 @@
+<%# locals: (header:, table:) %>
+
+<th
+  scope="col"
+  <% if header.column.sortable? %>
+  data-controller="tables--sort"
+  data-tables--sort-sort-direction-value="<%= header.column.sort_direction %>"
+  data-tables--sort-sort-by-value="<%= header.column.sort_by %>"
+  data-tables--sort-table-guid-value="<%= table.guid %>"
+  data-action="click->tables--sort#toggleSortDirection"
+  <% end %>
+  data-column-index="<%= header.column.index %>"
+  class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+  >
+
+    <span class="sm:flex sm:items-center gap-x-1 whitespace-nowrap group-hover:text-gray-200">
+      <%= header.title %>
+      <% if header.column.sortable? %>
+        <%= svg_tag header.sort_direction_icon_name,
+                    class: "text-icon cursor-pointer inline-block #{header.sort_direction_class_name}",
+                    'data-tables--sort-target': "sortIcon" %>
+      <% end %>
+
+      <% if header.column.filterable? %>
+          <%= render 'tables/filter_menu', table: table, header: header %>
+      <% end %>
+    </span>
+</th>

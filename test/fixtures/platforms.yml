@@ -1,11 +1,17 @@
-club:
-  name:
+football_meetup:
+  name: Casual Football Meetup
   category: 0
+  shortname: footballmeetup
+  listed: true
 
-company:
-  name: Datablock AS
+coffee_shop:
+  name: Spring Coffee
   category: 1
+  shortname: springcoffee
+  listed: false
 
 political_chapter:
-  name: Labour Party
+  name: Kjelsås Labour Party
   category: 2
+  shortname: polparty
+  listed: true

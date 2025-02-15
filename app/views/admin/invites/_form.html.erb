@@ -1,0 +1,25 @@
+<%# locals: (meeting:) %>
+
+<%= form_with model: Invite.new,
+              url: admin_meeting_invites_path(meeting_id: meeting.id),
+              method: :post do |form| %>
+  <div class="form-group mt-2">
+    <%= searchable_select(
+          form,
+          :membership_id,
+          meeting.invitable_memberships.map { |membership|
+            [
+              membership.user.full_name,
+              membership.id
+            ]
+          },
+          {},
+          class: "form-control",
+          autofocus: turbo_frame_request?, # autofocus only when rendered again from a Turbo page reload
+          disabled: meeting.invitable_memberships.none?,
+          placeholder: "Add a guest …",
+          autocomplete: "off",
+        )
+    %>
+  </div>
+<% end %>

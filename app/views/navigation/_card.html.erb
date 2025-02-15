@@ -1,0 +1,12 @@
+<%# locals: (options:, content:) %>
+<div class="card <%= options[:class] %> rounded-lg bg-white shadow mb-3 divide-y divide-gray-200">
+  <% if options[:title].present? %>
+    <div class="pb-2">
+      <h3 class="text-base font-semibold text-gray-900"><%= options[:title] %></h3>
+    </div>
+  <% end %>
+
+  <div>
+    <%= content %>
+  </div>
+</div>

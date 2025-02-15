@@ -1,0 +1,15 @@
+coffee_shop_board:
+  platform: coffee_shop
+  name: The Board
+
+coffee_shop_shareholders:
+  platform: coffee_shop
+  name: Shareholders
+
+political_chapter_board:
+  platform: political_chapter
+  name: The Board
+
+political_chapter_nomination_committee:
+  platform: political_chapter
+  name: Nomination Committee

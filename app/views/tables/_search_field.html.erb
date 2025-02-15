@@ -1,0 +1,57 @@
+<%# locals: (table:) %>
+
+<div
+  data-controller="tables--search"
+  data-tables--search-table-guid-value="<%= table.guid %>"
+  data-tables--search-last-search-identifier-value=""
+  data-tables--search-last-search-term-value="<%= table.search_term %>"
+>
+
+  <div class="ml-auto">
+    <!-- Desktop Search BEGIN -->
+    <div class="hidden sm:flex">
+      <div class="relative flex items-center rounded-md">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <%= svg_tag('icons/mingcute/search_2_line.svg', class: 'w-[1.125rem] h-[1.125rem] text-icon text-gray-300') %>
+        </div>
+        <%= text_field_tag :name,
+                           params[:search_term] || '',
+                           autocomplete: 'off',
+                           type: 'text',
+                           class: 'form-input block w-full rounded-md border-0 pl-10 h-8 w-[15rem] lg:w-[25rem] ring-gray-300 ring-1 ring-inset ring-card-outline placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-sky-medium sm:text-sm sm:leading-6',
+                           placeholder: table.search_placeholder,
+                           data: { action: 'keyup->tables--search#handleNewSearchTerm paste->tables--search#handleNewSearchTerm' }
+        %>
+      </div>
+    </div>
+    <!-- Desktop Search END -->
+
+    <!-- Mobile Search BEGIN -->
+    <div class="flex sm:hidden m-1 justify-end">
+      <%= dropdown_menu(class: 'flex flex-row-reverse') do %>
+        <%= button_tag class: 'outline outline-gray-300 rounded-sm h-6 w-6',
+                       data: {
+                         action: 'dropdown#toggle'
+                       } do %>
+          <%= svg_tag('icons/mingcute/search_2_line.svg', class: 'text-gray-300 w-3 h-3 inline-block') %>
+        <% end %>
+
+        <%= dropdown_menu_content class: 'absolute top-0 left-10' do %>
+          <%= card class: 'px-2 py-2' do %>
+            <div class="relative flex items-center">
+              <%= text_field_tag :name,
+                                 params[:search_term] || '',
+                                 autocomplete: 'off',
+                                 type: 'text',
+                                 class: 'form-input block w-200px rounded-md border-0 h-8 ring-1 ring-gray-300 ring-inset ring-card-outline placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-sky-medium sm:text-sm sm:leading-6',
+                                 placeholder: 'Search ...',
+                                 data: { action: 'keyup->tables--search#handleNewSearchTerm paste->tables--search#handleNewSearchTerm' }
+              %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+    <!-- Mobile Search END -->
+  </div>
+</div>

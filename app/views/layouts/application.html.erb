@@ -1,21 +1,29 @@
 <!DOCTYPE html>
-<html class="h-full bg-white">
+<html>
 <head>
-  <title><%= content_for(:title) || 'Milkshake' %></title>
+  <title><%= content_for(:title) || 'Twine' %></title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
+
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
+  <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+
   <%= yield :head %>
 
-  <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-  <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+  <%# Enable PWA manifest %>
+  <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-  <link rel="icon" href="/icon.png" type="image/png">
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
 
   <%# Includes all stylesheet files in app/assets/stylesheets %>
   <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
@@ -23,20 +31,44 @@
   <%= javascript_importmap_tags %>
 </head>
 
-<body class="h-full">
-<div data-controller="sidebar">
-  <%= render 'navigation/mobile_menu' %>
+<body
+  class="h-full bg-stone-100">
+<div
+  data-controller="sidebar drawer">
   <%= render 'navigation/desktop_sidebar' %>
 
   <div class="lg:pl-72">
     <%= render 'navigation/top_bar' %>
+    <main
+      data-controller="modal"
+      data-modal-open-on-page-load-value="<%= @modal_content.present? %>"
+      data-action="turbo:load@document->modal#close"
+      class="pt-10 pb-32 min-h-[100vh]"
+    >
 
-    <main class="py-10">
       <div class="px-4 sm:px-6 lg:px-8">
+        <% if content_for?(:breadcrumbs) %>
+          <div class="font-medium breadcrumbs">
+            <%= yield :breadcrumbs %>
+          </div>
+        <% end %>
+
         <%= yield %>
+        <div
+          class="fixed inset-x-0 bottom-0 flex flex-col w-full pointer-events-none dynamic-flash-container"
+          data-turbo-temporary
+        >
+          <%= render 'navigation/flash' %>
+        </div>
+
+        <div>
+          <%= render 'navigation/modal', modal_content: @modal_content %>
+        </div>
       </div>
     </main>
   </div>
+
+  <%= render 'navigation/mobile_menu' %>
 </div>
 </body>
 </html>

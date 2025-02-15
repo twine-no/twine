@@ -1,0 +1,27 @@
+<%# locals: ( survey:, form:) %>
+
+<%= hidden_field_tag :survey_id, survey.id %>
+
+<% survey.questions.includes(:alternatives).each do |question| %>
+  <%= form.fields_for :survey_responses do |response_fields| %>
+    <%= response_fields.hidden_field :question_id, value: question.id %>
+    <div class="form-group">
+      <%= response_fields.label question.title %>
+      <% if question.multiple_choice? %>
+        <div class="flex gap-4">
+          <%= response_fields.collection_check_boxes :alternative_ids, question.alternatives, :id, :title do |b| %>
+            <div class="flex items-center gap-1">
+              <%= b.check_box class: "checkbox p-0 m-0" %>
+              <%= b.label class: "!m-0 p-0" %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <%= response_fields.text_field :answer,
+                                       class: "form-control",
+                                       placeholder: "Your answer..." %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+

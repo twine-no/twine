@@ -1,37 +1,23 @@
-<div
-  data-sidebar-target="sidebar"
-  class="mobile-sidebar hidden"
-  role="dialog"
-  aria-modal="true"
->
-  <div
-    data-sidebar-target="sidebarBackdrop"
-    class="mobile-sidebar-backdrop fade-out"
-    aria-hidden="true"></div>
-  <div class="fixed inset-0 flex">
-    <div
-      data-sidebar-target="sidebarMenu"
-      class="mobile-sidebar-menu slide-out">
-      <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
-        <button
-          data-sidebar-target="closeButton"
-          data-action="sidebar#toggle"
-          type="button"
-          class="-m-2.5 p-2.5"
-        >
-          <span class="sr-only">Close sidebar</span>
-          <svg class="size-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      </div>
+<div class="fixed inset-x-0 bottom-0 bg-white border-t border-gray-200 shadow-md lg:hidden">
+  <div class="flex justify-around pt-3 pb-2">
+    <%= link_to admin_dashboard_path, class: "bottom-bar-link #{sidebar_active_html_class('dashboards')}" do %>
+      <%= svg_tag 'icons/mingcute/home_3_line', class: 'size-5 shrink-0' %>
+      Home
+    <% end %>
 
-      <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
-        <div class="flex h-16 shrink-0 items-center">
-          <%= image_tag 'milkshake.png', class: 'h-8 w-auto', alt: 'Milkshake logo' %>
-        </div>
-        <%= render 'navigation/sidebar_options' %>
-      </div>
-    </div>
+    <%= link_to admin_meetings_path, class: "bottom-bar-link #{sidebar_active_html_class(%w[meetings surveys])}" do %>
+      <%= svg_tag 'icons/mingcute/calendar_2_line', class: 'size-5 shrink-0' %>
+      Events
+    <% end %>
+
+    <%= link_to admin_memberships_path, class: "bottom-bar-link #{sidebar_active_html_class('memberships')}" do %>
+      <%= svg_tag 'icons/mingcute/group_2_line', class: 'size-5 shrink-0' %>
+      Members
+    <% end %>
+
+    <%= link_to admin_site_path, class: "bottom-bar-link #{sidebar_active_html_class('sites')}" do %>
+      <%= svg_tag 'icons/mingcute/web_line', class: 'size-5 shrink-0' %>
+      Site
+    <% end %>
   </div>
 </div>

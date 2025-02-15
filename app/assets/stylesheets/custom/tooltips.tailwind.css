@@ -1,0 +1,18 @@
+@layer components {
+    .tooltip {
+        @apply relative cursor-not-allowed;
+    }
+
+    .tooltip::after {
+        @apply absolute bg-gray-800 text-white text-sm rounded px-2 py-1 whitespace-nowrap opacity-0 invisible transition-opacity duration-200 ease-in-out;
+        content: attr(data-tooltip);
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        pointer-events: none;
+    }
+
+    .tooltip:hover::after {
+        @apply opacity-100 visible;
+    }
+}

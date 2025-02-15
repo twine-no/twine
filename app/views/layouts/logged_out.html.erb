@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= content_for(:title) || 'Milkshake' %></title>
+  <title><%= content_for(:title) || 'Twine' %></title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
@@ -13,19 +13,47 @@
   <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
   <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-  <link rel="icon" href="/icon.png" type="image/png">
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+
 
   <%# Includes all stylesheet files in app/assets/stylesheets %>
   <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="<%= content_for(:title) || Current.platform ? "#{Current.platform.name} | Twine" : "Twine" %>">
+  <meta property="og:description" content="<%= content_for(:description) || Current.platform ? Current.platform.tagline : "Organise loose groups of people" %>">
+  <meta property="og:image" content="<%= Current.platform&.logo&.attached? ? url_for(Current.platform.logo) : image_url("logo.png") %>">
+  <meta property="og:url" content="<%= request.original_url %>">
+  <meta property="og:type" content="website">
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="<%= content_for(:description) || Current.platform ? Current.platform.tagline : "Organise loose groups of people" %>">
+  <meta name="keywords" content="twine, social, sharing, <%= Current.platform.tagline&.gsub(" ", ",") if Current.platform %>">
+  <meta name="author" content="<%= Current.platform&.name || "Twine" %>">
 </head>
 
-<body class="bg-gray-100 h-screen flex">
+<body
+  class="bg-gray-100 h-screen flex"
+  data-controller="modal"
+  data-modal-open-on-page-load-value="<%= @modal_content.present? %>"
+>
 <div class="flex-1">
   <%= yield %>
+
+  <div class="fixed inset-x-0 bottom-0 flex flex-col w-full pointer-events-none dynamic-flash-container">
+    <%= render 'navigation/flash' %>
+  </div>
+
+  <%= render 'navigation/modal', modal_content: @modal_content %>
 </div>
 </body>
 </html>

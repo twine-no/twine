@@ -1,0 +1,33 @@
+<%# locals: (name:, selected:, options:, select_options: {}, html_options: {} %>
+<div class="relative" data-controller="forms--searchable-select">
+  <%= hidden_field_tag name, selected, id: "#{name}_hidden", class: "hidden", data: { "forms--searchable-select-target": "hiddenField" } %>
+
+  <%= text_field_tag "search_#{name}",
+                     nil,
+                     html_options.merge(
+                       data: {
+                         "forms--searchable-select-target": "searchField",
+                         action: "input->forms--searchable-select#filterOptions focus->forms--searchable-select#checkIfDropdownShouldBeShown keydown->forms--searchable-select#detectFormSubmit"
+                       }) %>
+
+  <ul
+    data-forms--searchable-select-target="dropdown"
+    class="list-none max-h-48 overflow-auto hidden bg-white border rounded absolute w-full z-20"
+    role="listbox"
+    tabindex="-1"
+  >
+    <% options.each do |label, value| %>
+      <li
+        class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+        role="option"
+        tabindex="0"
+        data-action="click->forms--searchable-select#selectOption keyup->forms--searchable-select#pressEnterOnOption"
+        data-forms--searchable-select-target="option"
+        data-searchable-by="<%= label %>"
+        data-value="<%= value %>"
+      >
+        <%= label %>
+      </li>
+    <% end %>
+  </ul>
+</div>

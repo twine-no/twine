@@ -1,15 +1,135 @@
-.mobile-sidebar {
-    @apply relative z-50 lg:hidden;
-}
+@layer components {
+    .text-primary {
+        @apply text-[#E4572E]
+    }
 
-.mobile-sidebar-menu {
-    @apply relative mr-16 flex w-full max-w-xs flex-1 transition ease-in-out duration-300 transform;
-}
+    .text-secondary {
+        @apply text-[#17BEBB]
+    }
 
-.mobile-sidebar-backdrop {
-    @apply fixed inset-0 bg-gray-900/80 transition-opacity ease-linear duration-300;
-}
+    .text-tertiary {
+        @apply text-[#76B041]
+    }
 
-.mobile-sidebar-close-button {
-    @apply transition-opacity ease-linear duration-50;
+    .card {
+        @apply px-4 py-4;
+    }
+
+    .breadcrumbs {
+        @apply mb-3 flex items-center p-0 m-0 bg-transparent text-gray-400;
+    }
+
+    .breadcrumb {
+        @apply flex items-center pe-3;
+    }
+
+    .breadcrumb-link {
+        @apply text-gray-400 hover:text-gray-500 pe-3;
+    }
+
+    .breadcrumbs .breadcrumb::after {
+        content: '/';
+    }
+
+    .breadcrumbs .breadcrumb::before {
+        @apply hidden;
+    }
+
+    .breadcrumbs .breadcrumb:last-child::after {
+        @apply hidden;
+    }
+
+    .mobile-sidebar {
+        @apply relative z-50 lg:hidden;
+    }
+
+    .mobile-sidebar-menu {
+        @apply relative mr-16 flex w-full max-w-xs flex-1 transition ease-in-out duration-300 transform;
+    }
+
+    .mobile-sidebar-backdrop {
+        @apply fixed inset-0 bg-gray-900/80 transition-opacity ease-linear duration-300;
+    }
+
+    .mobile-sidebar-close-button {
+        @apply transition-opacity ease-linear duration-100;
+    }
+
+    .sidebar-link {
+        @apply flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white;
+    }
+
+    .sidebar-link.active {
+        @apply bg-stone-600;
+    }
+
+    .bottom-bar-link {
+        @apply flex flex-col items-center;
+    }
+
+    .bottom-bar-link.active {
+        @apply text-[#17BEBB];
+    }
+
+    .checklist li {
+        @apply text-gray-800 flex items-center;
+    }
+
+    .checklist li.complete {
+        @apply text-green-600 line-through;
+    }
+
+    .dropdown-link {
+        @apply block px-4 py-2 text-sm text-gray-700;
+    }
+
+    .dropdown-link:hover {
+        @apply bg-gray-100 text-gray-900 outline-none;
+    }
+
+
+    .modal {
+        @apply items-center justify-center rounded shadow-lg border-[1px];
+    }
+
+    @media (max-width: 767px) {
+        .modal {
+            @apply fixed mb-0 bg-gray-100 shadow-inner rounded-lg w-full max-w-full;
+
+            /* animation base state */
+            @apply translate-y-40 transition-transform duration-300 ease-out
+        }
+
+        .modal.modal-open {
+            @apply translate-y-0;
+        }
+    }
+
+    .editable {
+        display: inline-block;
+        position: relative;
+        padding-right: 25px;
+        cursor: pointer;
+    }
+
+    .editable::after {
+        content: "✏️";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 16px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease-in-out, visibility 0.2s;
+    }
+
+    .editable:hover {
+        opacity: 0.7;
+    }
+
+    .editable:hover::after {
+        opacity: 1;
+        visibility: visible;
+    }
 }

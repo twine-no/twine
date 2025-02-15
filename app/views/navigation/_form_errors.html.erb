@@ -1,0 +1,14 @@
+<%# locals: (model:) %>
+
+<% if model.errors.any? %>
+  <div id="error-explanation" class="mb-6 bg-card-background-alternative border-[1px] flex flex-col border-card-outline p-4 rounded">
+    <p class="text-red-400 text-base font-medium">Error</p>
+    <ul>
+      <% model.errors.each do |error| %>
+        <li class="form-error">
+          <%= error.attribute.to_s == 'base' ? '' : error.attribute.to_s.split('.').last&.downcase&.humanize %> <%= error.message %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

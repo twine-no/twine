@@ -1,0 +1,10 @@
+<%# locals: (text:, color:, id:) %>
+
+<span
+  class="badge badge-<%= color %>"
+  <% if id %>
+  id="<%= id %>"
+  <% end %>
+  >
+  <%= text %>
+</span>

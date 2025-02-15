@@ -1,0 +1,90 @@
+@layer components {
+    .button {
+        @apply rounded font-semibold hover:brightness-90 text-white whitespace-nowrap shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+
+        /* md size is the default */
+        @apply px-2.5 py-1.5 text-sm rounded-md;
+    }
+
+    .button-xs {
+        @apply px-2 py-1 text-xs;
+    }
+
+    .button-xs svg {
+        @apply h-3.5 w-3.5 inline;
+    }
+
+    .button-sm {
+        @apply px-2 py-1 text-sm;
+    }
+
+    .button-lg {
+        @apply px-3 py-2 text-sm rounded-md;
+    }
+
+    .button-xl {
+        @apply px-3.5 py-2.5 text-sm rounded-md text-center;
+    }
+
+    .button-full {
+        @apply block button-xl;
+    }
+
+    @media (max-width: 768px) {
+        .button-full {
+            @apply col-span-1;
+        }
+    }
+
+    .button-primary {
+        @apply bg-[#17BEBB] focus-visible:outline-indigo-600;
+    }
+
+    .button-secondary {
+        @apply bg-white hover:bg-gray-50 ring-gray-300 text-gray-900 ring-gray-300 shadow-sm ring-1 ring-inset ring-gray-300;
+    }
+
+    .button-warning {
+        @apply bg-yellow-500 hover:bg-yellow-600 focus-visible:outline-yellow-600;
+    }
+
+    .button-danger {
+        @apply bg-red-500 hover:bg-red-600 focus-visible:outline-red-600;
+    }
+
+    .button-primary:disabled, .button-primary.disabled {
+        @apply bg-indigo-300 text-gray-100 cursor-not-allowed;
+    }
+
+    .button-secondary:disabled, .button-danger.disabled {
+        @apply bg-gray-100 text-gray-400 ring-gray-200 cursor-not-allowed;
+    }
+
+    .button-danger:disabled, .button-danger.disabled {
+        @apply bg-red-300 text-gray-100 cursor-not-allowed;
+    }
+
+    .button-warning:disabled, .button-warning.disabled {
+        @apply bg-yellow-300 text-gray-100 cursor-not-allowed;
+    }
+
+    .link {
+        @apply font-bold hover:opacity-60 text-black;
+    }
+
+    .link.link-underline {
+        @apply font-medium underline hover:opacity-60 text-black;
+    }
+
+    .link.link-primary {
+        @apply text-primary;
+    }
+
+    .link.link-secondary {
+        @apply text-secondary ;
+    }
+
+    .link.link-tertiary {
+        @apply text-tertiary
+    }
+}

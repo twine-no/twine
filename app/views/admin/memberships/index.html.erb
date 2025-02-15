@@ -1,0 +1,61 @@
+<div class="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 lg:gap-8">
+  <%= card class: "lg:col-span-3" do %>
+    <%=
+      table_of @page,
+               searchable: @group ? "Search \"#{@group.name}\" by name or email …" : "Search by name or email …",
+               no_results_placeholder: "No members found",
+               multi_select_options:
+                 (
+                   if @group
+                     [
+                       [
+                         "Remove from #{@group.name}",
+                         { url: admin_groups_membership_path(@group.id, group_id: @group.id), method: :delete }
+                       ]
+                     ]
+                   else
+                     Current.platform.groups.order(:name).map do |group|
+                       [
+                         "Add to group #{group.name}",
+                         { url: admin_groups_memberships_path(group_id: group.id), method: :post }
+                       ]
+                     end
+                   end
+                 ),
+               row_link_to: -> (membership) { admin_membership_path(membership) },
+               actions: [
+                 (modal_link_to("Edit group", edit_admin_group_path(@group), class: "button button-secondary") if @group),
+                 modal_link_to("New group", new_admin_group_path, class: "button button-secondary"),
+                 modal_link_to("New member", new_admin_membership_path, class: "button button-primary")
+               ].compact,
+               tabs:
+                 ([
+                   ["All members", nil]
+                 ] +
+                   Current.platform.groups.map { |group| [group.name, group.id] }
+                 ),
+               columns: [
+                 {
+                   header: 'Name',
+                   content: -> (membership) { membership.user.full_name },
+                   sort_by: 'users.first_name,users.last_name'
+                 },
+                 {
+                   header: 'Email',
+                   content: -> (membership) { membership.user.email },
+                   sort_by: 'users.email'
+                 },
+                 {
+                   header: 'Role',
+                   content: -> (membership) { badge membership_role_text(membership), color: membership_role_color(membership) },
+                   filter_by: {
+                     'memberships.role': {
+                       Admin: %w[admin super_admin],
+                       Member: 'member'
+                     }
+                   }
+                 }
+               ]
+    %>
+  <% end %>
+</div>

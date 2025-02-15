@@ -1,0 +1,68 @@
+<div
+  class="min-h-screen bg-center"
+  style="<%= blur_background_styles(@meeting.logo, fallback_image: @meeting.platform.logo) %>"
+>
+  <div class="flex justify-between flex-col min-h-screen w-full p-4 backdrop-blur-3xl bg-white/60">
+    <div class="max-w-lg mx-auto pt-8">
+      <div class="text-center mb-8">
+        <% if @meeting.logo.attached? %>
+          <%= image_tag @meeting.logo, alt: "#{@meeting.title} logo", class: "avatar" %>
+        <% elsif @meeting.platform.logo.attached? %>
+          <%= image_tag @meeting.platform.logo, alt: "#{@meeting.platform.name} logo", class: "avatar" %>
+        <% end %>
+        <h1 class="text-3xl mb-1">
+          <%= @meeting.title %>
+        </h1>
+        <p class="text-opacity-90 mt-0">
+          <%= svg_tag "icons/mingcute/calendar_fill", class: "h-4 w-4 inline" %>
+          <% if @meeting.scheduled? %>
+            <%= datetime_format @meeting.happens_at, format: :pretty_datetime %>
+          <% elsif @meeting.surveys.last&.meeting_date? %>
+            <% meeting_date_survey = @meeting.surveys.last %>
+            Planned for
+            either <%= meeting_date_survey.questions.first.alternatives.pluck(:title).to_sentence(last_word_connector: " or ") %>
+          <% else %>
+            No date set
+          <% end %>
+          <br>
+
+          <%= svg_tag "icons/mingcute/location_fill", class: "h-4 w-4 inline" %>
+          <% if @meeting.location.present? %>
+            <% if @meeting.online? %>
+              <%= link_to @meeting.location, @meeting.location, target: "_blank", class: "underline" %>
+            <% else %>
+              <%= @meeting.location %>
+            <% end %>
+          <% else %>
+          No location specified
+          <% end %>
+        </p>
+
+        <% if @meeting.description.present? %>
+          <%= card class: "mt-8 px-4 md:px-8 py-4 text-left" do %>
+            <div class="mb-4">
+              <%= @meeting.description.presence %>
+            </div>
+          <% end %>
+        <% end %>
+
+        <div class="mt-10 mx-auto max-w-3xl text-center">
+          <h3>
+            Let <%= @meeting.platform.name %> know if you can attend
+          </h3>
+
+          <%=
+            render "public/meetings/rsvp",
+                   rsvp: @invite&.rsvp || Rsvp.new(invite: @invite, meeting: @meeting)
+          %>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex h-40 items-center justify-center">
+      <%= link_to root_path, target: "_blank" do %>
+        Made with <strong>Twine</strong> 🧶
+      <% end %>
+    </div>
+  </div>
+</div>

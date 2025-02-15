@@ -1,0 +1,16 @@
+<%# locals: (page:) %>
+
+<%= table_of page,
+             modal_row_link_to: -> (invite) { admin_meeting_invite_path(invite, meeting_id: invite.meeting_id) },
+             no_results_placeholder: "No guests invited",
+             columns: [
+               {
+                 content: -> (invite) { invite.contact.full_name }
+               },
+               {
+                 content: -> (invite) do
+                   rsvp_status_badge invite
+                 end
+               }
+             ]
+%>

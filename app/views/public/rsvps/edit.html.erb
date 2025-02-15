@@ -1,0 +1,6 @@
+<%= turbo_frame_tag :modal_content do %>
+  <%= modal_content do %>
+    <h2 class="text-xl text-center mt-0">Your answer</h2>
+    <%= render "public/rsvps/form", rsvp: @rsvp, survey: @survey %>
+  <% end %>
+<% end %>

@@ -1,18 +1,10 @@
-<div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-  <button
-    data-action="sidebar#toggle"
-    type="button"
-    class="-m-2.5 p-2.5 text-gray-700 lg:hidden">
-    <span class="sr-only">Open sidebar</span>
-    <%= svg_tag 'icons/hamburger.svg' %>
-  </button>
-
+<div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-[#2E282A] md:bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
   <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-end">
     <div class="flex items-center gap-x-4 lg:gap-x-6">
-      <div data-controller="menu"
+      <div data-controller="dropdown"
            class="relative">
         <button type="button"
-                data-action="click->menu#toggle"
+                data-action="click->dropdown#toggle"
                 class="-m-1.5 flex items-center p-1.5"
                 aria-expanded="false"
                 aria-haspopup="true">
@@ -22,20 +14,32 @@
           </span>
         </button>
 
-        <div
-          data-menu-target="menu"
-          class="hidden absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
+        <dialog
+          data-dropdown-target="menu"
+          class="absolute me-10 w-40 -left-32 rounded-md bg-white py-2 mx-0 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
           role="menu"
-          aria-orientation="vertical"
-          aria-labelledby="user-menu-button"
           tabindex="-1">
-          <%= button_to 'Log out',
+
+          <% Current.user.memberships.with_admin_rights.includes(:platform).each do |membership| %>
+            <%= button_to session_path,
+                          target: "_top",
+                          method: :patch,
+                          params: { session: { platform_id: membership.platform_id } },
+                          class: "block px-3 py-1 text-sm/6 text-left text-gray-900 hover:bg-gray-50 w-full" do
+            %>
+              <%= "🧶" if membership.platform == Current.platform %> <%= membership.platform.name %>
+            <% end %>
+
+            <hr class="text-gray-300">
+          <% end %>
+
+          <%= button_to "Log out",
                         session_path,
                         method: :delete,
-                        id: 'user-menu-item-1',
-                        class: 'block px-3 py-1 text-sm/6 text-gray-900'
+                        class: "block px-3 py-1 text-sm/6 text-left text-gray-900 hover:bg-gray-50 w-full"
           %>
-        </div>
+
+        </dialog>
       </div>
     </div>
   </div>

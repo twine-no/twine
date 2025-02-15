@@ -1,0 +1,14 @@
+<%# locals: (modal_content:) %>
+
+<dialog
+  data-modal-target="modal"
+  class="modal"
+>
+  <div data-modal-target="contentWrapper">
+    <%= turbo_frame_tag :modal_content do %>
+      <% if modal_content %>
+        <%= render template: modal_content %>
+      <% end %>
+    <% end %>
+  </div>
+</dialog>

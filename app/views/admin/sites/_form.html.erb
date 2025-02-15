@@ -1,0 +1,35 @@
+<%# locals: (platform:) %>
+
+<%= form_with model: platform, url: admin_site_path(platform), data: { controller: "submit-on-change" } do |form| %>
+  <%= render "navigation/form_errors", model: platform %>
+
+  <div class="form-group">
+    <%= form.label :logo, "Logo" %>
+    <%= form.file_field :logo, data: { action: "change->submit-on-change#submit" } %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :name, "Name" %>
+    <%= form.text_field :name,
+                        class: "form-control",
+                        autofocus: params[:focus] == "name",
+                        data: { action: "change->submit-on-change#submit" } %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :tagline, "Tagline" %>
+    <%= form.text_field :tagline, class: "form-control", data: { action: "change->submit-on-change#submit" } %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :shortname, "Your URL" %>
+    <div class="mt-2 flex">
+      <div class="flex shrink-0 items-center rounded-l-md bg-white px-3 text-base text-gray-500 outline outline-1 -outline-offset-1 outline-gray-300 sm:text-sm">https://twine.no/@</div>
+      <%= form.text_field :shortname,
+                          data: { action: "change->submit-on-change#submit" },
+                          class: "-ml-px block w-full grow rounded-r-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+    </div>
+  </div>
+
+  <%= form.submit "", class: "hidden", data: { "submit-on-change-target": "submitButton" } %>
+<% end %>

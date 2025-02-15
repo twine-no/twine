@@ -1,0 +1,51 @@
+<%= turbo_frame_tag @meeting, :title do %>
+  <%= form_with model: [:admin, @meeting] do |form| %>
+    <%= render 'navigation/form_errors', model: @meeting %>
+    <div class="form-group inline-form-group">
+      <%= form.text_field :title, class: "form-control", autocomplete: false %>
+      <%= form.submit "Save", class: "button button-primary" %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= turbo_frame_tag @meeting, :happens_at do %>
+  <%= form_with model: [:admin, @meeting] do |form| %>
+    <%= render 'navigation/form_errors', model: @meeting %>
+    <div class="form-group inline-form-group w-full">
+      <%= form.datetime_local_field :happens_at, class: "form-control", autocomplete: false %>
+      <%= form.submit "Save", class: "button button-primary" %>
+      <% if @meeting.happens_at.nil? && (meeting_date_survey = @meeting.surveys.find_by(template: :meeting_date)) %>
+        <%= link_to "edit question",
+                    edit_admin_meeting_survey_path(meeting_date_survey, meeting_id: @meeting.id,),
+                    data: { turbo_frame: "_top" },
+                    class: "link link-underline whitespace-nowrap ml-3" %>
+      <% else %>
+        <%= link_to "or ask guests when they're available",
+                    new_admin_meeting_survey_path(meeting_id: @meeting.id, template: :meeting_date),
+                    data: { turbo_frame: "_top" },
+                    class: "link link-underline whitespace-nowrap ml-3" %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= turbo_frame_tag @meeting, :location do %>
+  <%= form_with model: [:admin, @meeting] do |form| %>
+    <%= render 'navigation/form_errors', model: @meeting %>
+    <div class="form-group inline-form-group">
+      <%= form.text_field :location, class: "form-control", autocomplete: false %>
+      <%= form.submit "Save", class: "button button-primary" %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= turbo_frame_tag @meeting, :description do %>
+  <%= form_with model: [:admin, @meeting] do |form| %>
+    <%= render 'navigation/form_errors', model: @meeting %>
+    <div class="form-group">
+      <%= form.rich_text_area :description, class: "form-control w-full max-w-[600px] min-h-[100px]", autocomplete: false %>
+    </div>
+    <%= form.submit "Save", class: "button button-primary" %>
+  <% end %>
+<% end %>
+

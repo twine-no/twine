@@ -10,6 +10,16 @@ module ActiveSupport
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
 
-    # Add more helper methods to be used by all tests here...
+    def login_as(user, password: "password", on:)
+      raise "keyword on: must be a Platform" unless on.is_a?(Platform)
+      post session_url, params: { email: user.email, password: password, platform_id: on.id }
+      return if cookies[:session_id]
+
+      raise "Could not sign in user with email: #{user.email} and password: #{password}" unless cookies[:session_id]
+    end
+
+    def log_out
+      delete session_url
+    end
   end
 end

@@ -1,0 +1,9 @@
+@layer components {
+    .table-tab {
+        @apply whitespace-nowrap border-b-2 px-1 pb-2 text-sm font-medium border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700
+    }
+
+    .table-tab.selected {
+        @apply border-[#76B041] px-1 text-[#76B041]
+    }
+}
