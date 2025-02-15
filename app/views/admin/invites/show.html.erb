@@ -11,10 +11,10 @@
     </div>
 
 
-    <div class="flex flex-row justify-center w-100">
+    <div class="flex flex-row justify-center w-100 mb-4">
       <div class="flex flex-col mt-4 divide-gray-200 divide-y w-80 border-x border border-[1px] border-gray-200 rounded">
         <div class="flex flex-row justify-between w-80 px-8 py-4 w-80">
-          <div class="font-medium">
+          <div class="flex items-center font-medium">
             RSVP
           </div>
           <div class="text-right">
@@ -32,6 +32,18 @@
             <% end %>
           </div>
         </div>
+        <% if survey = @invite.meeting.surveys.last %>
+          <% survey.questions.includes(:responses).each do |question| %>
+            <div class="flex flex-row justify-between w-80 px-8 py-4 w-80">
+              <div class="flex items-center font-medium">
+                <%= question.title %>
+              </div>
+              <div class="text-right">
+                <%= @invite.rsvp.survey_responses.where(question: question).last&.answer_text || "Not answered" %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
         <% event_url = public_event_url(@invite.meeting.guid, invite_guid: @invite.guid) %>
         <div
           data-controller="clipboard"

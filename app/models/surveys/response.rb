@@ -9,5 +9,11 @@ module Surveys
                             class_name: "Surveys::Alternative",
                             join_table: "surveys_alternatives_responses",
                             dependent: :destroy
+
+    def answer_text
+      return alternatives.map { |alternative| alternative.title }.join(",") if alternatives.any?
+
+      answer
+    end
   end
 end
