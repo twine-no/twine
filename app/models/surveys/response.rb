@@ -11,7 +11,7 @@ module Surveys
                             dependent: :destroy
 
     def answer_text
-      return alternatives.map { |alternative| alternative.title }.join(",") if alternatives.any?
+      return alternatives.map { |alternative| alternative.title }.join(", ") if alternatives.any?
 
       answer
     end

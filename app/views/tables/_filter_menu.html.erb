@@ -25,7 +25,7 @@
             <% header.column.filters.each do |attribute, alternatives| %>
               <div>
                 <% alternatives.each do |alternative| %>
-                  <% alternative_html = alternative.second.is_a?(Array) ? alternative.second.join(',') : alternative.second %>
+                  <% alternative_html = alternative.second.is_a?(Array) ? alternative.second.join(', ') : alternative.second %>
                   <div>
                     <%= check_box_tag attribute,
                                       alternative_html,

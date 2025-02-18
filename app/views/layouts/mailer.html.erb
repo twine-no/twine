@@ -312,19 +312,24 @@
                                         <tr>
                                           <td class="t50">
                                             <p class="t49" style="margin:0;Margin:0;font-family:Inter,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Arial,sans-serif;line-height:18px;font-weight:400;font-style:normal;font-size:11px;text-decoration:none;text-transform:none;direction:ltr;color:#959595;text-align:left;mso-line-height-rule:exactly;mso-text-raise:2px;">Twine
-                                              is a tool that helps you organise groups of people. This email was sent
-                                              by <strong>
+                                              is a tool that helps you organise groups of people.
+                                              <% if @platform %>
+                                                This email was sent
+                                                by <strong>
                                               <% if @platform.listed? %>
                                                 <%= link_to @platform.name, public_site_url(@platform), style: "color: #E4572E" %>
                                               <% else %>
                                                 <%= @platform.name %>
                                               <% end %>
                                             </strong>. Reach out to them if you want
-                                              to stop
-                                              receiving emails, or reach out to Twine at hey@twine.no if you don&#39;t
-                                              recognize the person who emailed you.</p>
+                                                to stop receiving emails, or reach out to Twine at hey@twine.no if you
+                                                don&#39;t
+                                                recognize the sender of this email.
+                                              <% end %>
+                                            </p>
+
                                             <p class="t49" style="margin:0;Margin:20px 0 0 0;font-family:Inter,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Arial,sans-serif;line-height:18px;font-weight:400;font-style:normal;font-size:11px;text-decoration:none;text-transform:none;direction:ltr;color:#959595;text-align:left;mso-line-height-rule:exactly;mso-text-raise:2px;">
-                                                <%= link_to "twine.no", root_url, style: "color: #17BEBB;" %></strong>
+                                                <%= link_to "twine.no", root_url, style: "color: #17BEBB;", target: "_blank" %></strong>
                                             </p>
                                           </td>
                                         </tr>

@@ -15,7 +15,7 @@ end
 other_fixtures = all_fixtures
 fixtures_batches.each { |fixtures| other_fixtures -= fixtures }
 [ *fixtures_batches, other_fixtures ].each.with_index(1) do |fixtures_batch, index|
-  ENV['FIXTURES'] = fixtures_batch.join(',')
+  ENV['FIXTURES'] = fixtures_batch.join(', ')
   Rails.logger.debug { "Loading fixtures batch #{index} - (#{ENV.fetch('FIXTURES', nil)})..." }
   Rake::Task['db:fixtures:load'].execute
 end
