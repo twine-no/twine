@@ -1,26 +1,30 @@
 <%# locals: (platform:) %>
-
-<% platform.links.each do |link| %>
-  <%= card do %>
-    <%= form_with model: link, url: admin_link_path(link), data: { controller: "submit-on-change" } do |form| %>
-      <%= render "navigation/form_errors", model: link %>
-      <div class="flex gap-3">
-        <%= form.text_field :name, class: "form-control", data: { action: "change->submit-on-change#submit" } %>
-        <%= form.text_field :url, class: "form-control", data: { action: "change->submit-on-change#submit" } %>
-        <%= form.submit "", class: "hidden", data: { "submit-on-change-target": "submitButton" } %>
-        <%= link_to admin_link_path(link),
-                    data: {
-                      turbo_method: :delete,
-                      turbo_frame: "_top"
-                    },
-                    class: "button button-secondary" do
-        %>
-          Delete
+<div data-controller="sortable" data-sortable-update-path-value="<%= sort_admin_links_path %>" class="sortable-list">
+  <% platform.links.each do |link| %>
+    <%= tag.div data: { id: link.id }, class: "sortable-item" do %>
+      <%= card do %>
+        <%= form_with model: link, url: admin_link_path(link), data: { controller: "submit-on-change" } do |form| %>
+          <%= render "navigation/form_errors", model: link %>
+          <div class="flex gap-3 cursor-move align-middle items-center">
+            <%= svg_tag "icons/mingcute/dot_grid_line", class: "h-4 w-10" %>
+            <%= form.text_field :name, class: "form-control", data: { action: "change->submit-on-change#submit" } %>
+            <%= form.text_field :url, class: "form-control", data: { action: "change->submit-on-change#submit" } %>
+            <%= form.submit "", class: "hidden", data: { "submit-on-change-target": "submitButton" } %>
+            <%= link_to admin_link_path(link),
+                        data: {
+                          turbo_method: :delete,
+                          turbo_frame: "_top"
+                        },
+                        class: "button button-secondary" do
+            %>
+              Delete
+            <% end %>
+          </div>
         <% end %>
-      </div>
+      <% end %>
     <% end %>
   <% end %>
-<% end %>
+</div>
 
 <%= turbo_frame_tag @platform, :new_link do %>
   <%= link_to new_admin_link_path do %>

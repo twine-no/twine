@@ -1,37 +1,39 @@
 <%# locals: (platform:) %>
 <%# rendered from public/platforms/show and admin/sites/show %>
-
-<div class="min-h-screen bg-center"
-     <% if platform.logo.attached? %>
-     style="background-image: url(<%= url_for(platform.logo) %>); background-size: 150%;"
-     <% end %>
-     >
-  <div class="flex justify-between flex-col min-h-screen w-full p-4 backdrop-blur-3xl bg-white/60">
-    <div class="max-w-lg mx-auto pt-8">
-      <div class="text-center mb-8">
-        <% if platform.logo.attached? %>
-          <%= image_tag platform.logo,
-                        alt: "#{platform.name} logo",
-                        class: "avatar" %>
-        <% end %>
-        <h1 class="text-xl font-bold mb-2"><%= platform.name %></h1>
-        <p class="text-opacity-90"><%= platform.tagline %></p>
-      </div>
-
-      <div class="space-y-4">
-        <% platform.links.each do |link| %>
-          <%= link_to link.url,
-                      target: "_blank",
-                      class: "text-center block p-4 bg-white bg-opacity-90 rounded-lg shadow-lg hover:bg-opacity-100 transition-all duration-200 transform hover:-translate-y-1" do %>
-            <%= link.name %>
+<%= turbo_frame_tag "site_content" do %>
+  <div
+    class="min-h-screen bg-center"
+    <% if platform.logo.attached? %>
+    style="background-image: url(<%= url_for(platform.logo) %>); background-size: 150%;"
+    <% end %>
+    >
+    <div class="flex justify-between flex-col min-h-screen w-full p-4 backdrop-blur-3xl bg-white/60">
+      <div class="max-w-lg mx-auto pt-8">
+        <div class="text-center mb-8">
+          <% if platform.logo.attached? %>
+            <%= image_tag platform.logo,
+                          alt: "#{platform.name} logo",
+                          class: "avatar" %>
           <% end %>
+          <h1 class="text-xl font-bold mb-2"><%= platform.name %></h1>
+          <p class="text-opacity-90"><%= platform.tagline %></p>
+        </div>
+
+        <div class="space-y-4">
+          <% platform.links.each do |link| %>
+            <%= link_to link.url,
+                        target: "_blank",
+                        class: "text-center block p-4 bg-white bg-opacity-90 rounded-lg shadow-lg hover:bg-opacity-100 transition-all duration-200 transform hover:-translate-y-1" do %>
+              <%= link.name %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="flex h-40 items-center justify-center">
+        <%= link_to root_path, target: "_blank" do %>
+          Made with <strong>Twine</strong> 🧶
         <% end %>
       </div>
-    </div>
-    <div class="flex h-40 items-center justify-center">
-      <%= link_to root_path, target: "_blank" do %>
-        Made with <strong>Twine</strong> 🧶
-      <% end %>
     </div>
   </div>
-</div>
+<% end %>

@@ -1,6 +1,7 @@
 module Admin
   class LinksController < AdminController
     before_action :set_link, only: [ :update, :destroy ]
+    skip_before_action :verify_authenticity_token, only: :sort
 
     def new
       @link = Current.platform.links.new
@@ -27,6 +28,16 @@ module Admin
     def destroy
       @link.destroy!
       redirect_to admin_site_path
+    end
+
+    def sort
+      ActiveRecord::Base.transaction do
+        params[:order].each_with_index do |id, index|
+          Current.platform.links.where(id: id).update(position: index)
+        end
+      end
+
+      head :ok
     end
 
     private

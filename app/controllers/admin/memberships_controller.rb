@@ -1,6 +1,6 @@
 module Admin
   class MembershipsController < AdminController
-    before_action :set_membership, only: [:show, :edit, :update, :destroy]
+    before_action :set_membership, only: [ :show, :edit, :update, :destroy ]
 
     def new
       @membership = Membership.new
@@ -54,7 +54,7 @@ module Admin
     end
 
     def membership_params
-      params.require(:membership).permit(user_attributes: [:id, :email, :first_name, :last_name])
+      params.require(:membership).permit(user_attributes: [ :id, :email, :first_name, :last_name ])
     end
 
     def membership_role_params

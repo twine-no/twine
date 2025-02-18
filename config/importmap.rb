@@ -11,3 +11,4 @@ pin_all_from "app/javascript/lib", under: "lib"
 pin_all_from "app/javascript/helpers", under: "helpers"
 pin "trix"
 pin "@rails/actiontext", to: "actiontext.esm.js"
+pin "sortablejs" # @1.15.6
