@@ -57,9 +57,7 @@ module Admin
       params.require(:membership).permit(user_attributes: [ :id, :email, :first_name, :last_name ])
     end
 
-    # brakeman:ignore PermitAttributes
     def membership_role_params
-      # Brakeman: These two guard clauses should ensure these code lines are safe
       return {} unless Current.user.has_super_admin_rights_at?(Current.platform)
       return {} if Current.user == @membership.user
 
