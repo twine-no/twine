@@ -1,6 +1,9 @@
 <h3 style="margin-bottom: 12px;">Hi <%= @user.first_name %>,</h3>
 
 <p>
-  You can reset your password within the next 15 minutes on
-  <%= link_to "this password reset page", edit_password_url(@user.password_reset_token), target: "blank" %>.
+  You can reset your password within the next 15 minutes from the
+  <%= link_to "password reset page",
+              edit_password_url(@user.password_reset_token),
+              style: "color: #3182ce; text-decoration: underline;",
+              target: "blank" %>.
 </p>
