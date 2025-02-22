@@ -6,7 +6,7 @@
     <ul>
       <% model.errors.each do |error| %>
         <li class="form-error">
-          <%= error.attribute.to_s == 'base' ? '' : error.attribute.to_s.split('.').last&.downcase&.humanize %> <%= error.message %>
+          <%= error.attribute.to_s == 'base' ? '' : model.class.human_attribute_name(error.attribute) %> <%= error.message %>
         </li>
       <% end %>
     </ul>
