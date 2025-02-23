@@ -13,7 +13,7 @@ module RsvpsHelper
   def rsvps_action_link(rsvp, meeting)
     case rsvp&.answer
     when "yes", "no"
-      edit_public_rsvp_path(rsvp)
+      edit_public_rsvp_path(rsvp, meeting_guid: rsvp.meeting.guid)
     else
       public_rsvps_path(
         meeting_guid: meeting.guid,
@@ -22,17 +22,24 @@ module RsvpsHelper
     end
   end
 
-  def rsvp_status_badge(invite)
-    id = "#{dom_id(invite)}_rsvp"
+  def rsvp_status_text(invite)
     case invite.rsvp_status
     when "yes"
-      badge invite.self_signup? ? "Signed up" : "Accepted", color: :green, id: id
+      color_class = "text-secondary"
+      rsvp_status = "Joined"
+      timestamp = invite.rsvp.created_at
     when "no"
-      badge "Declined", color: :red, id: id
-    when "Not invited"
-      badge "Unanswered", color: :gray, id: id
+      color_class = "text-primary"
+      rsvp_status = "Declined"
+      timestamp = invite.rsvp.created_at
+    when "invited", "unanswered"
+      color_class = ""
+      rsvp_status = "Invited"
+      timestamp = invite.created_at
     else
-      badge invite.rsvp_status.humanize, color: :gray, id: id
+      raise "Unknown rsvp_status: #{invite.rsvp_status}"
     end
+
+    "<span class=\"#{color_class} font-semibold\">#{rsvp_status}</span><br><span class=\"text-gray-400 text-xs\">#{time_ago_in_words(timestamp).gsub("about", "")} ago</span>".html_safe
   end
 end

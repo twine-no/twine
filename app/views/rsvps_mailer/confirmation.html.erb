@@ -1,0 +1,28 @@
+<h1 style="margin-bottom: 1rem; font-size: 1.4rem;">
+  You're
+  attending <%= @rsvp.meeting.title %>
+</h1>
+
+<p class="mt-4">
+  <% if @rsvp.meeting.scheduled? %>
+    📆 <%= datetime_format(@rsvp.meeting.happens_at, format: :pretty_datetime) %>
+    <br>
+  <% end %>
+  <% if @rsvp.meeting.location.present? %>
+    <% if @rsvp.meeting.online? %>
+      🔗 <%= link_to @rsvp.meeting.location_name,
+                    @rsvp.meeting.location,
+                    target: "blank" %>
+    <% else %>
+      📍 <%= @rsvp.meeting.location %>
+    <% end %>
+    <br>
+  <% end %>
+  <br>
+  You can also see full meeting info or update your answer <%= link_to "here",
+                                                                       public_event_url(@rsvp.meeting.guid, invite_guid: @rsvp.invite.guid),
+                                                                       style: "",
+                                                                       target: "_blank" %>.
+  <br><br>
+  Hosted by <%= @platform.name %><br>
+</p>

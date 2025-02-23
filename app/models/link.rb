@@ -17,7 +17,7 @@ class Link < ApplicationRecord
   private
 
   def set_position
-    self.position = platform.links.maximum(:position) + 1
+    self.position = platform.links.maximum(:position).to_i + 1
   end
 
   def broadcast_site_update

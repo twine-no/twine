@@ -12,17 +12,23 @@
     <%= form.label :name, "Name" %>
     <%= form.text_field :name,
                         class: "form-control",
+                        maxLength: 50,
                         autofocus: params[:focus] == "name",
                         data: { action: "change->submit-on-change#submit" } %>
   </div>
 
   <div class="form-group">
     <%= form.label :tagline, "Tagline" %>
-    <%= form.text_field :tagline, class: "form-control", data: { action: "change->submit-on-change#submit" } %>
+    <%= form.text_field :tagline,
+                        class: "form-control",
+                        maxLength: 180,
+                        data: { action: "change->submit-on-change#submit" } %>
   </div>
 
   <div class="form-group">
-    <%= form.label :shortname, "Your URL" %>
+    <%= form.label :shortname,
+                   "Your URL",
+                   maxLength: 20 %>
     <div class="mt-2 flex">
       <div class="flex shrink-0 items-center rounded-l-md bg-white px-3 text-base text-gray-500 outline outline-1 -outline-offset-1 outline-gray-300 sm:text-sm">https://twine.no/@</div>
       <%= form.text_field :shortname,

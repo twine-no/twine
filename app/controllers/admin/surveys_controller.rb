@@ -1,6 +1,6 @@
 module Admin
   class SurveysController < AdminController
-    before_action :set_meeting, only: [ :new, :create, :index, :edit, :update ]
+    before_action :set_meeting, only: [ :new, :create, :edit, :update ]
     before_action :set_survey, only: [ :edit, :update ]
 
     def new
@@ -8,7 +8,7 @@ module Admin
     end
 
     def create
-      @survey = @meeting.surveys.build(survey_params)
+      @survey = Survey.new(survey_params.merge(meeting: @meeting))
       @survey.open = true
 
       if @survey.save
@@ -17,10 +17,6 @@ module Admin
       else
         render :new, status: :unprocessable_content
       end
-    end
-
-    def index
-      @surveys = @meeting.surveys
     end
 
     def edit
@@ -42,7 +38,7 @@ module Admin
     end
 
     def set_survey
-      @survey = @meeting.surveys.find(params[:id])
+      @survey = @meeting.survey # right now, we only have one survey per meeting
     end
 
     def survey_params
@@ -56,7 +52,7 @@ module Admin
     end
 
     def build_survey_from_template
-      survey = @meeting.surveys.build(template: params[:template])
+      survey = Survey.new(meeting: @meeting, template: params[:template])
 
       case survey.template
       when "meeting_date"
