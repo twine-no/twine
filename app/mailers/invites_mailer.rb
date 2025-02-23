@@ -1,9 +1,6 @@
 class InvitesMailer < ApplicationMailer
   include DatesHelper
 
-  def details_updated(invite)
-  end
-
   def send_message(message)
     @message = message
     @invite = message.messageable

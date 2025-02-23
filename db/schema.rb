@@ -111,7 +111,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_21_151845) do
     t.boolean "open", default: false, null: false
     t.datetime "happens_at_updated_at"
     t.datetime "location_updated_at"
-    t.datetime "last_communication_at"
     t.index ["guid"], name: "index_meetings_on_guid", unique: true
     t.index ["platform_id"], name: "index_meetings_on_platform_id"
   end
