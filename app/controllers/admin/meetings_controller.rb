@@ -4,7 +4,7 @@ module Admin
 
     before_action :set_meeting, only: %i[show edit update destroy]
     before_action lambda {
-      resize_image_file(meeting_params[:logo], width: 200, height: 200)
+      resize_image_file(meeting_params[:logo], width: 300, height: 300)
     }, only: [ :update ]
 
     def new

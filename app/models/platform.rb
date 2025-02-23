@@ -18,7 +18,9 @@ class Platform < ApplicationRecord
   validates :tagline, length: { maximum: 180 }
   validates :name, length: { minimum: 3, maximum: 50 }, presence: true
 
-  has_one_attached :logo
+  has_one_attached :logo do |attachable|
+    attachable.variant :thumbnail, resize_to_limit: [ 300, 300 ]
+  end
 
   def full_url(hostname)
     "#{hostname}/@#{shortname}"

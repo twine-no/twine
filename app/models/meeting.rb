@@ -20,7 +20,9 @@ class Meeting < ApplicationRecord
 
   has_rich_text :description
 
-  has_one_attached :logo
+  has_one_attached :logo do |attachable|
+    attachable.variant :thumbnail, resize_to_limit: [ 300, 300 ]
+  end
 
   broadcasts_refreshes
 

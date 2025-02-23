@@ -10,9 +10,9 @@
       >
         <%= form.label :logo, class: "p-8 flex #{blur_foreground_classes} cursor-pointer" do %>
           <% if meeting.logo.attached? %>
-            <%= image_tag meeting.logo, alt: "#{meeting.title} logo", class: "avatar" %>
+            <%= image_tag meeting.logo.variant(:thumbnail), alt: "#{meeting.title} logo", class: "avatar" %>
           <% elsif Current.platform.logo.attached? %>
-            <%= image_tag Current.platform.logo, alt: "#{Current.platform.name} logo", class: "avatar" %>
+            <%= image_tag Current.platform.logo.variant(:thumbnail), alt: "#{Current.platform.name} logo", class: "avatar" %>
           <% else %>
             <div class="avatar"></div>
           <% end %>

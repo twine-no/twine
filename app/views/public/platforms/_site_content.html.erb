@@ -11,7 +11,7 @@
       <div class="max-w-lg mx-auto pt-8">
         <div class="text-center mb-8">
           <% if platform.logo.attached? %>
-            <%= image_tag platform.logo,
+            <%= image_tag platform.logo.variant(:thumbnail),
                           alt: "#{platform.name} logo",
                           class: "avatar" %>
           <% end %>

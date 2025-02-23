@@ -6,9 +6,9 @@
     <div class="max-w-lg mx-auto pt-8">
       <div class="text-center mb-8">
         <% if @meeting.logo.attached? %>
-          <%= image_tag @meeting.logo, alt: "#{@meeting.title} logo", class: "avatar" %>
+          <%= image_tag @meeting.logo.variant(:thumbnail), alt: "#{@meeting.title} logo", class: "avatar" %>
         <% elsif @meeting.platform.logo.attached? %>
-          <%= image_tag @meeting.platform.logo, alt: "#{@meeting.platform.name} logo", class: "avatar" %>
+          <%= image_tag @meeting.platform.logo.variant(:thumbnail), alt: "#{@meeting.platform.name} logo", class: "avatar" %>
         <% end %>
         <h1 class="text-3xl mb-1">
           <%= @meeting.title %>
