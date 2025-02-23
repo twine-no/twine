@@ -1,7 +1,7 @@
 require "test_helper"
 
 class InvitesMailertest < ActionMailer::TestCase
-  test "invite" do
+  test "#send_message succeeds" do
     invite = Invite.create(
       meeting: meetings(:coffee_shop_general_assembly),
       membership: memberships(:dave_is_a_coffee_shop_shareholder)

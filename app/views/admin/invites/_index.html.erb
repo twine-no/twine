@@ -9,7 +9,9 @@
                },
                {
                  content: -> (invite) do
-                   rsvp_status_badge invite
+                   content_tag :div, class: "text-end" do
+                     rsvp_status_text invite
+                   end
                  end
                }
              ]

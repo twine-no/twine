@@ -14,9 +14,9 @@ class Platform < ApplicationRecord
   normalizes :shortname, with: ->(shortname) { shortname.parameterize }
 
   before_validation :generate_shortname, on: :create
-  validates :shortname, uniqueness: true, length: { minimum: 4, maximum: 28 }, presence: true
-  validates :tagline, length: { maximum: 255 }
-  validates :name, length: { minimum: 4, maximum: 28 }, presence: true
+  validates :shortname, uniqueness: true, length: { minimum: 3, maximum: 28 }, presence: true
+  validates :tagline, length: { maximum: 180 }
+  validates :name, length: { minimum: 3, maximum: 50 }, presence: true
 
   has_one_attached :logo
 

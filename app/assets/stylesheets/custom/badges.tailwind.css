@@ -22,8 +22,4 @@
     .badge-orange {
         @apply bg-orange-50 text-[#E4572E] ring-[#E4572E]/50;
     }
-
-    .badge-orange {
-        @apply bg-orange-50 text-[#E4572E] ring-[#E4572E]/50;
-    }
 }

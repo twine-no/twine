@@ -5,7 +5,6 @@ module Admin
 
     def new
       @link = Current.platform.links.new
-      redirect_to admin_site_path unless turbo_frame_request?
     end
 
     def create

@@ -1,6 +1,0 @@
-<% @surveys.each do |survey| %>
-  Asked <%= datetime_format survey.created_at %>
-  <% survey.questions.each do |question| %>
-    <%= question.title %>
-  <% end %>
-<% end %>

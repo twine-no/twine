@@ -14,14 +14,14 @@
     <div class="form-group inline-form-group w-full">
       <%= form.datetime_local_field :happens_at, class: "form-control", autocomplete: false %>
       <%= form.submit "Save", class: "button button-primary" %>
-      <% if @meeting.happens_at.nil? && (meeting_date_survey = @meeting.surveys.find_by(template: :meeting_date)) %>
-        <%= link_to "edit question",
-                    edit_admin_meeting_survey_path(meeting_date_survey, meeting_id: @meeting.id,),
+      <% if @meeting.happens_at.nil? && (@meeting.survey&.meeting_date?) %>
+        <%= link_to "edit form",
+                    edit_admin_meeting_surveys_path( meeting_id: @meeting.id,),
                     data: { turbo_frame: "_top" },
                     class: "link link-underline whitespace-nowrap ml-3" %>
       <% else %>
         <%= link_to "or ask guests when they're available",
-                    new_admin_meeting_survey_path(meeting_id: @meeting.id, template: :meeting_date),
+                    new_admin_meeting_surveys_path(meeting_id: @meeting.id, template: :meeting_date),
                     data: { turbo_frame: "_top" },
                     class: "link link-underline whitespace-nowrap ml-3" %>
       <% end %>

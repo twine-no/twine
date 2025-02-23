@@ -77,7 +77,7 @@ module Public
     end
 
     test "#show succeeds for private meeting with invite and survey" do
-      meetings(:next_political_chapter_board_meeting).surveys.create!(template: :meeting_date)
+      Survey.create!(template: :meeting_date, meeting: meetings(:next_political_chapter_board_meeting))
       invite = meetings(:next_political_chapter_board_meeting).invites.create!(membership: memberships(:dave_sits_on_the_political_chapter_board))
       get public_event_path(meetings(:next_political_chapter_board_meeting).guid, invite_guid: invite.guid)
       assert_response :success

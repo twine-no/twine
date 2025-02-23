@@ -1,15 +1,11 @@
 <%# locals: (meeting:, survey:) %>
 
-<%= form_with model: [:admin, @meeting, @survey], data: { controller: "surveys" } do |form| %>
+<%= form_with model: @survey, url: admin_meeting_surveys_path, data: { controller: "surveys" } do |form| %>
   <%= form.hidden_field :template %>
 
-  <h3 class="mb-0">
+  <h3 class="mt-0">
     <%= surveys_title(@meeting) %>
   </h3>
-
-  <p class="mb-3 text-gray-600">
-    <%= surveys_subtitle(@meeting) %>
-  </p>
 
   <div data-surveys-target="questions">
     <%= form.fields_for :questions do |question_fields| %>
@@ -27,15 +23,14 @@
     </div>
   </template>
 
-  <%= card do %>
-    <% if @survey.custom? %>
-      <%= button_tag class: "button button-secondary button-xl", data: { action: "click->surveys#addQuestion" } do %>
-        Ask another question
-      <% end %>
-    <% end %>
 
-    <%= form.submit "Save", class: "button button-primary button-xl" %>
+  <% if @survey.custom? %>
+    <%= button_tag class: "button button-secondary", data: { action: "click->surveys#addQuestion" } do %>
+      Ask another question
+    <% end %>
   <% end %>
+
+  <%= form.submit "Save form", class: "button button-primary" %>
 <% end %>
 
 

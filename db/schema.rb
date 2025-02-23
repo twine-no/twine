@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_18_185953) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_21_151845) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -109,6 +109,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_18_185953) do
     t.string "location"
     t.string "guid"
     t.boolean "open", default: false, null: false
+    t.datetime "happens_at_updated_at"
+    t.datetime "location_updated_at"
     t.index ["guid"], name: "index_meetings_on_guid", unique: true
     t.index ["platform_id"], name: "index_meetings_on_platform_id"
   end
@@ -154,6 +156,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_18_185953) do
     t.string "email"
     t.string "guid", null: false
     t.string "full_name"
+    t.datetime "confirmation_sent_at"
     t.index ["answer"], name: "index_rsvps_on_answer"
     t.index ["guid"], name: "index_rsvps_on_guid", unique: true
     t.index ["invite_id"], name: "index_rsvps_on_invite_id"

@@ -5,8 +5,9 @@
     <% if @survey.custom? %>
       <%= question_fields.label :title, "What do you want to ask your guests?" %>
     <% end %>
-    <%= question_fields.text_field :title, class: "form-control",
-                                   placeholder: surveys_question_placeholder %>
+    <%= question_fields.text_field :title,
+                                   class: "form-control",
+                                   placeholder: "What do you want guests to fill out?" %>
   </div>
 
   <div class="form-group <%= "hidden" unless @survey.custom? %>">
