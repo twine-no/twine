@@ -31,7 +31,7 @@ module Public
       end
 
       assert_redirected_to public_event_path(meetings(:football_club_training).guid)
-      assert_equal "You're in. You've received a confirmation on test@example.com", flash[:notice]
+      assert_equal "You're in. We sent a confirmation to test@example.com", flash[:notice]
     end
 
     test "#create succeeds for closed meeting, if invite is given" do
@@ -52,7 +52,7 @@ module Public
       end
 
       assert_redirected_to public_event_path(meetings(:next_political_chapter_board_meeting).guid, invite_guid: invite.guid)
-      assert_equal "You're in. You've received a confirmation on #{invite.contact.email}", flash[:notice]
+      assert_equal "You're in. We sent a confirmation to #{invite.contact.email}", flash[:notice]
     end
 
     test "#create fails for closed meeting, if no invite is given" do

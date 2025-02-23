@@ -23,8 +23,10 @@ module Public
 
       if @invite || @meeting.open?
         if @rsvp.save
+          mailer = RsvpsMailer.confirmation(@rsvp)
+          Rails.env.development? ? mailer.deliver_now : mailer.deliver_later
           cookies["#{@meeting.guid}_invite_guid"] = @rsvp.invite.guid
-          notice = @rsvp.answer == "yes" ? "You're in. You've received a confirmation on #{@rsvp.email}" : "You declined"
+          notice = @rsvp.answer == "yes" ? "You're in. We sent a confirmation to #{@rsvp.email}" : "You declined"
           redirect_to public_event_path({ guid: @meeting.guid, invite_guid: @invite&.guid }.compact), notice: notice
         else
           render :new, status: :unprocessable_content

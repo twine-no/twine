@@ -41,17 +41,30 @@
             <%= link_to datetime_format(@meeting.happens_at, format: :pretty_datetime),
                         edit_admin_meeting_path(@meeting),
                         class: "editable" %>
+            <% unless @meeting.everyone_informed_of_date? %>
+              <%= badge "Date changed", color: "green" %>
+              <%= link_to admin_meeting_resend_confirmations_path(meeting_id: @meeting.id),
+                          data: {
+                            turbo_method: :post,
+                            turbo_frame: "_top",
+                            turbo_confirm: "Resend confirmation email to #{pluralize @meeting.unconfirmed_rsvps.size, "guest"}?"
+                          },
+                          class: "button button-primary button-xs" do %>
+                <%= svg_tag "icons/mingcute/mail_line" %>
+                Send updated info to guests
+              <% end %>
+            <% end %>
           <% else %>
             <% last_survey = @meeting.surveys.last %>
             <%= link_to edit_admin_meeting_path(@meeting),
                         class: "editable #{'link link-underline' unless last_survey&.meeting_date?}" do %>
               <% if last_survey&.meeting_date? %>
                 Guests can choose between
-                  <ul>
+                <ul>
                   <% last_survey.questions.first.alternatives.includes(:responses).each do |alternative| %>
-                      <li><%= alternative.title %> (<%= pluralize alternative.responses.size, "vote" %>)</li>
+                    <li><%= alternative.title %> (<%= pluralize alternative.responses.size, "vote" %>)</li>
                   <% end %>
-                  </ul>
+                </ul>
               <% else %>
                 Set a date
               <% end %>
@@ -69,6 +82,22 @@
       <dd>
         <%= turbo_frame_tag @meeting, :location do %>
           <%= link_to @meeting.location.present? ? @meeting.location : "Decide location", edit_admin_meeting_path(@meeting), class: "editable #{'link link-underline' unless @meeting.location.present?}" %>
+
+          <% unless @meeting.everyone_informed_of_location? %>
+            <%= badge "Location changed", color: "green" %>
+            <% if @meeting.everyone_informed_of_date? %>
+              <%= link_to admin_meeting_resend_confirmations_path(meeting_id: @meeting.id),
+                          data: {
+                            turbo_method: :post,
+                            turbo_frame: "_top",
+                            turbo_confirm: "Resend confirmation email to #{pluralize @meeting.unconfirmed_rsvps.size, "guest"}?"
+                          },
+                          class: "button button-primary button-xs" do %>
+                <%= svg_tag "icons/mingcute/mail_line" %>
+                Send updated info to guests
+              <% end %>
+            <% end %>
+          <% end %>
         <% end %>
       </dd>
     </div>
@@ -82,7 +111,7 @@
         <%= turbo_frame_tag @meeting, :description do %>
           <% if @meeting.description.present? %>
             <%= link_to edit_admin_meeting_path(@meeting), class: "editable" do %>
-            <%= @meeting.description %>
+              <%= @meeting.description %>
             <% end %>
           <% else %>
             <%= link_to "Write a description", edit_admin_meeting_path(@meeting), class: "link link-underline editable" %>

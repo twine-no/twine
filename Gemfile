@@ -54,6 +54,9 @@ gem "postmark-rails"
 # Letter opener for intercepting emails in development
 gem "letter_opener", group: :development
 
+# .ical files for events
+gem "icalendar"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

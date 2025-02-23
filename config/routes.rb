@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     resources :meetings do
       resources :invites, only: [ :create, :index, :show, :update, :destroy ]
       resources :mass_invites, only: [ :create ]
+      resources :resend_confirmations, only: [ :create ]
       resources :surveys, only: [ :new, :create, :index, :edit, :update ]
       resource :share, only: [ :show, :update ]
     end

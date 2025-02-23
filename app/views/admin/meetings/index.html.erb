@@ -4,6 +4,7 @@
       table_of @page,
                searchable: "Search by name, location or description …",
                row_link_to: -> (meeting) { admin_meeting_path(meeting) },
+               no_results_placeholder: params[:tab] == "past" ? "No past events" : "No upcoming events",
                actions: [
                  link_to("Import", admin_dashboard_path, class: "button button-secondary"),
                  modal_link_to("New event", new_admin_meeting_path, class: "button button-primary")

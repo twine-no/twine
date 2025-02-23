@@ -317,11 +317,10 @@
                                                 This email was sent
                                                 by <strong>
                                               <% if @platform.listed? %>
-                                                <%= link_to @platform.name, public_site_url(@platform), style: "color: #E4572E" %>
+                                                <%= link_to @platform.name, public_site_url(@platform), style: "color: #E4572E" %>.
                                               <% else %>
-                                                <%= @platform.name %>
-                                              <% end %>
-                                            </strong>. Reach out to them if you want
+                                                <%= @platform.name %>.
+                                              <% end %></strong> Reach out to them if you want
                                                 to stop receiving emails, or reach out to Twine at hey@twine.no if you
                                                 don&#39;t
                                                 recognize the sender of this email.

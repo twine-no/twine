@@ -26,15 +26,18 @@
           <% end %>
           <br>
 
-          <%= svg_tag "icons/mingcute/location_fill", class: "h-4 w-4 inline" %>
           <% if @meeting.location.present? %>
             <% if @meeting.online? %>
-              <%= link_to @meeting.location, @meeting.location, target: "_blank", class: "underline" %>
+              <%= link_to @meeting.location, target: "_blank", class: "button button-primary button-sm align-middle items-center" do %>
+                <%= svg_tag "icons/mingcute/camcorder_fill", class: "h-4 w-4 inline-block" %>
+                <span class="inline-block"><%= @meeting.location_name %></span>
+              <% end %>
             <% else %>
+              <%= svg_tag "icons/mingcute/location_fill", class: "h-4 w-4 inline" %>
               <%= @meeting.location %>
             <% end %>
           <% else %>
-          No location specified
+            No location specified
           <% end %>
         </p>
 
