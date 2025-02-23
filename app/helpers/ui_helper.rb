@@ -61,6 +61,6 @@ module UiHelper
     blur_image = (image.variant(:thumbnail) if image.attached?) || (fallback_image.variant(:thumbnail) if fallback_image.attached?)
     return unless blur_image
 
-    "background-image: url(#{ url_for(blur_image)}); background-size: 150%;"
+    "background-image: url(#{ rails_storage_proxy_path(blur_image)}); background-size: 150%;"
   end
 end
