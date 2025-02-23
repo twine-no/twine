@@ -30,7 +30,7 @@
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="<%= content_for(:title) || "#{@platform.name} | Twine" %>">
   <meta property="og:description" content="<%= content_for(:description) || "#{@platform.tagline}" %>">
-  <meta property="og:image" content="<%= @platform.logo.attached? ? url_for(@platform.logo) : image_url("logo.png") %>">
+  <meta property="og:image" content="<%= @platform.logo.attached? ? rails_storage_proxy_path(@platform.logo) : image_url("logo.png") %>">
   <meta property="og:url" content="<%= request.original_url %>">
   <meta property="og:type" content="website">
 

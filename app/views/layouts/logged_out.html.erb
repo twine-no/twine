@@ -31,7 +31,7 @@
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="<%= content_for(:title) || Current.platform ? "#{Current.platform.name} | Twine" : "Twine" %>">
   <meta property="og:description" content="<%= content_for(:description) || Current.platform ? Current.platform.tagline : "Organise loose groups of people" %>">
-  <meta property="og:image" content="<%= Current.platform&.logo&.attached? ? url_for(Current.platform.logo) : image_url("logo.png") %>">
+  <meta property="og:image" content="<%= Current.platform&.logo&.attached? ? rails_storage_proxy_path(Current.platform.logo) : image_url("logo.png") %>">
   <meta property="og:url" content="<%= request.original_url %>">
   <meta property="og:type" content="website">
 

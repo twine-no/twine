@@ -4,14 +4,14 @@
   <div
     class="min-h-screen bg-center"
     <% if platform.logo.attached? %>
-    style="background-image: url(<%= url_for(platform.logo) %>); background-size: 150%;"
+    style="background-image: url(<%= rails_storage_proxy_path(platform.logo) %>); background-size: 150%;"
     <% end %>
     >
     <div class="flex justify-between flex-col min-h-screen w-full p-4 backdrop-blur-3xl bg-white/60">
       <div class="max-w-lg mx-auto pt-8">
         <div class="text-center mb-8">
           <% if platform.logo.attached? %>
-            <%= image_tag platform.logo.variant(:thumbnail),
+            <%= image_tag rails_storage_proxy_path(platform.logo.variant(:thumbnail)),
                           alt: "#{platform.name} logo",
                           class: "avatar" %>
           <% end %>
