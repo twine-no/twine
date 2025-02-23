@@ -1,6 +1,8 @@
 module Public
   class RsvpsController < PublicController
-    before_action :set_meeting, only: [ :new, :create ]
+    include Rsvps::SurveyForm
+
+    before_action :set_meeting, only: [ :new, :create, :edit, :update ]
     before_action :set_invite, only: [ :new, :create ]
     before_action :set_rsvp, only: [ :edit, :update ]
     before_action :set_survey, only: [ :create, :update ]
@@ -22,11 +24,19 @@ module Public
       )
 
       if @invite || @meeting.open?
-        if @rsvp.save
-          mailer = RsvpsMailer.confirmation(@rsvp)
-          Rails.env.development? ? mailer.deliver_now : mailer.deliver_later
+        existing_rsvp = @meeting.rsvps.find_by(email: @rsvp.email)
+        if existing_rsvp
+          redirect_to public_event_path({ guid: @meeting.guid, invite_guid: @invite&.guid }.compact),
+                      notice: "Already signed up. Edit your response from the link in your confirmation email"
+        elsif @rsvp.save
+          if @rsvp.yes?
+            send_confirmation_email
+            notice = "You're in. We sent a confirmation to #{@rsvp.email}"
+          else
+            notice = "You declined"
+          end
+
           cookies["#{@meeting.guid}_invite_guid"] = @rsvp.invite.guid
-          notice = @rsvp.answer == "yes" ? "You're in. We sent a confirmation to #{@rsvp.email}" : "You declined"
           redirect_to public_event_path({ guid: @meeting.guid, invite_guid: @invite&.guid }.compact), notice: notice
         else
           render :new, status: :unprocessable_content
@@ -38,12 +48,13 @@ module Public
     end
 
     def edit
-      redirect_to public_event_path(@rsvp.invite.meeting.guid, invite_guid: @rsvp.invite.guid) unless turbo_frame_request?
       build_survey_form
     end
 
     def update
       if @rsvp.update(rsvp_params)
+        send_confirmation_email if @rsvp.yes?
+
         redirect_to public_event_path(
                       {
                         guid: @rsvp.meeting.guid,
@@ -58,6 +69,11 @@ module Public
 
     private
 
+    def send_confirmation_email
+      mailer = RsvpsMailer.confirmation(@rsvp)
+      Rails.env.development? ? mailer.deliver_now : mailer.deliver_later
+    end
+
     def set_meeting
       @meeting = Meeting.find_by!(guid: params[:meeting_guid])
     end
@@ -69,11 +85,11 @@ module Public
     end
 
     def set_rsvp
-      @rsvp = Rsvp.find_by!(guid: params[:id])
+      @rsvp = @meeting.rsvps.find_by!(guid: params[:id])
     end
 
     def set_survey
-      @survey = (@rsvp&.meeting || @meeting).surveys.find_by(id: params[:survey_id])
+      @survey = (@rsvp&.meeting || @meeting).survey
     end
 
     def rsvp_params
@@ -83,18 +99,6 @@ module Public
         :answer,
         survey_responses_attributes: [ :id, :question_id, :answer, alternative_ids: [] ]
       )
-    end
-
-    def build_survey_form
-      @survey = @rsvp.meeting.surveys.last
-      return unless @survey
-
-      answered_question_ids = @rsvp.survey_responses.pluck(:question_id)
-      @survey.questions.each do |question|
-        next if question.id.in?(answered_question_ids)
-
-        @rsvp.survey_responses.build(question: question)
-      end
     end
   end
 end

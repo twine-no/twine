@@ -55,13 +55,12 @@
               <% end %>
             <% end %>
           <% else %>
-            <% last_survey = @meeting.surveys.last %>
             <%= link_to edit_admin_meeting_path(@meeting),
-                        class: "editable #{'link link-underline' unless last_survey&.meeting_date?}" do %>
-              <% if last_survey&.meeting_date? %>
+                        class: "editable #{'link link-underline' unless @meeting.survey&.meeting_date?}" do %>
+              <% if @meeting.survey&.meeting_date? %>
                 Guests can choose between
                 <ul>
-                  <% last_survey.questions.first.alternatives.includes(:responses).each do |alternative| %>
+                  <% @meeting.survey.questions.first.alternatives.includes(:responses).each do |alternative| %>
                     <li><%= alternative.title %> (<%= pluralize alternative.responses.size, "vote" %>)</li>
                   <% end %>
                 </ul>

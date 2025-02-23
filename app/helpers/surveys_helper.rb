@@ -1,21 +1,7 @@
 module SurveysHelper
   def surveys_title(meeting)
     meeting_link = link_to(meeting.title, admin_meeting_path(meeting), class: "link link-primary")
-    case @survey.template
-    when "meeting_date"
-      "Ask #{meeting_link} guests when they're available".html_safe
-    else
-      "Ask #{meeting_link} guests a question".html_safe
-    end
-  end
-
-  def surveys_subtitle(_meeting)
-    case @survey.template
-    when "meeting_date"
-      "The question will appear on their invite."
-    else
-      "The question will be asked when you send out the invite."
-    end
+    "Ask #{meeting_link} guests to fill out some info".html_safe
   end
 
   def surveys_default_category

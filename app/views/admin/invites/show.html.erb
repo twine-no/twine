@@ -1,77 +1,33 @@
 <%= turbo_frame_tag :modal_content do %>
-  <%= modal_content(class: "min-w-[40vw] min-h-[40vh]") do %>
-    <div
-      style="<%= blur_background_styles(@invite.meeting.logo, fallback_image: @invite.meeting.platform.logo) %>"
-    >
-      <div class="py-6 <%= blur_foreground_classes %>">
-        <h1 class="text-center text-xl md:text-2xl">
-          <%= @invite.contact.full_name %>
-        </h1>
-      </div>
-    </div>
+  <%= modal_content(class: "min-w-[30vw] min-h-[40vh]") do %>
 
+    <div class="p-5">
+      <h1 class="my-0"><%= @invite.contact.full_name %></h1>
+      <div class="flex flex-row gap-1">
+        <% event_url = public_event_url(@invite.meeting.guid, invite_guid: @invite.guid) %>
 
-    <div class="flex flex-row justify-center w-100 mb-4">
-      <div class="flex flex-col mt-4 divide-gray-200 divide-y w-80 border-x border border-[1px] border-gray-200 rounded">
-        <div class="flex flex-row justify-between w-80 px-8 py-4 w-80">
-          <div class="flex items-center font-medium">
-            RSVP
-          </div>
-          <div class="text-right">
-            <%= form_with model: [:admin, @meeting, @invite],
-                          data: { controller: "submit-on-change" } do |form| %>
-              <%= render "navigation/form_errors", model: @invite %>
-              <%= select_tag :rsvp_answer,
-                             options_for_select(
-                               Rsvp.answers.map { |key, value| [key.humanize, value] },
-                               selected: @invite.rsvp_status
-                             ),
-                             data: { action: "submit-on-change#submit" },
-                             class: "form-control" %>
-              <%= form.submit "", class: "hidden", data: { "submit-on-change-target": "submitButton" } %>
-            <% end %>
-          </div>
-        </div>
-        <% if survey = @invite.meeting.surveys.last %>
-          <% survey.questions.includes(:responses).each do |question| %>
-            <div class="flex flex-row justify-between w-80 px-8 py-4 w-80">
-              <div class="flex items-center font-medium">
-                <%= question.title %>
-              </div>
-              <div class="text-right">
-                <%= @invite.rsvp.survey_responses.where(question: question).last&.answer_text || "Not answered" %>
-              </div>
-            </div>
+        <% if @invite.membership %>
+          <%= link_to admin_membership_path(@invite.membership), target: "_top", class: "button button-secondary button-xs" do %>
+            <%= svg_tag "icons/mingcute/user_1_fill", class: "inline h-4" %>
+            Member
           <% end %>
         <% end %>
-        <% event_url = public_event_url(@invite.meeting.guid, invite_guid: @invite.guid) %>
+
         <div
           data-controller="clipboard"
           data-clipboard-copy-text-value="<%= event_url %>"
-          class="text-center px-8 py-4 w-80 relative">
-          <%= link_to "Copy personal invite link",
-                      event_url,
+          class="relative flex"
+        >
+          <%= link_to event_url,
                       data: { action: "click->clipboard#copy" },
-                      class: "underline" %>
-        </div>
-        <div class="text-center px-8 py-4 w-80">
-          <%= button_to "Remove",
-                        admin_meeting_invite_path(@invite, meeting_id: @invite.meeting_id),
-                        method: :delete,
-                        data: {
-                          turbo_frame: "_top",
-                          turbo_confirm: "Are you sure you want to remove #{@invite.contact.full_name}?",
-                        },
-                        form: {
-                          data: {
-                            action: "turbo:submit-end->modal#close",
-                          }
-                        },
-                        class: "underline"
-
-          %>
+                      class: "button button-secondary button-xs" do %>
+            <%= svg_tag "icons/mingcute/link_line", class: "inline h-4" %>
+            Copy personal invite link
+          <% end %>
         </div>
       </div>
+
+      <%= render "admin/rsvps/form", rsvp: @rsvp %>
     </div>
   <% end %>
 <% end %>

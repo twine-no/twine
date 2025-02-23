@@ -17,10 +17,6 @@
           <%= svg_tag "icons/mingcute/calendar_fill", class: "h-4 w-4 inline" %>
           <% if @meeting.scheduled? %>
             <%= datetime_format @meeting.happens_at, format: :pretty_datetime %>
-          <% elsif @meeting.surveys.last&.meeting_date? %>
-            <% meeting_date_survey = @meeting.surveys.last %>
-            Planned for
-            either <%= meeting_date_survey.questions.first.alternatives.pluck(:title).to_sentence(last_word_connector: " or ") %>
           <% else %>
             No date set
           <% end %>

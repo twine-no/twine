@@ -13,9 +13,10 @@ class Meeting < ApplicationRecord
 
   has_many :invites, dependent: :destroy
   has_many :rsvps, dependent: :destroy
-  has_many :surveys, dependent: :destroy
   has_many :log_entries, class_name: "MeetingLogEntry", dependent: :destroy
   has_many :messages, through: :invites
+
+  has_one :survey, dependent: :destroy
 
   has_rich_text :description
 

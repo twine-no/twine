@@ -30,9 +30,9 @@ module Admin
     end
 
     def show
-      set_data_table_page @meeting.invites.includes(:rsvp, :messages, membership: :user),
-                          default_sort_by: "users.first_name",
-                          default_sort_direction: :asc
+      set_data_table_page @meeting.invites.includes(:rsvp, membership: :user),
+                          default_sort_by: "rsvps.confirmation_sent_at, invites.created_at",
+                          default_sort_direction: :desc
     end
 
     def edit

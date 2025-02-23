@@ -33,10 +33,11 @@ Rails.application.routes.draw do
     end
     resource :site, only: [ :show, :update ]
     resources :meetings do
-      resources :invites, only: [ :create, :index, :show, :update, :destroy ]
+      resources :invites, only: [ :create, :index, :show, :destroy ]
       resources :mass_invites, only: [ :create ]
+      resources :rsvps, only: [ :create, :update ]
       resources :resend_confirmations, only: [ :create ]
-      resources :surveys, only: [ :new, :create, :index, :edit, :update ]
+      resource :surveys, only: [ :new, :create, :edit, :update ]
       resource :share, only: [ :show, :update ]
     end
 
