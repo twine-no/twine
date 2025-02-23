@@ -86,7 +86,7 @@ module Public
       assert_equal "Already signed up. Edit your response from the link in your confirmation email", flash[:notice]
     end
 
-    test "#create sends confirmation email" do
+    test "#create sends confirmation email to the right recipient" do
       assert_emails 1 do
         post public_rsvps_path(meeting_guid: meetings(:football_club_training).guid), params: {
           rsvp: {
@@ -96,6 +96,10 @@ module Public
           }
         }
       end
+
+      mail = ActionMailer::Base.deliveries.last
+      assert_equal [ "test@example.com" ], mail.to
+      assert_includes mail.subject, meetings(:football_club_training).title
     end
 
     test "#create does not send confirmation email if user RSVPs no" do

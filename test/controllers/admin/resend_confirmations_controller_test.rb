@@ -33,7 +33,6 @@ module Admin
       # Meeting date is updated after rsvp is created
       meetings(:next_coffee_shop_board_meeting).update!(happens_at: 2.days.from_now)
 
-
       invite = meetings(:next_coffee_shop_board_meeting).invites.create!(
         membership: memberships(:dave_is_a_coffee_shop_shareholder)
       )
@@ -44,13 +43,12 @@ module Admin
         confirmation_sent_at: confirmation_sent_at
       )
 
-      assert_emails 0 do
-        post admin_meeting_resend_confirmations_path(meetings(:next_coffee_shop_board_meeting))
-        assert_redirected_to admin_meeting_path(meetings(:next_coffee_shop_board_meeting))
+      assert_no_changes -> { rsvp.reload.confirmation_sent_at } do
+        assert_emails 0 do
+          post admin_meeting_resend_confirmations_path(meetings(:next_coffee_shop_board_meeting))
+          assert_redirected_to admin_meeting_path(meetings(:next_coffee_shop_board_meeting))
+        end
       end
-
-      # Doesn't change the timestamp
-      assert_equal confirmation_sent_at, rsvp.reload.confirmation_sent_at
     end
   end
 end
