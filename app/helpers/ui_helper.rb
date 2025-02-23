@@ -58,7 +58,7 @@ module UiHelper
   end
 
   def blur_background_styles(image, fallback_image: nil)
-    blur_image = (image if image.attached?) || (fallback_image if fallback_image.attached?)
+    blur_image = (image.variant(:thumbnail) if image.attached?) || (fallback_image.variant(:thumbnail) if fallback_image.attached?)
     return unless blur_image
 
     "background-image: url(#{ url_for(blur_image)}); background-size: 150%;"
