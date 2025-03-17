@@ -3,17 +3,6 @@
   <div class="col-span-12 lg:col-span-7">
     <%= card class: "relative p-0" do %>
 
-      <div class="absolute top-4 right-4">
-        <%= link_to admin_meeting_path(@meeting),
-                    data: {
-                      turbo_frame: "_top",
-                      turbo_method: :delete,
-                      turbo_confirm: "Are you sure you want to delete the meeting '#{@meeting.title}'#{(", scheduled for #{@meeting.happens_at.strftime("%B %d, %Y %H:%M") }" if @meeting.scheduled?)}?"
-                    },
-                    class: "button button-secondary button-xs inline-flex items-center gap-1" do %>
-        <% end %>
-      </div>
-
       <%= render "admin/meetings/details", meeting: @meeting %>
     <% end %>
   </div>

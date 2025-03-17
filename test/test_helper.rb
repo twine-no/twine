@@ -10,16 +10,19 @@ module ActiveSupport
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
 
-    def login_as(user, password: "password", on:)
+    def login_as(user, on:)
       raise "keyword on: must be a Platform" unless on.is_a?(Platform)
-      post session_url, params: { email: user.email, password: password, platform_id: on.id }
-      return if cookies[:session_id]
+      Current.session = user.sessions.create!(platform: on)
 
-      raise "Could not sign in user with email: #{user.email} and password: #{password}" unless cookies[:session_id]
+      ActionDispatch::TestRequest.create.cookie_jar.tap do |cookie_jar|
+        cookie_jar.signed[:session_id] = Current.session.id
+        cookies[:session_id] = cookie_jar[:session_id]
+      end
     end
 
     def log_out
-      delete session_url
+      Current.session&.destroy!
+      cookies.delete(:session_id)
     end
   end
 end

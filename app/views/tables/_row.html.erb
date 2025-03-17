@@ -24,7 +24,7 @@
   <% row.cells.each do |cell| %>
     <td class="text-sm whitespace-nowrap text-gray-500">
       <%= content_tag(row.url.present? ? :a : :div, {
-        class: "px-3 py-4 block",
+        class: "px-3 py-4 block #{cell[:options][:class]}",
         href: row.url
       }.compact.merge(
         row.opens_modal? ? modal_link_options({}) : { data: { turbo_frame: '_top' } }

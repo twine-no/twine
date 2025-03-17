@@ -1,0 +1,132 @@
+/* All the styles for the simple_calendar gem should be set here */
+.simple-calendar {
+    @apply w-full max-w-full;
+
+    .day {
+        @apply border border-gray-200 border-collapse hover:brightness-95 transition-colors ease-linear cursor-pointer bg-white;
+    }
+
+    .day-link {
+        @apply h-full w-full h-24 p-2 block;
+    }
+
+    .wday-0 {
+        @apply border-r-0;
+    }
+
+    .wday-1 {
+        @apply border-l-0;
+    }
+
+    .wday-2 {
+    }
+
+    .wday-3 {
+    }
+
+    .wday-4 {
+    }
+
+    .wday-5 {
+    }
+
+    .wday-6 {
+    }
+
+    .today {
+        .date-number {
+            position: relative;
+            display: inline-block;
+            padding: 6px;
+        }
+
+        .date-number::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            border: 3px solid #E4572E;
+            border-radius: 50%;
+
+            /* Hand-drawn effect */
+            animation: wobble 10s infinite linear;
+            filter: url(#hand-drawn);
+        }
+
+        @keyframes wobble {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            25% { transform: translate(-50%, -50%) scale(1.02) rotate(1deg); }
+            50% { transform: translate(-50%, -50%) scale(0.98) rotate(-1deg); }
+            75% { transform: translate(-50%, -50%) scale(1.01) rotate(0.5deg); }
+        }
+    }
+
+    .past {
+        @apply text-gray-500;
+    }
+
+    .future {
+        @apply text-gray-900;
+    }
+
+    .start-date {
+    }
+
+    .prev-month {
+        @apply bg-gray-100 text-gray-400;
+    }
+
+    .next-month {
+        @apply bg-gray-100 text-gray-400;
+    }
+
+    .current-month {
+    }
+
+    .has-events {
+    }
+
+    table {
+        @apply w-full h-full table-fixed overflow-hidden rounded-lg shadow bg-white;
+    }
+
+    tbody {
+        @apply border-none;
+    }
+
+    th {
+        @apply p-2 text-sm font-bold text-gray-700 text-center border border-gray-200;
+    }
+
+    td {
+        @apply p-0 align-top;
+    }
+
+    .calendar-title {
+        @apply font-bold text-xl;
+    }
+
+    .calendar-heading {
+        @apply flex justify-between items-center pb-4;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .simple-calendar {
+        .day {
+            @apply min-h-[60px];
+        }
+
+        .day-link {
+            @apply p-1;
+        }
+
+        th {
+            @apply text-xs p-1;
+        }
+    }
+}

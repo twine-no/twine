@@ -1,11 +1,23 @@
 module Public
   class MeetingsController < PublicController
+    before_action :set_platform, only: :index
     before_action :set_meeting_and_invite, only: :show
+
+    def index
+      meetings = @platform.meetings.open.upcoming.order(starts_at: :asc)
+      @meetings_by_date = meetings.group_by do |meeting|
+        meeting.starts_at.to_date
+      end
+    end
 
     def show
     end
 
     private
+
+    def set_platform
+      @platform = Platform.find_by!(shortname: params[:shortname])
+    end
 
     def set_meeting_and_invite
       if params[:invite_guid]

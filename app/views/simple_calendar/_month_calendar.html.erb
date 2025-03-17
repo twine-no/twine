@@ -1,0 +1,39 @@
+<div class="simple-calendar">
+  <div class="calendar-heading">
+    <nav class="flex gap-2 w-full items-center justify-center">
+      <%= link_to calendar.url_for_previous_view, class: "text-primary", data: { turbo_action: "advance" } do %>
+        <%= svg_tag "icons/mingcute/arrows/left_fill" %>
+      <% end %>
+      <h2 class="m-0 m-0 min-w-[200px] text-center">
+        <time datetime="<%= start_date.strftime('%Y-%m') %>" class="calendar-title">
+          <%= t('date.month_names')[start_date.month] %> <%= start_date.year %>
+        </time>
+      </h2>
+      <%= link_to calendar.url_for_next_view, class: "text-primary", data: { turbo_action: "advance" } do %>
+        <%= svg_tag "icons/mingcute/arrows/right_fill" %>
+      <% end %>
+    </nav>
+  </div>
+
+  <table class="">
+    <thead>
+    <tr>
+      <% date_range.slice(0, 7).each do |day| %>
+        <th><%= t('date.abbr_day_names')[day.wday] %></th>
+      <% end %>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% date_range.each_slice(7) do |week| %>
+      <tr>
+        <% week.each do |day| %>
+          <%= content_tag :td, class: calendar.td_classes_for(day) do %>
+            <% instance_exec(day, calendar.sorted_events_for(day), &passed_block) %>
+          <% end %>
+        <% end %>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

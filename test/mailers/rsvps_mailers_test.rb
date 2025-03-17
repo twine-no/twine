@@ -13,13 +13,13 @@ class RsvpsMailersTest < ActionMailer::TestCase
   end
 
   test "#confirmation includes an .ics attachment if a date has been set" do
-    meetings(:previous_coffee_shop_board_meeting).update!(happens_at: Time.current)
+    meetings(:previous_coffee_shop_board_meeting).update!(starts_at: Time.current)
     mail = RsvpsMailer.confirmation(@rsvp)
     assert_equal 1, mail.attachments.count
   end
 
   test "#confirmation doesn't include .ics attachment if date hasn't been set" do
-    meetings(:previous_coffee_shop_board_meeting).update!(happens_at: nil)
+    meetings(:previous_coffee_shop_board_meeting).update!(starts_at: nil)
     mail = RsvpsMailer.confirmation(@rsvp)
     assert_equal 0, mail.attachments.count
   end
@@ -31,13 +31,13 @@ class RsvpsMailersTest < ActionMailer::TestCase
   end
 
   test "#updated_confirmation includes an .ics attachment if a date has been set" do
-    meetings(:previous_coffee_shop_board_meeting).update!(happens_at: Time.current)
+    meetings(:previous_coffee_shop_board_meeting).update!(starts_at: Time.current)
     mail = RsvpsMailer.updated_confirmation(@rsvp, [ "date", "location" ])
     assert_equal 1, mail.attachments.count
   end
 
   test "#updated_confirmation doesn't include .ics attachment if date hasn't been set" do
-    meetings(:previous_coffee_shop_board_meeting).update!(happens_at: nil)
+    meetings(:previous_coffee_shop_board_meeting).update!(starts_at: nil)
     mail = RsvpsMailer.updated_confirmation(@rsvp, [ "date", "location" ])
     assert_equal 0, mail.attachments.count
   end

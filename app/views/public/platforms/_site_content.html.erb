@@ -9,15 +9,11 @@
     >
     <div class="flex justify-between flex-col min-h-screen w-full p-4 backdrop-blur-3xl bg-white/60">
       <div class="max-w-lg mx-auto pt-8">
-        <div class="text-center mb-8">
-          <% if platform.logo.attached? %>
-            <%= image_tag rails_storage_proxy_path(platform.logo.variant(:thumbnail)),
-                          alt: "#{platform.name} logo",
-                          class: "avatar" %>
-          <% end %>
-          <h1 class="text-xl font-bold mb-2"><%= platform.name %></h1>
-          <p class="text-opacity-90"><%= platform.tagline %></p>
-        </div>
+        <%=
+          render "public/platforms/site_header",
+                 platform: platform,
+                 tagline: platform.tagline
+        %>
 
         <div class="space-y-4">
           <% platform.links.each do |link| %>

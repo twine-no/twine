@@ -28,8 +28,8 @@ module NavigationHelper
     link_options ||= {}
     link_options[:data] ||= {}
     link_options[:data][:turbo_frame] = :modal_content
-    link_options[:data][:action] = "click->modal#open #{link_options[:data][:action]}".strip
-    link_options[:data][:controller] = "links #{link_options[:data][:action]}".strip
+    link_options[:data][:action] = "#{link_options[:data][:action]} click->modal#open".strip
+    link_options[:data][:controller] = "#{link_options[:data][:controller]} links".strip
     link_options
   end
 

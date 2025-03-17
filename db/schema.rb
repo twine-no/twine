@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_21_151845) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_14_125048) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -103,14 +103,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_21_151845) do
   create_table "meetings", force: :cascade do |t|
     t.integer "platform_id", null: false
     t.string "title", null: false
-    t.datetime "happens_at"
+    t.datetime "starts_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "location"
     t.string "guid"
     t.boolean "open", default: false, null: false
-    t.datetime "happens_at_updated_at"
+    t.datetime "starts_at_updated_at"
     t.datetime "location_updated_at"
+    t.datetime "ends_at"
     t.index ["guid"], name: "index_meetings_on_guid", unique: true
     t.index ["platform_id"], name: "index_meetings_on_platform_id"
   end

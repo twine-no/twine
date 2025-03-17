@@ -2,4 +2,8 @@
     .avatar {
         @apply rounded-full mx-auto mb-4 border-4 bg-white border-white h-24 w-24 object-cover;
     }
+
+    .avatar-sm {
+        @apply h-16 w-16 mb-0;
+    }
 }

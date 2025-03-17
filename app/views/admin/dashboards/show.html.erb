@@ -46,11 +46,11 @@
       <% if Current.platform.meetings.planned.any? %>
         <% next_meeting = Current.platform.meetings.planned.next_up %>
 
-        <% if next_meeting.happens_at %>
+        <% if next_meeting.starts_at %>
           Next is <%= link_to next_meeting.title,
                               admin_meeting_path(next_meeting),
                               class: "link link-primary"
-    %> <%= time_ago_in_words(next_meeting.happens_at) %> from now.
+    %> <%= time_ago_in_words(next_meeting.starts_at) %> from now.
         <% else %>
           You still haven't set a date for <%= link_to next_meeting.title,
                                                        admin_meeting_path(next_meeting),
@@ -77,8 +77,7 @@
     </h3>
     <p class="min-h-12">
       <% if Current.platform.listed? %>
-        It's <%= link_to Current.platform.full_url(request.base_url), Current.platform.full_url(request.base_url), target: "_blank", class: "link link-tertiary" %>
-        .
+        It's <%= link_to Current.platform.full_url(request.base_url), Current.platform.full_url(request.base_url), target: "_blank", class: "link link-tertiary" %>.
       <% else %>
         Keep people in the loop with a really
         simple, <%= link_to "free website", admin_site_path, class: "link link-tertiary" %>.

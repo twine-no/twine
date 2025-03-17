@@ -32,7 +32,7 @@
     }
 
     .form-group label {
-        @apply block text-sm/6 font-medium text-gray-900 mb-2;
+        @apply block text-sm/6 font-medium text-gray-900;
     }
 
     .form-control {

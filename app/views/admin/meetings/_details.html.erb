@@ -22,7 +22,19 @@
       </div>
     <% end %>
   </div>
-  <div class="flex flex-wrap p-4">
+  <div class="flex flex-wrap p-4 relative">
+    <div class="absolute top-4 right-4">
+      <%= link_to admin_meeting_path(@meeting),
+                  data: {
+                    turbo_frame: "_top",
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure you want to delete the meeting '#{@meeting.title}'#{(", scheduled for #{@meeting.starts_at.strftime("%B %d, %Y %H:%M") }" if @meeting.scheduled?)}?"
+                  },
+                  class: "button button-secondary button-xs inline-flex items-center gap-1 z-3" do %>
+      Delete
+      <% end %>
+    </div>
+
     <h2 class="mt-0 mb-2">
       <%= turbo_frame_tag @meeting, :title do %>
         <%= link_to @meeting.title, edit_admin_meeting_path(@meeting), class: "editable" %>
@@ -36,9 +48,9 @@
       </dt>
 
       <dd class="w-full">
-        <%= turbo_frame_tag @meeting, :happens_at do %>
+        <%= turbo_frame_tag @meeting, :starts_at do %>
           <% if @meeting.scheduled? %>
-            <%= link_to datetime_format(@meeting.happens_at, format: :pretty_datetime),
+            <%= link_to datetime_format(@meeting.starts_at, format: :pretty_datetime),
                         edit_admin_meeting_path(@meeting),
                         class: "editable" %>
             <% unless @meeting.everyone_informed_of_date? %>

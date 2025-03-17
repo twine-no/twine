@@ -9,7 +9,7 @@ class RsvpsMailer < ApplicationMailer
   def confirmation(rsvp)
     @rsvp = rsvp
     @platform = rsvp.meeting.platform
-    date_string = " on #{datetime_format(rsvp.meeting.happens_at, format: :pretty_datetime)}" if rsvp.meeting.scheduled?
+    date_string = " on #{datetime_format(rsvp.meeting.starts_at, format: :pretty_datetime)}" if rsvp.meeting.scheduled?
 
     attachments["invite.ics"] = generate_calendar_attachment(rsvp) if rsvp.meeting.scheduled?
     mail subject: "Confirmation: #{rsvp.meeting.title}#{date_string}",
@@ -20,7 +20,7 @@ class RsvpsMailer < ApplicationMailer
     @rsvp = rsvp
     @platform = rsvp.meeting.platform
     @updated_attributes = updated_attributes
-    date_string = " on #{datetime_format(rsvp.meeting.happens_at, format: :pretty_datetime)}" if rsvp.meeting.scheduled?
+    date_string = " on #{datetime_format(rsvp.meeting.starts_at, format: :pretty_datetime)}" if rsvp.meeting.scheduled?
 
     attachments["invite.ics"] = generate_calendar_attachment(rsvp) if rsvp.meeting.scheduled?
     mail subject: "Updated event: #{rsvp.meeting.title}#{date_string}",
@@ -32,7 +32,7 @@ class RsvpsMailer < ApplicationMailer
   def generate_calendar_attachment(rsvp)
     calendar = Icalendar::Calendar.new
     calendar.event do |event|
-      event.dtstart = rsvp.meeting.happens_at.utc
+      event.dtstart = rsvp.meeting.starts_at.utc
       event.summary = rsvp.meeting.title
       event.location = rsvp.meeting.location
       event.description = rsvp.meeting.description.to_plain_text

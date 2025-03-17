@@ -5,10 +5,11 @@ module Admin
     before_action :set_meeting, only: %i[show edit update destroy]
     before_action lambda {
       resize_image_file(meeting_params[:logo], width: 300, height: 300)
-    }, only: [ :update ]
+    }, only: [:update]
 
     def new
-      @meeting = Meeting.new
+      date = params.fetch(:start_date, Date.today).to_date
+      @meeting = Meeting.new(starts_at: date)
     end
 
     def create
@@ -25,8 +26,11 @@ module Admin
     end
 
     def index
-      set_data_table_page by_table_tab(Current.platform.meetings),
-                          allow_sort_by: %w[meetings.title meetings.happens_at]
+      start_date = params.fetch(:start_date, Date.today).to_date
+      @meetings = Current.platform.meetings.where(starts_at: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
+
+      # Used to paginate upcoming meetings
+      set_data_table_page by_table_tab(Current.platform.meetings.planned)
     end
 
     def show
@@ -61,16 +65,16 @@ module Admin
     end
 
     def meeting_params
-      params.require(:meeting).permit(:title, :happens_at, :location, :description, :open, :logo)
+      params.require(:meeting).permit(:title, :starts_at, :location, :description, :open, :logo)
     end
 
     def by_table_tab(meetings)
       case params[:tab]
       when "past"
-        meetings.past.order(happens_at: :desc)
+        meetings.past.order(starts_at: :desc)
       else
         meetings.planned.order(
-          Meeting.arel_table[:happens_at].asc.nulls_first,
+          Meeting.arel_table[:starts_at].asc.nulls_first,
           Meeting.arel_table[:created_at].desc
         )
       end
@@ -81,7 +85,7 @@ module Admin
       return unless group_ids&.any?
 
       if group_ids.include?("everyone")
-        invite_groups = [ Current.platform ]
+        invite_groups = [Current.platform]
       else
         invite_groups = Current.platform.groups.where(id: group_ids)
       end

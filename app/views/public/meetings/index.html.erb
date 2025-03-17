@@ -1,0 +1,41 @@
+<div
+  class="min-h-screen bg-center"
+  <% if @platform.logo.attached? %>
+  style="background-image: url(<%= rails_storage_proxy_path(@platform.logo) %>); background-size: 150%;"
+  <% end %>
+  >
+  <div class="flex justify-between flex-col min-h-screen w-full p-4 backdrop-blur-3xl bg-white/60">
+    <div class="max-w-lg mx-auto pt-8">
+      <%= render "public/platforms/site_header",
+                 platform: @platform,
+                 tagline: "#{@platform.name}'s calendar" %>
+
+      <div class="flex flex-col">
+        <% @meetings_by_date.each do |date, meetings| %>
+          <div>
+            <h2 class="text-xl font-semibold mb-4 text-center ">
+              <%= datetime_format(date, format: :simple_date) %>
+            </h2>
+
+            <% meetings.each do |meeting| %>
+              <%= link_to public_event_path(meeting.guid),
+                          class: "block text-center mb-4 p-4 bg-white bg-opacity-90 rounded-lg shadow-lg hover:bg-opacity-100 transition-all duration-200 transform hover:-translate-y-1" do %>
+                <div class="flex justify-between items-center">
+                  <p class="text-lg"><%= meeting.title %></p>
+                  <div class="text-right">
+                    <% if meeting.recurring? %>
+                      <span class="text-xs">(every week)</span>
+                    <% end %>
+                    <p class="text-lg">
+                      <%= datetime_format(meeting.starts_at, format: :time) %>
+                    </p>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

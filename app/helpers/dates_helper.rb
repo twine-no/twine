@@ -14,6 +14,8 @@ module DatesHelper
         "%Y %M %d %H:%M"
       when :simple_date
         "%d %B"
+      when :only_date
+        datetime.day == 1 ? "%d %B" : "%d"
       when :pretty_datetime
         if datetime.year == Time.current.year
           "%A %d %B, %H:%M"

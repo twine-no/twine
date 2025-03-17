@@ -1,0 +1,32 @@
+<%# locals: (date:, meetings:) %>
+<%= modal_link_to new_admin_meeting_path(date: date),
+                  data: { action: "nestable-links#handleClick", controller: "nestable-links" },
+                  class: "day-link" do %>
+  <span class="date-number">
+    <%= datetime_format date, format: :only_date %>
+    <% if date.today? %>
+        <svg width="0" height="0" style="position: absolute;">
+          <filter id="hand-drawn">
+            <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </svg>
+    <% end %>
+  </span>
+  <% meetings.first(2).each do |meeting| %>
+    <div
+      data-href="<%= admin_meeting_path(meeting) %>"
+      class="text-tertiary text-xs truncate hover:bg-green-50 transition-colors rounded p-0.5">
+      <span class="font-semibold"><%= datetime_format meeting.starts_at, format: :time %></span>
+      <%= meeting.title %>
+    </div>
+  <% end %>
+
+  <div
+    data-href="<%= admin_meeting_path(date) %>"
+    class="text-tertiary text-xs truncate hover:bg-green-50 transition-colors rounded p-0.5">
+    <% if meetings.size > 2 %>
+      + <%= meetings.size - 2 %> more
+    <% end %>
+  </div>
+<% end %>
