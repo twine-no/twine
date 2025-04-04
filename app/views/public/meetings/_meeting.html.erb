@@ -1,0 +1,44 @@
+<%# locals: (meeting:) %>
+<%= link_to public_event_path(meeting.guid) do %>
+  <%= card class: "p-2 m-0 hover:bg-gray-50 transition-colors" do %>
+    <div class="flex justify-between items-center px-2 gap-2">
+      <div class="flex justify-left h-full w-20">
+        <% if meeting.logo.attached? %>
+          <%= image_tag rails_storage_proxy_path(meeting.logo.variant(:thumbnail)),
+                        alt: "#{meeting.title} logo",
+                        class: "avatar avatar-sm bg-red-100" %>
+        <% elsif meeting.platform.logo.attached? %>
+          <%= image_tag rails_storage_proxy_path(meeting.platform.logo.variant(:thumbnail)),
+                        alt: "#{meeting.platform.name} logo",
+                        class: "avatar avatar-sm bg-red-100" %>
+        <% else %>
+          <div class="avatar avatar-sm bg-red-100"></div>
+        <% end %>
+      </div>
+      <div class="flex w-full justify-between p-2 flex-col">
+        <p>
+        <h3 class="text-lg font-medium m-0 p-0">
+          <%= meeting.title %>
+        </h3>
+        <p class="text-sm text-gray-600 min-h-14">
+          <% if meeting.location.present? %>
+            <%= svg_tag "icons/mingcute/location_line", class: "h-6 w-5 text-secondary inline" %> <%= meeting.location %>
+            <br>
+          <% end %>
+
+          <%= svg_tag "icons/mingcute/calendar_2_line", class: "h-6 w-5 text-primary inline" %>
+          <% if meeting.scheduled? %>
+            <%= datetime_format meeting.starts_at, format: :pretty_datetime %>
+          <% else %>
+            <% if meeting.survey&.meeting_date? %>
+              Choose between <%= meeting.survey.questions.first.alternatives.map(&:title).to_sentence(
+                           two_words_connector: ' or ',
+                           last_word_connector: ' or '
+                         ) %>
+            <% end %>
+          <% end %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+<% end %>

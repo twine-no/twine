@@ -15,7 +15,7 @@ module Admin
       )
 
       # Meeting date is updated after rsvp is created
-      meetings(:next_coffee_shop_board_meeting).update!(happens_at: 2.days.from_now)
+      meetings(:next_coffee_shop_board_meeting).update!(starts_at: 2.days.from_now)
 
       assert_emails 1 do
         post admin_meeting_resend_confirmations_path(meetings(:next_coffee_shop_board_meeting))
@@ -62,7 +62,7 @@ module Admin
       login_as users(:admin), on: platforms(:coffee_shop)
 
       # Meeting date is updated after rsvp is created
-      meetings(:next_coffee_shop_board_meeting).update!(happens_at: 2.days.from_now)
+      meetings(:next_coffee_shop_board_meeting).update!(starts_at: 2.days.from_now)
 
       invite = meetings(:next_coffee_shop_board_meeting).invites.create!(
         membership: memberships(:dave_is_a_coffee_shop_shareholder)

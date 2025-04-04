@@ -8,7 +8,8 @@ module Admin
     }, only: [ :update ]
 
     def new
-      @meeting = Meeting.new
+      date = params.fetch(:start_date, Date.today).to_date
+      @meeting = Meeting.new(starts_at: date)
     end
 
     def create
@@ -61,16 +62,16 @@ module Admin
     end
 
     def meeting_params
-      params.require(:meeting).permit(:title, :happens_at, :location, :description, :open, :logo)
+      params.require(:meeting).permit(:title, :starts_at, :location, :description, :open, :logo)
     end
 
     def by_table_tab(meetings)
       case params[:tab]
       when "past"
-        meetings.past.order(happens_at: :desc)
+        meetings.past.order(starts_at: :desc)
       else
         meetings.planned.order(
-          Meeting.arel_table[:happens_at].asc.nulls_first,
+          Meeting.arel_table[:starts_at].asc.nulls_first,
           Meeting.arel_table[:created_at].desc
         )
       end

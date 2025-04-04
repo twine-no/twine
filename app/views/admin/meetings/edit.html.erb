@@ -8,13 +8,13 @@
   <% end %>
 <% end %>
 
-<%= turbo_frame_tag @meeting, :happens_at do %>
+<%= turbo_frame_tag @meeting, :starts_at do %>
   <%= form_with model: [:admin, @meeting] do |form| %>
     <%= render 'navigation/form_errors', model: @meeting %>
     <div class="form-group inline-form-group w-full">
-      <%= form.datetime_local_field :happens_at, class: "form-control", autocomplete: false %>
+      <%= form.datetime_local_field :starts_at, class: "form-control", autocomplete: false %>
       <%= form.submit "Save", class: "button button-primary" %>
-      <% if @meeting.happens_at.nil? && (@meeting.survey&.meeting_date?) %>
+      <% if @meeting.starts_at.nil? && (@meeting.survey&.meeting_date?) %>
         <%= link_to "edit form",
                     edit_admin_meeting_surveys_path( meeting_id: @meeting.id,),
                     data: { turbo_frame: "_top" },

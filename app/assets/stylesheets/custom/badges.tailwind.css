@@ -1,6 +1,17 @@
 @layer components {
     .badge {
-        @apply inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset;
+        @apply inline-flex items-center rounded-full ring-1 ring-inset;
+    }
+
+    .badge-md {
+        @apply px-2 py-1 text-xs font-medium;
+    }
+
+    .badge-sm {
+        @apply px-1 py-0.5 font-normal;
+
+        font-size: .75rem;
+        line-height: .75rem;
     }
 
     .badge-gray {

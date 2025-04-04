@@ -1,0 +1,42 @@
+<div
+  class="min-h-screen bg-center"
+  <% if @platform.logo.attached? %>
+  style="background-image: url(<%= rails_storage_proxy_path(@platform.logo) %>); background-size: 150%;"
+  <% end %>
+  >
+  <div class="p-4 backdrop-blur-3xl bg-white/60">
+    <div class="grid grid-cols-12 min-h-screen pt-8 lg:pt-0 lg:px-24 xl:px-32">
+      <div class="col-span-12 lg:col-span-5 mx-auto lg:my-auto px-6">
+        <%= render "public/platforms/site_header",
+                   platform: @platform,
+                   tagline: "" %>
+
+        <% if @platform.groups.share_by_calendar.any? %>
+          <%= link_to root_path do %>
+            <%= card class: "text-center" do %>
+              Get notified of new events
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="col-span-12 lg:col-span-7 max-w-lg mx-auto lg:my-auto w-full overflow-x-scroll">
+        <% @meetings_by_date.each do |date, meetings| %>
+          <div class="w-full mb-10 px-2">
+            <h2 class="text-xl font-semibold mb-4 text-center">
+              <% if date.nil? %>
+                Date not decided yet
+              <% else %>
+                <%= datetime_format(date, format: :simple_date) %>
+              <% end %>
+            </h2>
+
+            <% meetings.each do |meeting| %>
+              <%= render "public/meetings/meeting", meeting: meeting %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

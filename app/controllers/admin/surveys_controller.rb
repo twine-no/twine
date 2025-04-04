@@ -12,7 +12,7 @@ module Admin
       @survey.open = true
 
       if @survey.save
-        @survey.meeting.update!(happens_at: nil) if @survey.meeting_date?
+        @survey.meeting.update!(starts_at: nil) if @survey.meeting_date?
         redirect_to admin_meeting_path(@survey.meeting), notice: generate_notice_based_on_survey_template
       else
         render :new, status: :unprocessable_content
@@ -24,7 +24,7 @@ module Admin
 
     def update
       if @survey.update(survey_params)
-        @survey.meeting.update!(happens_at: nil) if @survey.meeting_date?
+        @survey.meeting.update!(starts_at: nil) if @survey.meeting_date?
         redirect_to admin_meeting_path(@survey.meeting), notice: generate_notice_based_on_survey_template
       else
         render :edit, status: :unprocessable_content

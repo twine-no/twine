@@ -10,6 +10,21 @@
         <%= form.text_field :title, class: "form-control", required: true, autocomplete: "off" %>
       </div>
 
+      <div class="form-group">
+        <%= form.label :starts_at, "Date" %>
+        <div class="inline-form-group" data-controller="forms--date-select">
+          <%= form.datetime_field :starts_at,
+                                  data: { "forms--date-select-target": "input" },
+                                  class: "form-control",
+                                  required: true,
+                                  autocomplete: "off" %>
+          <%= link_to "Decide later",
+                      "#",
+                      data: { action: "forms--date-select#toggle" },
+                      class: "button button-secondary" %>
+        </div>
+      </div>
+
       <div class="form-group max-w-full">
         <%= label_tag :participants, "Who's joining?" %>
         <div data-controller="radio-buttons" class="flex flex-wrap gap-1">

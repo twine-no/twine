@@ -1,0 +1,52 @@
+<%# locals: (shareable:) %>
+<h3 class="mt-0">Share <%= shareable_name(shareable) %></h3>
+
+<%= turbo_frame_tag shareable, :share_by_calendar do %>
+  <div class="flex align-middle gap-1 mb-3">
+    <%= link_to admin_share_path(shareable_id: shareable, shareable_type: shareable.class.name, shareable: { share_by_calendar: !shareable.share_by_calendar? }),
+                class: "toggle toggle-#{shareable.share_by_calendar? ? "on" : "off"}",
+                data: {
+                  turbo_method: :patch,
+                  controller: "forms--toggle",
+                  action: "click->forms--toggle#toggle"
+                } do %>
+      <span class="sr-only">Click to toggle</span>
+      <span></span>
+    <% end %>
+    Add the <%= shareable_name(shareable) %> to <%= link_to "Your calendar", public_events_path(shareable.platform.shortname), class: "link link-underline", target: "_blank" %>
+  </div>
+<% end %>
+
+<%= turbo_frame_tag shareable, :share_by_link do %>
+  <% shareable_url = public_shareable_url(shareable) %>
+  <div class="flex align-middle gap-1 mb-3">
+    <%= link_to admin_share_path(shareable_id: shareable, shareable_type: shareable.class.name, shareable: { share_by_link: !shareable.share_by_link? }),
+                class: "toggle toggle-#{shareable.share_by_link? ? "on" : "off"}",
+                data: {
+                  turbo_method: :patch,
+                  controller: "forms--toggle",
+                  action: "click->forms--toggle#toggle"
+                } do %>
+      <span class="sr-only">Click to toggle</span>
+      <span></span>
+    <% end %>
+    Make the <%= shareable.class.name.downcase %> shareable by public link
+  </div>
+
+  <% if shareable.share_by_link? %>
+    <div
+      data-controller="clipboard"
+      data-clipboard-copy-text-value="<%= shareable_url %>"
+      class="form-group inline-form-group mb-3"
+    >
+      <%= text_field_tag :public_url, shareable_url, disabled: true, class: "form-control" %>
+      <%= link_to "Copy",
+                  shareable_url,
+                  data: { action: "click->clipboard#copy" },
+                  class: "button button-primary" %>
+    </div>
+    <p class="max-w-md mb-6 text-xs">
+      Share the link with guests via email, SMS, or wherever they may be.
+    </p>
+  <% end %>
+<% end %>

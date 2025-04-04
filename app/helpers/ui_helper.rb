@@ -3,8 +3,8 @@ module UiHelper
     render "navigation/card", content: capture(&block), options: options
   end
 
-  def badge(text, color: "gray", id: nil)
-    render "navigation/badge", text: text, color: color, id: id
+  def badge(text, color: "gray", size: "sm", id: nil)
+    render "navigation/badge", text: text, color: color, size: size, id: id
   end
 
   def sidebar_active_html_class(option_controller)

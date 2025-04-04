@@ -5,7 +5,7 @@
 <h3>New details:</h3>
 <p class="mt-4">
   <% if @rsvp.meeting.scheduled? %>
-    📆 <%= datetime_format(@rsvp.meeting.happens_at, format: :pretty_datetime) %>
+    📆 <%= datetime_format(@rsvp.meeting.starts_at, format: :pretty_datetime) %>
     <br>
   <% end %>
   <% if @rsvp.meeting.location.present? %>

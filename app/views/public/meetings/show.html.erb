@@ -16,7 +16,7 @@
         <p class="text-opacity-90 mt-0">
           <%= svg_tag "icons/mingcute/calendar_fill", class: "h-4 w-4 inline" %>
           <% if @meeting.scheduled? %>
-            <%= datetime_format @meeting.happens_at, format: :pretty_datetime %>
+            <%= datetime_format @meeting.starts_at, format: :pretty_datetime %>
           <% else %>
             No date set
           <% end %>

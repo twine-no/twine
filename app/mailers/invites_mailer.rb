@@ -5,7 +5,7 @@ class InvitesMailer < ApplicationMailer
     @message = message
     @invite = message.messageable
     @platform = @invite.meeting.platform
-    mail subject: "Invite to #{@invite.meeting.title} #{datetime_format @invite.meeting.happens_at, format: :datetime}",
+    mail subject: "Invite to #{@invite.meeting.title} #{datetime_format @invite.meeting.starts_at, format: :datetime}",
          to: @invite.contact.email
   end
 end

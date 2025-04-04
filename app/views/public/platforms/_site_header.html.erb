@@ -1,0 +1,11 @@
+<%# locals: (platform:, tagline:) %>
+
+<div class="text-center mb-8">
+  <% if platform.logo.attached? %>
+    <%= image_tag rails_storage_proxy_path(platform.logo.variant(:thumbnail)),
+                  alt: "#{platform.name} logo",
+                  class: "avatar" %>
+  <% end %>
+  <h1 class="text-xl font-bold mb-2"><%= platform.name %></h1>
+  <p class="text-opacity-90"><%= tagline %></p>
+</div>

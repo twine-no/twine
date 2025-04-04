@@ -14,7 +14,7 @@
                        ]
                      ]
                    else
-                     Current.platform.groups.order(:name).map do |group|
+                     Current.platform.groups.map do |group|
                        [
                          "Add to group #{group.name}",
                          { url: admin_groups_memberships_path(group_id: group.id), method: :post }
@@ -24,7 +24,7 @@
                  ),
                row_link_to: -> (membership) { admin_membership_path(membership) },
                actions: [
-                 (modal_link_to("Edit group", edit_admin_group_path(@group), class: "button button-secondary") if @group),
+                 (modal_link_to("Edit #{truncate(@group.name, length: 20)} group", edit_admin_group_path(@group), class: "button button-secondary") if @group),
                  modal_link_to("New group", new_admin_group_path, class: "button button-secondary"),
                  modal_link_to("New member", new_admin_membership_path, class: "button button-primary")
                ].compact,
@@ -32,7 +32,9 @@
                  ([
                    ["All members", nil]
                  ] +
-                   Current.platform.groups.map { |group| [group.name, group.id] }
+                   Current.platform.groups.map { |group| ["#{group.name} #{badge group.memberships.size,
+                                                                                 color: @group == group ? "green" : "gray",
+                                                                                 size: "sm"}".html_safe, group.id] }
                  ),
                columns: [
                  {

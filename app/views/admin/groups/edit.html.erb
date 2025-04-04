@@ -1,5 +1,9 @@
 <%= turbo_frame_tag :modal_content do %>
   <%= modal_content do %>
     <%= render 'admin/groups/form', group: @group %>
+
+    <div class="mt-4">
+      <%= render "admin/shares/shareable", shareable: @group %>
+    </div>
   <% end %>
 <% end %>

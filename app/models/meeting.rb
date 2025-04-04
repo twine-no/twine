@@ -3,13 +3,13 @@ require "uri"
 class Meeting < ApplicationRecord
   include Messageable
   include Tables::SupportsAdvancedQueries
-  include UsesGuid
+  include Shareable
 
   belongs_to :platform, required: true
   validates :title, presence: true
 
   before_save :set_location_updated_timestamp, if: :location_changed?
-  before_save :set_happens_at_updated_timestamp, if: :happens_at_changed?
+  before_save :set_starts_at_updated_timestamp, if: :starts_at_changed?
 
   has_many :invites, dependent: :destroy
   has_many :rsvps, dependent: :destroy
@@ -26,7 +26,7 @@ class Meeting < ApplicationRecord
 
   broadcasts_refreshes
 
-  table_filter_by %w[happens_at]
+  table_filter_by %w[starts_at]
 
   scope :table_searchable_scope, ->(search_term) do
     where(
@@ -35,13 +35,12 @@ class Meeting < ApplicationRecord
     )
   end
 
-  scope :open, -> { where(open: true) }
-  scope :closed, -> { where(open: false) }
-  scope :past, -> { where(happens_at: ..Time.current) }
-  scope :upcoming, -> { where(happens_at: Time.current...) }
-  scope :unscheduled, -> { where(happens_at: nil) }
-  scope :planned, -> { upcoming.or(unscheduled) }
-  scope :next_up, -> { order(Meeting.arel_table[:happens_at].asc.nulls_last).first }
+  scope :past, -> { where(starts_at: ..Time.current) }
+  scope :upcoming, -> { where(starts_at: Time.current...) }
+  scope :unscheduled, -> { where(starts_at: nil) }
+  scope :next_up, -> { order(Meeting.arel_table[:starts_at].asc.nulls_last).first }
+  scope :planned, -> { where(starts_at: Time.current.beginning_of_day..).or(unscheduled).order(Meeting.arel_table[:starts_at].asc.nulls_last) }
+  scope :finished, -> { scheduled.where.not(starts_at: Time.current.beginning_of_day..) }
 
   def log!(category, by:)
     log_entries.create!(
@@ -52,15 +51,19 @@ class Meeting < ApplicationRecord
   end
 
   def scheduled?
-    happens_at?
+    starts_at?
+  end
+
+  def ongoing?
+    starts_at.past? && ends_at&.future?
   end
 
   def past?
-    scheduled? && happens_at.past?
+    scheduled? && (ends_at || starts_at).past?
   end
 
   def upcoming?
-    scheduled? && !happens_at.past?
+    scheduled? && starts_at.future?
   end
 
   def online?
@@ -92,10 +95,10 @@ class Meeting < ApplicationRecord
   end
 
   def everyone_informed_of_date?
-    return true if happens_at_updated_at.nil?
+    return true if starts_at_updated_at.nil?
     return true if rsvps.confirmation_sent.empty?
 
-    happens_at_updated_at < last_confirmation_sent_at
+    starts_at_updated_at < last_confirmation_sent_at
   end
 
   def everyone_informed_of_location?
@@ -114,8 +117,26 @@ class Meeting < ApplicationRecord
       .where(answer: :yes)
       .confirmation_sent.where(
       "confirmation_sent_at < ? OR confirmation_sent_at < ?",
-      happens_at_updated_at,
+      starts_at_updated_at,
       location_updated_at
+    )
+  end
+
+  def recurring?
+    false # TODO: Add
+  end
+
+  # For simple_calendar
+  def start_time
+    starts_at
+  end
+
+  # Potential bottleneck
+  def update_rsvp_counters!
+    update!(
+      rsvps_count: rsvps.yes.count,
+      rsvps_yes_count: rsvps.yes.count,
+      rsvps_no_count: rsvps.no.count
     )
   end
 
@@ -125,7 +146,7 @@ class Meeting < ApplicationRecord
     self.location_updated_at = Time.current
   end
 
-  def set_happens_at_updated_timestamp
-    self.happens_at_updated_at = Time.current
+  def set_starts_at_updated_timestamp
+    self.starts_at_updated_at = Time.current
   end
 end

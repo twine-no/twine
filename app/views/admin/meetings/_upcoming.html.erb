@@ -1,0 +1,4 @@
+<%# locals: (page:) %>
+<% page.records.each do |meeting| %>
+  <%= render "public/meetings/meeting", meeting: meeting %>
+<% end %>

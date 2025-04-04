@@ -1,7 +1,7 @@
-<%# locals: (text:, color:, id:) %>
+<%# locals: (text:, color:,  size:, id:) %>
 
 <span
-  class="badge badge-<%= color %>"
+  class="badge badge-<%= color %> <%= "badge-#{size}" %>"
   <% if id %>
   id="<%= id %>"
   <% end %>

@@ -6,7 +6,9 @@
                row_link_to: -> (meeting) { admin_meeting_path(meeting) },
                no_results_placeholder: params[:tab] == "past" ? "No past events" : "No upcoming events",
                actions: [
-                 link_to("Import", admin_dashboard_path, class: "button button-secondary"),
+                 link_to("Your calendar", public_events_path(shortname: Current.platform.shortname),
+                         target: "_blank",
+                         class: "button button-secondary"),
                  modal_link_to("New event", new_admin_meeting_path, class: "button button-primary")
                ],
                tabs: [
@@ -15,8 +17,22 @@
                ],
                columns: [
                  {
+                   header: "Logo",
+                   class: "heyhey",
+                   classes: "heaayhey",
+                   content: -> (meeting) do
+                     content_tag :div, class: "flex justify-left h-full w-20" do
+                       if meeting.logo.attached?
+                         image_tag rails_storage_proxy_path(meeting.logo.variant(:thumbnail)), alt: "#{meeting.title} logo", class: "avatar avatar-sm"
+                       elsif Current.platform.logo.attached?
+                         image_tag rails_storage_proxy_path(Current.platform.logo.variant(:thumbnail)), alt: "#{Current.platform.name} logo", class: "avatar avatar-sm"
+                       end
+                     end
+                   end
+                 },
+                 {
                    header: 'Name',
-                   content: -> (meeting) { meeting.title }
+                   content: -> (meeting) { truncate meeting.title, length: 30 }
                  },
                  {
                    header: 'Date',
@@ -28,9 +44,9 @@
                      if meeting.scheduled?
                        safe_join(
                          [
-                           datetime_format(meeting.happens_at),
+                           datetime_format(meeting.starts_at),
                            "<br>".html_safe,
-                           badge("#{distance_of_time_in_words(Time.current, meeting.happens_at)} #{meeting.past? ? "ago" : "from now"}", color: "orange"),
+                           badge("#{distance_of_time_in_words(Time.current, meeting.starts_at)} #{meeting.past? ? "ago" : "from now"}", color: "orange"),
                          ]
                        )
                      else

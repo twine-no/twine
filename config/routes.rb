@@ -13,12 +13,17 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  # The route that ensures all your website can be hosted on twine.no/@mypage
+  # The route that ensures all your website can be hosted on twine.no/@mypage (also /p/ to support a few legacy links)
   get "@:shortname", to: "public/platforms#show", constraints: { shortname: /[^\/]+/ }, as: :public_site
   get "p/:shortname", to: "public/platforms#show", as: :legacy_public_site
 
   get "e/:guid", to: "public/meetings#show", constraints: { guid: /[^\/]+/ }, as: :public_event
-  resources :events, only: [ :show ], controller: :meetings
+  get "@:shortname/events", to: "public/meetings#index", constraints: { shortname: /[^\/]+/ }, as: :public_events
+
+  get "g/:guid", to: "public/groups#show", constraints: { guid: /[^\/]+/ }, as: :public_group
+
+
+  resources :events, only: [ :index, :show ], controller: :meetings
 
   namespace :admin do
     resource :onboarding, only: [ :show, :update ]
@@ -32,13 +37,13 @@ Rails.application.routes.draw do
       end
     end
     resource :site, only: [ :show, :update ]
+    resource :share, only: [ :show, :update ]
     resources :meetings do
       resources :invites, only: [ :create, :index, :show, :destroy ]
       resources :mass_invites, only: [ :create ]
       resources :rsvps, only: [ :create, :update ]
       resources :resend_confirmations, only: [ :create ]
       resource :surveys, only: [ :new, :create, :edit, :update ]
-      resource :share, only: [ :show, :update ]
     end
 
     namespace :messages do
