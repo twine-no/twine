@@ -1,42 +1,4 @@
 <%# locals: (page:) %>
 <% page.records.each do |meeting| %>
-  <%= link_to admin_meeting_path(meeting), class: "w-full md:w-3/4 lg:w-2/3 xl:w-1/2" do %>
-    <%= card class: "p-2 m-0 hover:bg-gray-50 transition-colors" do %>
-      <div class="flex justify-between items-center px-2 gap-2">
-        <div class="flex justify-left h-full w-20">
-          <% if meeting.logo.attached? %>
-            <%= image_tag rails_storage_proxy_path(meeting.logo.variant(:thumbnail)), alt: "#{meeting.title} logo", class: "avatar avatar-sm" %>
-          <% elsif Current.platform.logo.attached? %>
-            <%= image_tag rails_storage_proxy_path(Current.platform.logo.variant(:thumbnail)), alt: "#{Current.platform.name} logo", class: "avatar avatar-sm" %>
-          <% else %>
-            <div class="avatar avatar-sm bg-red-100"></div>
-          <% end %>
-        </div>
-        <div class="flex w-full items-center justify-between p-2">
-          <div class="">
-            <h3 class="text-lg font-medium m-0 p-0">
-              <%= meeting.title %>
-            </h3>
-            <p class="text-sm text-gray-600 min-h-14">
-              <% if meeting.location.present? %>
-                <%= svg_tag "icons/mingcute/location_line", class: "h-6 w-5 text-secondary inline" %> <%= meeting.location %>
-                <br>
-              <% end %>
-              <% if meeting.scheduled? %>
-                <%= svg_tag "icons/mingcute/calendar_2_line", class: "h-6 w-5 text-primary inline" %> <%= datetime_format meeting.starts_at, format: :pretty_datetime %>
-              <% end %>
-              </div>
-          <div class="flex p-3">
-            <div class="text-end whitespace-nowrap">
-              <% if meeting.scheduled? %>
-                <%= badge "#{time_ago_in_words(meeting.starts_at)} from now" %>
-              <% else %>
-                <%= badge "Date not set", color: :red %>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  <% end %>
+  <%= render "public/meetings/meeting", meeting: meeting %>
 <% end %>

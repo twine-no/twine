@@ -10,7 +10,7 @@ module.exports = {
     ],
     safelist: [
         {
-            pattern: /badge-(red|yellow|green|orange|gray)/
+            pattern: /badge-(red|yellow|green|orange|gray|sm)/
         },
         {
             pattern: /bg-(red|yellow|green|orange|gray)-100/

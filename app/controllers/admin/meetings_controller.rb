@@ -26,11 +26,8 @@ module Admin
     end
 
     def index
-      start_date = params.fetch(:start_date, Date.today).to_date
-      @meetings = Current.platform.meetings.where(starts_at: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
-
-      # Used to paginate upcoming meetings
-      set_data_table_page by_table_tab(Current.platform.meetings.planned)
+      set_data_table_page by_table_tab(Current.platform.meetings),
+                          allow_sort_by: %w[meetings.title meetings.happens_at]
     end
 
     def show

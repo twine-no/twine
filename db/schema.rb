@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_14_125048) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_21_180148) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -54,6 +54,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_125048) do
     t.integer "platform_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "memberships_count", default: 0
+    t.boolean "share_by_calendar", default: false, null: false
+    t.boolean "share_by_link", default: false, null: false
+    t.string "guid"
+    t.index ["guid"], name: "index_groups_on_guid", unique: true
     t.index ["platform_id"], name: "index_groups_on_platform_id"
   end
 
@@ -108,10 +113,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_125048) do
     t.datetime "updated_at", null: false
     t.string "location"
     t.string "guid"
-    t.boolean "open", default: false, null: false
+    t.boolean "share_by_link", default: false, null: false
     t.datetime "starts_at_updated_at"
     t.datetime "location_updated_at"
     t.datetime "ends_at"
+    t.integer "rsvps_count", default: 0
+    t.integer "rsvps_yes_count", default: 0
+    t.integer "rsvps_no_count", default: 0
+    t.boolean "share_by_calendar", default: false, null: false
     t.index ["guid"], name: "index_meetings_on_guid", unique: true
     t.index ["platform_id"], name: "index_meetings_on_platform_id"
   end

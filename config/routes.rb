@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   get "e/:guid", to: "public/meetings#show", constraints: { guid: /[^\/]+/ }, as: :public_event
   get "@:shortname/events", to: "public/meetings#index", constraints: { shortname: /[^\/]+/ }, as: :public_events
 
+  get "g/:guid", to: "public/groups#show", constraints: { guid: /[^\/]+/ }, as: :public_group
+
 
   resources :events, only: [ :index, :show ], controller: :meetings
 
@@ -35,13 +37,13 @@ Rails.application.routes.draw do
       end
     end
     resource :site, only: [ :show, :update ]
+    resource :share, only: [ :show, :update ]
     resources :meetings do
       resources :invites, only: [ :create, :index, :show, :destroy ]
       resources :mass_invites, only: [ :create ]
       resources :rsvps, only: [ :create, :update ]
       resources :resend_confirmations, only: [ :create ]
       resource :surveys, only: [ :new, :create, :edit, :update ]
-      resource :share, only: [ :show, :update ]
     end
 
     namespace :messages do

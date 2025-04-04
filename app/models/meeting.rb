@@ -3,7 +3,7 @@ require "uri"
 class Meeting < ApplicationRecord
   include Messageable
   include Tables::SupportsAdvancedQueries
-  include UsesGuid
+  include Shareable
 
   belongs_to :platform, required: true
   validates :title, presence: true
@@ -21,7 +21,7 @@ class Meeting < ApplicationRecord
   has_rich_text :description
 
   has_one_attached :logo do |attachable|
-    attachable.variant :thumbnail, resize_to_limit: [ 300, 300 ]
+    attachable.variant :thumbnail, resize_to_limit: [300, 300]
   end
 
   broadcasts_refreshes
@@ -35,13 +35,12 @@ class Meeting < ApplicationRecord
     )
   end
 
-  scope :open, -> { where(open: true) }
-  scope :closed, -> { where(open: false) }
   scope :past, -> { where(starts_at: ..Time.current) }
   scope :upcoming, -> { where(starts_at: Time.current...) }
   scope :unscheduled, -> { where(starts_at: nil) }
-  scope :planned, -> { upcoming.or(unscheduled) }
   scope :next_up, -> { order(Meeting.arel_table[:starts_at].asc.nulls_last).first }
+  scope :planned, -> { where(starts_at: Time.current.beginning_of_day..).or(unscheduled).order(Meeting.arel_table[:starts_at].asc.nulls_last) }
+  scope :finished, -> { scheduled.where.not(starts_at: Time.current.beginning_of_day..) }
 
   def log!(category, by:)
     log_entries.create!(
@@ -130,6 +129,15 @@ class Meeting < ApplicationRecord
   # For simple_calendar
   def start_time
     starts_at
+  end
+
+  # Potential bottleneck
+  def update_rsvp_counters!
+    update!(
+      rsvps_count: rsvps.yes.count,
+      rsvps_yes_count: rsvps.yes.count,
+      rsvps_no_count: rsvps.no.count
+    )
   end
 
   private

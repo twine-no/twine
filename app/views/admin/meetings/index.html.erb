@@ -1,12 +1,68 @@
-<%= turbo_frame_tag :calendar do %>
-  <div class="-mx-4 md:mx-auto">
-    <%= month_calendar(events: @meetings) do |date, meetings| %>
-      <%= render "admin/meetings/date", date: date, meetings: meetings %>
-    <% end %>
-  </div>
-<% end %>
-
-<h2 class="mt-6 pt-0 mb-4 text-center">Upcoming</h2>
-<div class="flex flex-col gap-4 items-center">
-  <%= render "admin/meetings/upcoming", page: @page %>
+<div class="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 lg:gap-8">
+  <%= card class: "lg:col-span-3" do %>
+    <%=
+      table_of @page,
+               searchable: "Search by name, location or description …",
+               row_link_to: -> (meeting) { admin_meeting_path(meeting) },
+               no_results_placeholder: params[:tab] == "past" ? "No past events" : "No upcoming events",
+               actions: [
+                 link_to("Your calendar", public_events_path(shortname: Current.platform.shortname),
+                         target: "_blank",
+                         class: "button button-secondary"),
+                 modal_link_to("New event", new_admin_meeting_path, class: "button button-primary")
+               ],
+               tabs: [
+                 ["Planned events", nil],
+                 ["Past", "past"]
+               ],
+               columns: [
+                 {
+                   header: "Logo",
+                   class: "heyhey",
+                   classes: "heaayhey",
+                   content: -> (meeting) do
+                     content_tag :div, class: "flex justify-left h-full w-20" do
+                       if meeting.logo.attached?
+                         image_tag rails_storage_proxy_path(meeting.logo.variant(:thumbnail)), alt: "#{meeting.title} logo", class: "avatar avatar-sm"
+                       elsif Current.platform.logo.attached?
+                         image_tag rails_storage_proxy_path(Current.platform.logo.variant(:thumbnail)), alt: "#{Current.platform.name} logo", class: "avatar avatar-sm"
+                       end
+                     end
+                   end
+                 },
+                 {
+                   header: 'Name',
+                   content: -> (meeting) { truncate meeting.title, length: 30 }
+                 },
+                 {
+                   header: 'Date',
+                   content: -> (meeting) do
+                     if meeting.upcoming?
+                     else
+                       badge "Done", color: "green"
+                     end
+                     if meeting.scheduled?
+                       safe_join(
+                         [
+                           datetime_format(meeting.starts_at),
+                           "<br>".html_safe,
+                           badge("#{distance_of_time_in_words(Time.current, meeting.starts_at)} #{meeting.past? ? "ago" : "from now"}", color: "orange"),
+                         ]
+                       )
+                     else
+                       "No date set"
+                     end
+                   end
+                 },
+                 {
+                   header: "Location",
+                   content: -> (meeting) { meeting.location }
+                 },
+                 {
+                   header: "Description",
+                   content: -> (meeting) { truncate meeting.description.to_plain_text, length: 50 }
+                 },
+               ]
+    %>
+  <% end %>
 </div>

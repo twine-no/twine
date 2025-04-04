@@ -4,9 +4,11 @@ module Public
     before_action :set_meeting_and_invite, only: :show
 
     def index
-      meetings = @platform.meetings.open.upcoming.order(starts_at: :asc)
+      meetings = @platform.meetings.share_by_calendar.planned
       @meetings_by_date = meetings.group_by do |meeting|
-        meeting.starts_at.to_date
+        meeting.starts_at&.to_date
+      end.sort_by do |date, _meetings|
+        date.nil? ? [0, Date.new(0)] : [1, date]
       end
     end
 

@@ -18,9 +18,17 @@
         <%= link_to public_site_path(@platform.shortname),
                     target: "_blank",
                     class: "button button-primary flex items-center" do %>
-          <%= svg_tag "icons/mingcute/world_2_line", class: "h-3" %>
+          <%= svg_tag "icons/mingcute/world_2_line", class: "h-4" %>
           Live on <%= @platform.full_url("twine.no") %>
         <% end %>
+
+        <%= link_to public_events_path(@platform.shortname),
+                    target: "_blank",
+                    class: "button button-secondary flex justify-center items-center w-full" do %>
+          <%= svg_tag "icons/mingcute/world_2_line", class: "h-4" %>
+              Your calendar
+        <% end %>
+
         <%= button_to admin_site_path,
                       method: :patch,
                       params: {
