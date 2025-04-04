@@ -1,6 +1,6 @@
 module Admin
   class SharesController < AdminController
-    before_action :set_shareable, only: [:show, :update]
+    before_action :set_shareable, only: [ :show, :update ]
 
     def show
       case @shareable.class.name

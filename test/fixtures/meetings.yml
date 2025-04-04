@@ -21,7 +21,7 @@ football_club_training:
   starts_at: <%= 15.days.from_now %>
   platform: football_meetup
   guid: dKU5xRiRM_9uvviqYH9_SQ
-  open: true
+  share_by_link: true
 
 football_club_movie_night:
   title: Movie night

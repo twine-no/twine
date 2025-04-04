@@ -5,7 +5,7 @@ module Admin
     before_action :set_meeting, only: %i[show edit update destroy]
     before_action lambda {
       resize_image_file(meeting_params[:logo], width: 300, height: 300)
-    }, only: [:update]
+    }, only: [ :update ]
 
     def new
       date = params.fetch(:start_date, Date.today).to_date
@@ -82,7 +82,7 @@ module Admin
       return unless group_ids&.any?
 
       if group_ids.include?("everyone")
-        invite_groups = [Current.platform]
+        invite_groups = [ Current.platform ]
       else
         invite_groups = Current.platform.groups.where(id: group_ids)
       end
