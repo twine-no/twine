@@ -62,6 +62,10 @@
                    header: "Description",
                    content: -> (meeting) { truncate meeting.description.to_plain_text, length: 50 }
                  },
+                 {
+                   header: "Attendees",
+                   content: -> (meeting) {"#{meeting.rsvps.yes.size} going / #{meeting.rsvps.no.size} rejected"}
+                 }
                ]
     %>
   <% end %>
