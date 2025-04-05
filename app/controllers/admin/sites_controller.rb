@@ -25,7 +25,7 @@ module Admin
     end
 
     def platform_params
-      params.require(:platform).permit(:logo, :name, :tagline, :shortname, :listed)
+      params.require(:platform).permit(:logo, :name, :tagline, :calendar_tagline, :shortname, :listed)
     end
   end
 end

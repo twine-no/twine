@@ -36,6 +36,14 @@
                            last_word_connector: ' or '
                          ) %>
             <% end %>
+            <br>
+          <% end %>
+
+          <%= svg_tag "icons/mingcute/hand_line", class: "h-6 w-5 text-tertiary inline" %>
+          <% if meeting.rsvps.yes.any? %>
+            <%= pluralize meeting.rsvps.yes.size, "person", "people" %> going
+          <% else %>
+            Be the first to sign up!
           <% end %>
         </p>
       </div>

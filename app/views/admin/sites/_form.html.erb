@@ -26,6 +26,16 @@
   </div>
 
   <div class="form-group">
+    <%= form.label :calendar_tagline, "Calendar description" %>
+    <%= form.text_field :calendar_tagline,
+                        class: "form-control",
+                        placeholder: "Here's our events",
+                        maxLength: 180,
+                        data: { action: "change->submit-on-change#submit" } %>
+  </div>
+
+
+  <div class="form-group">
     <%= form.label :shortname,
                    "Your URL",
                    maxLength: 20 %>

@@ -9,7 +9,7 @@
       <div class="col-span-12 lg:col-span-5 mx-auto lg:my-auto px-6">
         <%= render "public/platforms/site_header",
                    platform: @platform,
-                   tagline: "" %>
+                   tagline: @platform.calendar_tagline %>
 
         <% if @platform.groups.share_by_calendar.any? %>
           <%= link_to root_path do %>
