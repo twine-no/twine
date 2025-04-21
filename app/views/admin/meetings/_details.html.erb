@@ -30,7 +30,7 @@
                     turbo_method: :delete,
                     turbo_confirm: "Are you sure you want to delete the meeting '#{@meeting.title}'#{(", scheduled for #{@meeting.starts_at.strftime("%B %d, %Y %H:%M") }" if @meeting.scheduled?)}?"
                   },
-                  class: "button button-secondary button-xs inline-flex items-center gap-1 z-3" do %>
+                  class: "btn" do %>
       Delete
       <% end %>
     </div>

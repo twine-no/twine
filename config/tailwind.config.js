@@ -1,33 +1,15 @@
 module.exports = {
     future: {
-        strictPostcssConfiguration: true,
+        strictPostcssConfiguration: true
     },
-    content: [
-        './public/*.html',
-        './app/helpers/**/*.rb',
-        './app/javascript/**/*.js',
-        './app/views/**/*.{erb,haml,html,slim}'
-    ],
-    safelist: [
-        {
-            pattern: /badge-(red|yellow|green|orange|gray|sm)/
-        },
-        {
-            pattern: /bg-(red|yellow|green|orange|gray)-100/
-        }
-    ],
-    theme: {
-        extend: {
-            fontFamily: {
-                sans: ["", 'InterVariable', "", 'system-ui', 'sans-serif'],
-                serif: ['Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
-                mono: ['ui-monospace', 'FSMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace']
-            },
-        },
+    content: ['./public/*.html', './app/helpers/**/*.rb', './app/javascript/**/*.js', './app/views/**/*.{erb,haml,html,slim}'],
+    daisyui: {
+        themes: ["cupcake --default", "cyberpunk --prefersdark"],
     },
     plugins: [
+        require('daisyui'),
         require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
-        require('@tailwindcss/container-queries'),
-    ]
-}
+        require('@tailwindcss/container-queries')
+    ],
+};

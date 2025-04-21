@@ -72,4 +72,10 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
+
+  config.hosts = [
+    "localhost:3000",
+    "twine.no", # Allow requests from example.com
+    /.*\.twine\.no/ # Allow requests from subdomains like `www.example.com`
+  ] + ENV["ALLOWED_HOSTS"].split(",")
 end

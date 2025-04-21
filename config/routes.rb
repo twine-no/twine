@@ -38,6 +38,7 @@ Rails.application.routes.draw do
     end
     resource :site, only: [ :show, :update ]
     resource :share, only: [ :show, :update ]
+    resource :configuration, only: [ :show, :update ]
     resources :meetings do
       resources :invites, only: [ :create, :index, :show, :destroy ]
       resources :mass_invites, only: [ :create ]

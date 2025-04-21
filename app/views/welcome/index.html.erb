@@ -1,16 +1,88 @@
-<div class="h-screen flex items-center justify-center">
-  <div class="text-center">
+<%# letters/show.html.erb %>
 
-    <div class="flex w-full mx-auto justify-center">
-      <%= image_tag 'logo.png',
-                    alt: 'Twine logo',
-                    class: 'w-auto h-20' %>
-    </div>
-    <p class="text-xl mt-4">Organise loose groups of people that<br>you don't meet every day 🧶</p>
+<% content_for :title, "A letter to the shareholders | Twine" %>
 
-    <div class="mt-5">
-      <%= link_to 'Get started', new_session_path, class: 'button button-primary button-xl' %>
+<div class="min-h-screen flex items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50">
+  <div class="max-w-2xl bg-white/90 backdrop-blur-sm rounded-xl shadow-md p-8 sm:p-10 w-full transform transition-all duration-500 animate-fade-in-down border border-amber-100">
+
+    <div class="flex justify-center mb-8">
+      <%= image_tag 'logo.png', alt: 'Twine logo', class: 'h-16 w-auto' %>
     </div>
 
+    <div class="space-y-6 text-amber-900 font-normal leading-relaxed">
+      <p>
+        Internett har et massivt potensiale til å være en positiv kraft i verden.
+      </p>
+
+      <p>Slik er det likevel ikke blitt.</p>
+
+      <p>
+        Hvis dette høres utdatert ut, som noe man ble fortalt av .
+        I stedet har det blitt en kraft for radikalisering.
+      </p>
+
+      <p>
+        Vi tror heller ikke løsningen er at myndighetene regulerer private IT-bedrifter bedre.
+        Reguleringen går for sakte, og selv de gangene reguleringene blir gode og arbeidet går raskt nok
+        . For ofte settes premissene for reguleringen av bransjen som skal reguleres.
+      </p>
+
+      <p>
+        Twine er open-source. Det betyr at du selv kan lese og være med å utvikle kildekoden. Ingen skjulte algoritmer, ingen privat finansierte agendaer – bare et fellesskap av mennesker som ønsker å skape bedre måter å holde kontakten på.
+      </p>
+
+      <p>
+        Vi tror på at teknologi skal styrke menneskelige relasjoner, ikke erstatte dem. Vår plattform er designet for å minne deg på de små øyeblikkene som betyr noe: en kaffedate med en gammel venn, en melding til en tidligere kollega, eller en påminnelse om å ringe noen du ikke har snakket med på en stund.
+      </p>
+
+      <p>
+        Bli med i vårt voksende fellesskap i dag og opplev hvordan Twine kan hjelpe deg med å holde trådene i ditt sosiale nettverk samlet, selv når hverdagen drar deg i forskjellige retninger.
+      </p>
+
+      <div>
+        <p class="text-amber-800">Vennlig hilsen,<br><span class="text-orange-600 font-medium">Twine</span></p>
+      </div>
+    </div>
   </div>
 </div>
+
+<style>
+    @keyframes fade-in-down {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fade-in {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-down {
+        animation: fade-in-down 0.6s ease-out forwards;
+    }
+
+    .animate-fade-in {
+        animation: fade-in 0.5s ease-out forwards;
+    }
+
+    .animate-bounce {
+        animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+</style>
