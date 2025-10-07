@@ -1,18 +1,19 @@
-@import "actiontext.css";
-@import "custom/animations.tailwind.css";
-@import "custom/badges.tailwind.css";
-@import "custom/buttons.tailwind.css";
-@import "custom/calendar.tailwind.css";
-@import "custom/forms.tailwind.css";
-@import "custom/images.tailwind.css";
-@import "custom/navigation.tailwind.css";
-@import "custom/tables.tailwind.css";
-@import "custom/text.tailwind.css";
-@import "custom/tooltips.tailwind.css";
+@import "../stylesheets/actiontext.css";
+@import "../stylesheets/custom/animations.tailwind.css";
+@import "../stylesheets/custom/badges.tailwind.css";
+@import "../stylesheets/custom/calendar.tailwind.css";
+@import "../stylesheets/custom/forms.tailwind.css";
+@import "../stylesheets/custom/images.tailwind.css";
+@import "../stylesheets/custom/navigation.tailwind.css";
+@import "../stylesheets/custom/tables.tailwind.css";
+@import "../stylesheets/custom/text.tailwind.css";
+@import "../stylesheets/custom/tooltips.tailwind.css";
 
-@plugin "daisyui";
-
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@plugin "daisyui" {
+    themes: bumblebee --default, sunset --prefersdark;
+}
 
 /* Prevents Tailwind from removing default browser styles for lists, used by ActionText */
 @layer base {

@@ -77,10 +77,10 @@
     </h3>
     <p class="min-h-12">
       <% if Current.platform.listed? %>
-        It's <%= link_to Current.platform.full_url(request.base_url), Current.platform.full_url(request.base_url), target: "_blank", class: "link link-tertiary" %>.
+        It's <%= link_to Current.platform.full_url(request.base_url), Current.platform.full_url(request.base_url), target: "_blank", class: "link link-accent" %>.
       <% else %>
         Keep people in the loop with a really
-        simple, <%= link_to "free website", admin_site_path, class: "link link-tertiary" %>.
+        simple, <%= link_to "free website", admin_site_path, class: "link link-accent" %>.
       <% end %>
     </p>
     <div class="mt-4">

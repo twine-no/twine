@@ -26,48 +26,43 @@
   <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
 
   <%# Includes all stylesheet files in app/assets/stylesheets %>
-  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
 </head>
 
-<body>
-<div
-  data-controller="sidebar drawer">
+<body
+  data-theme="<%= cookies[:darkmode] ? "sunset" : "bumblebee" %>"
+>
+<div class="drawer drawer-open">
   <%= render 'navigation/desktop_sidebar' %>
+  <div class="drawer-content flex flex-col items-center justify-center">
+    <div>
+      <%= render 'navigation/top_bar' %>
+      <main
+        data-controller="modal"
+        data-modal-open-on-page-load-value="<%= @modal_content.present? %>"
+        data-action="turbo:load@document->modal#close"
+        class="pt-10 pb-32 min-h-[100vh]"
+      >
 
-  <div class="lg:pl-72">
-    <%= render 'navigation/top_bar' %>
-    <main
-      data-controller="modal"
-      data-modal-open-on-page-load-value="<%= @modal_content.present? %>"
-      data-action="turbo:load@document->modal#close"
-      class="pt-10 pb-32 min-h-[100vh]"
-    >
-
-      <div class="px-4 sm:px-6 lg:px-8">
-        <% if content_for?(:breadcrumbs) %>
-          <div class="font-medium breadcrumbs">
-            <%= yield :breadcrumbs %>
+        <div class="px-4 sm:px-6 lg:px-8 ">
+          <%= yield %>
+          <div
+            class="fixed inset-x-0 bottom-0 flex flex-col w-full pointer-events-none dynamic-flash-container"
+            data-turbo-temporary
+          >
+            <%= render 'navigation/flash' %>
           </div>
-        <% end %>
 
-        <%= yield %>
-        <div
-          class="fixed inset-x-0 bottom-0 flex flex-col w-full pointer-events-none dynamic-flash-container"
-          data-turbo-temporary
-        >
-          <%= render 'navigation/flash' %>
+          <div>
+            <%= render 'navigation/modal', modal_content: @modal_content %>
+          </div>
         </div>
-
-        <div>
-          <%= render 'navigation/modal', modal_content: @modal_content %>
-        </div>
-      </div>
-    </main>
+      </main>
+    </div>
+    <%= render 'navigation/mobile_menu' %>
   </div>
-
-  <%= render 'navigation/mobile_menu' %>
 </div>
 </body>
 </html>

@@ -75,6 +75,7 @@ Rails.application.configure do
 
   config.hosts = [
     "localhost:3000",
+    "localhost:3001",
     "twine.no", # Allow requests from example.com
     /.*\.twine\.no/ # Allow requests from subdomains like `www.example.com`
   ] + ENV["ALLOWED_HOSTS"].split(",")
