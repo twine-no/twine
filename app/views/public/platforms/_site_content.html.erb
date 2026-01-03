@@ -25,11 +25,13 @@
           <% end %>
         </div>
       </div>
-      <div class="flex h-40 items-center justify-center">
-        <%= link_to root_path, target: "_blank" do %>
-          Made with <strong>Twine</strong> 🧶
-        <% end %>
-      </div>
+      <% unless on_custom_domain? %>
+        <div class="flex h-40 items-center justify-center">
+          <%= link_to root_path, target: "_blank" do %>
+            Made with <strong>Twine</strong> 🧶
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
 <% end %>
