@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   # If visiting the app root on a custom domain, direct to the public platform page
   constraints(CustomDomainConstraint.new) do
     root to: "public/platforms#show", as: :custom_domain_root
+    # About page on custom domains lives at /about
+    get "about", to: "public/platforms/about#show", as: :custom_domain_about
   end
 
   # Default root for the primary domain / local development
@@ -22,6 +24,8 @@ Rails.application.routes.draw do
   # The route that ensures all your website can be hosted on twine.no/@mypage (also /p/ to support a few legacy links)
   get "@:shortname", to: "public/platforms#show", constraints: { shortname: /[^\/]+/ }, as: :public_site
   get "p/:shortname", to: "public/platforms#show", as: :legacy_public_site
+  # About page for a platform (both @shortname and /platforms/:shortname forms)
+  get "@:shortname/about", to: "public/platforms/about#show", constraints: { shortname: /[^\/]+/ }, as: :public_site_about
   get "offline", to: "public/offline_notices#show", as: :offline_notice
 
   get "e/:guid", to: "public/meetings#show", constraints: { guid: /[^\/]+/ }, as: :public_event

@@ -7,5 +7,20 @@
                   class: "avatar" %>
   <% end %>
   <h1 class="text-xl font-bold mb-2"><%= platform.name %></h1>
-  <p class="text-opacity-90"><%= tagline %></p>
+  <p class="text-opacity-90">
+    <%= tagline %>
+  </p>
+  <% if controller_name == "about" %>
+    <%= link_to "Til forsiden",
+                "https://#{platform.full_url}",
+                data: { turbo_frame: "_top" },
+                class: "underline" %>
+  <% else %>
+    <% if platform.about.present? %>
+      <%= link_to "Om oss",
+                  on_custom_domain? ? custom_domain_about_path : public_site_about_path(platform.shortname),
+                  data: { turbo_frame: "_top" },
+                  class: "underline" %>
+    <% end %>
+  <% end %>
 </div>

@@ -2,19 +2,31 @@ module Admin
   class SitesController < AdminController
     include ImageUploadHandling
 
-    before_action :set_platform, only: [:show, :update]
+    before_action :set_platform, only: [ :show, :update ]
     before_action lambda {
       resize_image_file(platform_params[:logo], width: 300, height: 300)
-    }, only: [:update]
+    }, only: [ :update ]
 
     def show
     end
 
     def update
       if @platform.update(platform_params)
-        redirect_to admin_site_path, notice: "Site updated."
+        respond_to do |format|
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.replace(
+              "site_content",
+              partial: "public/platforms/site_content",
+              locals: { platform: @platform }
+            )
+          end
+          format.html { redirect_to admin_site_path, notice: "Site updated." }
+        end
       else
-        render "admin/sites/show", status: :unprocessable_content
+        respond_to do |format|
+          format.turbo_stream { render status: :unprocessable_content }
+          format.html { render "admin/sites/show", status: :unprocessable_content }
+        end
       end
     end
 
