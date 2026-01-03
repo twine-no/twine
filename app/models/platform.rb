@@ -19,11 +19,17 @@ class Platform < ApplicationRecord
   validates :name, length: { minimum: 3, maximum: 50 }, presence: true
 
   has_one_attached :logo do |attachable|
-    attachable.variant :thumbnail, resize_to_limit: [ 300, 300 ]
+    attachable.variant :thumbnail, resize_to_limit: [300, 300]
   end
 
-  def full_url(hostname)
-    "#{hostname}/@#{shortname}"
+  has_rich_text :description
+
+  def full_url
+    if domain.present?
+      domain
+    else
+      "#{base_url}/@#{shortname}"
+    end
   end
 
   private

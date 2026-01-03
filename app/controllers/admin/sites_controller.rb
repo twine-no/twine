@@ -2,10 +2,10 @@ module Admin
   class SitesController < AdminController
     include ImageUploadHandling
 
-    before_action :set_platform, only: [ :show, :update ]
+    before_action :set_platform, only: [:show, :update]
     before_action lambda {
       resize_image_file(platform_params[:logo], width: 300, height: 300)
-    }, only: [ :update ]
+    }, only: [:update]
 
     def show
     end
@@ -25,7 +25,15 @@ module Admin
     end
 
     def platform_params
-      params.require(:platform).permit(:logo, :name, :tagline, :calendar_tagline, :shortname, :listed)
+      params.require(:platform).permit(
+        :logo,
+        :name,
+        :tagline,
+        :calendar_tagline,
+        :about,
+        :shortname,
+        :listed
+      )
     end
   end
 end
