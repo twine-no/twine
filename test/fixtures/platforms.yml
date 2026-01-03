@@ -9,6 +9,7 @@ coffee_shop:
   category: 1
   shortname: springcoffee
   listed: false
+  domain: unlisted.lvh.me
 
 political_chapter:
   name: Kjelsås Labour Party

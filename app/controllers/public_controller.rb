@@ -6,11 +6,13 @@ class PublicController < ApplicationController
   protected
 
   def set_platform
-    @platform =
       if on_custom_domain?
-        Platform.listed.find_by(domain: request.host)
+        # On custom domains, try to find the platform by domain regardless of listing.
+        # If none exists yet, create a placeholder so we can render the offline page.
+        @platform = Platform.listed.find_by(domain: request.host)
+        redirect_to offline_notice_path unless @platform
       else
-        Platform.listed.find_by!(shortname: params[:shortname])
+        @platform = Platform.listed.find_by!(shortname: params[:shortname])
       end
   end
 end

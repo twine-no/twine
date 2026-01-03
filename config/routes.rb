@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   # The route that ensures all your website can be hosted on twine.no/@mypage (also /p/ to support a few legacy links)
   get "@:shortname", to: "public/platforms#show", constraints: { shortname: /[^\/]+/ }, as: :public_site
   get "p/:shortname", to: "public/platforms#show", as: :legacy_public_site
+  get "offline", to: "public/offline_notices#show", as: :offline_notice
 
   get "e/:guid", to: "public/meetings#show", constraints: { guid: /[^\/]+/ }, as: :public_event
   get "@:shortname/events", to: "public/meetings#index", constraints: { shortname: /[^\/]+/ }, as: :public_events
