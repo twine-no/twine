@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  # If visiting the app root on a custom domain, direct to the public platform page
+  constraints(CustomDomainConstraint.new) do
+    root to: "public/platforms#show", as: :custom_domain_root
+  end
+
+  # Default root for the primary domain / local development
   root "welcome#index"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -21,7 +27,6 @@ Rails.application.routes.draw do
   get "@:shortname/events", to: "public/meetings#index", constraints: { shortname: /[^\/]+/ }, as: :public_events
 
   get "g/:guid", to: "public/groups#show", constraints: { guid: /[^\/]+/ }, as: :public_group
-
 
   resources :events, only: [ :index, :show ], controller: :meetings
 

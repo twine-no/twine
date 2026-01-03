@@ -6,11 +6,5 @@ module Public
 
     def show
     end
-
-    private
-
-    def set_platform
-      @platform = Platform.listed.find_by!(shortname: params[:shortname])
-    end
   end
 end

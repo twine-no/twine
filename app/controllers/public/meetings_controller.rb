@@ -17,10 +17,6 @@ module Public
 
     private
 
-    def set_platform
-      @platform = Platform.find_by!(shortname: params[:shortname])
-    end
-
     def set_meeting_and_invite
       if params[:invite_guid]
         @meeting = Meeting.find_by!(guid: params[:guid])

@@ -13,5 +13,6 @@ coffee_shop:
 political_chapter:
   name: Kjelsås Labour Party
   category: 2
-  shortname: polparty
+  shortname: kjelsasap
   listed: true
+  domain: kjelsasap.lvh.me
