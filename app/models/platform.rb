@@ -25,11 +25,15 @@ class Platform < ApplicationRecord
   has_rich_text :about
 
   def full_url
-    if domain.present?
+    if custom_domain?
       domain
     else
       "#{base_url}/@#{shortname}"
     end
+  end
+
+  def custom_domain?
+    domain.present?
   end
 
   private
