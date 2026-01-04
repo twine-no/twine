@@ -52,15 +52,21 @@ module UiHelper
     end
   end
 
-  # Call blur_foreground_classes on the element inside the element with blur_background_styles
-  def blur_foreground_classes
+  # Applies blur to the element inside element with background_styles
+  def blur_foreground_classes(platform)
+    return "" if platform.color
+
     "backdrop-blur-3xl bg-white/60"
   end
 
-  def blur_background_styles(image, fallback_image: nil)
-    blur_image = (image.variant(:thumbnail) if image.attached?) || (fallback_image.variant(:thumbnail) if fallback_image.attached?)
-    return unless blur_image
+  def background_styles(image: nil, fallback_image: nil, color: nil)
+    if color
+      "background-color: #{color}; background-size: 150%;"
+    else
+      blur_image = (image.variant(:thumbnail) if image.attached?) || (fallback_image.variant(:thumbnail) if fallback_image.attached?)
+      return unless blur_image
 
-    "background-image: url(#{ rails_storage_proxy_path(blur_image)}); background-size: 150%;"
+      "background-image: url(#{ rails_storage_proxy_path(blur_image)}); background-size: 150%;".html_safe
+    end
   end
 end

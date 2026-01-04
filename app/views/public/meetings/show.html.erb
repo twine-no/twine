@@ -1,8 +1,8 @@
 <div
   class="min-h-screen bg-center"
-  style="<%= blur_background_styles(@meeting.logo, fallback_image: @meeting.platform.logo) %>"
+  style="<%= background_styles(image: @meeting.logo, fallback_image: @meeting.platform.logo, color: @meeting.platform.color) %>"
 >
-  <div class="flex justify-between flex-col min-h-screen w-full p-4 backdrop-blur-3xl bg-white/60">
+  <div class="flex justify-between flex-col min-h-screen w-full p-4 <%= blur_foreground_classes(@meeting.platform) %>">
     <div class="max-w-lg mx-auto pt-8">
       <div class="text-center mb-8">
         <% if @meeting.logo.attached? %>

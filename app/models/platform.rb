@@ -12,11 +12,13 @@ class Platform < ApplicationRecord
 
   normalizes :name, :tagline, with: ->(string) { string.strip }
   normalizes :shortname, with: ->(shortname) { shortname.parameterize }
+  normalizes :color, with: ->(color) { color&.strip&.downcase }
 
   before_validation :generate_shortname, on: :create
   validates :shortname, uniqueness: true, length: { minimum: 3, maximum: 28 }, presence: true
   validates :tagline, length: { maximum: 180 }
   validates :name, length: { minimum: 3, maximum: 50 }, presence: true
+  validates :color, format: { with: /\A#?(?:[0-9a-f]{3}|[0-9a-f]{6})\z/, message: "must be a hex color like #fff or #ffffff" }, allow_blank: true
 
   has_one_attached :logo do |attachable|
     attachable.variant :thumbnail, resize_to_limit: [ 300, 300 ]
