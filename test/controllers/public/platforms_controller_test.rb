@@ -30,5 +30,19 @@ module Public
       get "/"
       assert_redirected_to offline_notice_path
     end
+
+    test "#show displays upcoming event box when calendar has upcoming event" do
+      get public_site_path(platforms(:political_chapter).shortname)
+      assert_response :success
+      assert_select "a[href=?]", public_events_path(shortname: platforms(:political_chapter).shortname)
+      assert_select "span.font-medium", text: "Neste:"
+      assert_select "a", text: /Årsmøte/
+    end
+
+    test "#show does not display upcoming event box when calendar does not have upcoming event" do
+      get public_site_path(platforms(:football_meetup).shortname)
+      assert_response :success
+      assert_select "a[href=?]", public_events_path(shortname: platforms(:football_meetup).shortname), count: 0
+    end
   end
 end

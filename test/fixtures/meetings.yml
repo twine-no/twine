@@ -34,3 +34,10 @@ next_political_chapter_board_meeting:
   starts_at: <%= 2.days.from_now %>
   platform: political_chapter
   guid: bxU5xasRM_9uvviqYH9_S1
+
+political_chapter_public_meeting:
+  title: Årsmøte
+  starts_at: <%= 7.days.from_now %>
+  platform: political_chapter
+  guid: fKU5xRiRM_9uvviqYH9_SQ
+  share_by_calendar: true
