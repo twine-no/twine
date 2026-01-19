@@ -4,6 +4,10 @@ class AdminController < ApplicationController
   before_action :ensure_user_is_onboarded
   before_action :ensure_user_has_admin_rights
 
+  def index
+    redirect_to admin_dashboard_path
+  end
+
   protected
 
   def ensure_user_is_onboarded
