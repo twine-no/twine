@@ -1,16 +1,54 @@
-<div class="h-screen flex items-center justify-center">
-  <div class="text-center">
-
-    <div class="flex w-full mx-auto justify-center">
+<div class="min-h-screen">
+  <!-- Hero Section -->
+  <div class="flex flex-col items-center justify-center pt-24 pb-16 px-6">
+    <div class="flex w-full mx-auto justify-center mb-8">
       <%= image_tag 'logo.png',
                     alt: 'Twine logo',
-                    class: 'w-auto h-20' %>
-    </div>
-    <p class="text-xl mt-4">Organise loose groups of people that<br>you don't meet every day 🧶</p>
-
-    <div class="mt-5">
-      <%= link_to 'Get started', new_session_path, class: 'button button-primary button-xl' %>
+                    class: 'w-auto h-16' %>
     </div>
 
+    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-gray-900 max-w-4xl leading-tight">
+      Everything you need to manage a group of people who don't want to download
+      <span class="inline-block"
+            data-controller="text-carousel"
+            data-text-carousel-words-value='["Slack", "Facebook", "Signal", "WhatsApp", "Discord", "Teams"]'
+            data-text-carousel-interval-value="2000">
+        <span data-text-carousel-target="text"
+              class="text-[#17BEBB] transition-opacity duration-200">Slack</span>
+      </span>
+    </h1>
+
+    <div class="mt-10">
+      <%= link_to 'Get started', new_session_path, class: 'button button-primary button-xl text-lg px-8 py-4' %>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    <div class="grid md:grid-cols-3 gap-12">
+      <!-- Feature 1 -->
+      <div class="text-center md:text-left">
+        <h2 class="text-xl font-semibold text-gray-900 mb-3">Reach people where they already are</h2>
+        <p class="text-gray-600 leading-relaxed">
+          No one wants to download another app. Just use SMS and email, and a few links to tie it all together.
+        </p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="text-center md:text-left">
+        <h2 class="text-xl font-semibold text-gray-900 mb-3">Make a really simple website</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Get what you need. A logo, your name, and any links you choose. Twine integrates nicely with the rest of your online presence.
+        </p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="text-center md:text-left">
+        <h2 class="text-xl font-semibold text-gray-900 mb-3">Keep everyone in the loop</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Twine makes it really easy to follow your events and announcements.
+        </p>
+      </div>
+    </div>
   </div>
 </div>
