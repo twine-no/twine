@@ -12,7 +12,7 @@
   </p>
   <% if controller_name == "about" %>
     <%= link_to "Til forsiden",
-                "https://#{platform.full_url}",
+                "https://#{platform.full_url(request.base_url)}",
                 data: { turbo_frame: "_top" },
                 class: "underline" %>
   <% else %>
