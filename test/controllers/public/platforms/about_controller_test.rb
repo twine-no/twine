@@ -11,6 +11,14 @@ module Public
         assert_response :success
         assert_includes @response.body, "About text test"
       end
+
+      test "#show succeeds when about is empty" do
+        platform = platforms(:political_chapter)
+        platform.about = nil
+
+        get public_site_about_path(platform.shortname)
+        assert_response :success
+      end
     end
   end
 end

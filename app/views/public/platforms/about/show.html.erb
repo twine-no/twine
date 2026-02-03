@@ -10,10 +10,10 @@
                  tagline: @platform.tagline %>
 
       <div class="prose prose-indigo max-w-none bg-white bg-opacity-90 rounded-lg shadow-lg p-4">
-        <% if @platform.respond_to?(:about) && @platform.about.present? %>
+        <% if @platform.about.present? %>
           <%= @platform.about %>
         <% else %>
-          <%= @platform.description %>
+          <%= @platform.tagline %>
         <% end %>
       </div>
     </div>
