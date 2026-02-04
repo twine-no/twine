@@ -88,4 +88,4 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "bugsnag", "~> 6.27"
+gem "bugsnag", "~> 6.28"
