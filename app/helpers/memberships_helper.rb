@@ -1,6 +1,9 @@
 module MembershipsHelper
   def platform_accent_color(platform)
-    platform.color.presence || "#7c3aed"
+    color = platform.color.presence
+    return "#7c3aed" unless color
+
+    color.start_with?("#") ? color : "##{color}"
   end
 
   def membership_role_color(membership)

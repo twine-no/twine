@@ -14,7 +14,6 @@
                         admin_membership_switch_path(membership),
                         data: { turbo_method: :post },
                         class: "block text-2xl font-black text-gray-950 leading-tight hover:opacity-60 transition-opacity truncate" %>
-            <p class="text-xs uppercase tracking-widest text-gray-400 mt-1 font-semibold"><%= membership.role.humanize %></p>
           </div>
           <%= link_to "→",
                       admin_membership_switch_path(membership),
@@ -38,7 +37,7 @@
     <div class="add-platform-card p-5 flex items-center justify-center">
       <%= modal_link_to new_admin_platform_path, class: "flex items-center gap-3 text-gray-400 hover:text-gray-900 transition-colors group" do %>
         <span class="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center text-lg leading-none">+</span>
-        <span class="text-base font-semibold">New platform</span>
+        <span class="text-base font-semibold">Work on something new</span>
       <% end %>
     </div>
   </div>
