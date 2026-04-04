@@ -36,6 +36,8 @@ Rails.application.routes.draw do
   resources :events, only: [ :index, :show ], controller: :meetings
 
   namespace :admin do
+    root to: "wellbeing#show"
+    patch "memberships/:id/feeling", to: "wellbeing#update_feeling", as: :membership_feeling
     resource :onboarding, only: [ :show, :update ]
     resource :dashboard, only: [ :show ]
     resources :memberships, path: "members"

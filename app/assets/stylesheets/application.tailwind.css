@@ -10,6 +10,7 @@
 @import "custom/tables.tailwind.css";
 @import "custom/text.tailwind.css";
 @import "custom/tooltips.tailwind.css";
+@import "custom/wellbeing.css";
 
 @tailwind base;
 @tailwind components;

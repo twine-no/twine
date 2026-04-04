@@ -1,0 +1,25 @@
+<div class="w-full max-w-md bg-white rounded-2xl shadow-sm p-8"
+     data-controller="wellbeing">
+
+  <h1 class="text-xl font-semibold text-gray-800 mb-8">Hvordan føler du at det går?</h1>
+
+  <div class="space-y-6">
+    <% @memberships.each do |membership| %>
+      <div class="group" data-wellbeing-target="row">
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-sm font-medium text-gray-700"><%= membership.platform.name %></span>
+        </div>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value="<%= membership.feeling || 50 %>"
+          class="wellbeing-slider w-full"
+          data-wellbeing-target="slider"
+          data-membership-id="<%= membership.id %>"
+          data-action="input->wellbeing#preview change->wellbeing#save"
+        >
+      </div>
+    <% end %>
+  </div>
+</div>
