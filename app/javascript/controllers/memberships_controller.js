@@ -1,7 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["slider", "row"]
+  static targets = ["slider"]
+
+  connect() {
+    this.sliderTargets.forEach(slider => this.updateTrackFill(slider))
+  }
 
   preview(event) {
     this.updateTrackFill(event.currentTarget)
@@ -11,25 +15,18 @@ export default class extends Controller {
     const slider = event.currentTarget
     this.updateTrackFill(slider)
 
-    const membershipId = slider.dataset.membershipId
-    const feeling = slider.value
-
-    await fetch(`/admin/memberships/${membershipId}/feeling`, {
+    await fetch(`/admin/memberships/${slider.dataset.membershipId}/feeling`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content
       },
-      body: JSON.stringify({ feeling })
+      body: JSON.stringify({ feeling: slider.value })
     })
   }
 
   updateTrackFill(slider) {
     const pct = ((slider.value - slider.min) / (slider.max - slider.min)) * 100
     slider.style.setProperty("--fill-pct", `${pct}%`)
-  }
-
-  connect() {
-    this.sliderTargets.forEach(slider => this.updateTrackFill(slider))
   }
 }

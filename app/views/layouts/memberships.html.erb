@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= content_for(:title) || 'Twine' %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+<body class="min-h-screen bg-[#0d1117]"
+      data-controller="modal"
+      data-modal-open-on-page-load-value="<%= @modal_content.present? %>">
+  <main class="min-h-screen flex items-center justify-center px-6 py-16">
+    <%= yield %>
+
+    <div class="fixed inset-x-0 bottom-0 flex flex-col w-full pointer-events-none dynamic-flash-container"
+         data-turbo-temporary>
+      <%= render 'navigation/flash' %>
+    </div>
+
+    <%= render 'navigation/modal', modal_content: @modal_content %>
+  </main>
+</body>
+</html>
