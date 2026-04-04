@@ -23,10 +23,26 @@ export default class extends Controller {
       },
       body: JSON.stringify({ feeling: slider.value })
     })
+
+    slider.classList.add("feeling-saved")
+    slider.addEventListener("animationend", () => slider.classList.remove("feeling-saved"), { once: true })
   }
 
   updateTrackFill(slider) {
-    const pct = ((slider.value - slider.min) / (slider.max - slider.min)) * 100
-    slider.style.setProperty("--fill-pct", `${pct}%`)
+    const pct = (slider.value - slider.min) / (slider.max - slider.min)
+    const color = this.feelingColor(pct)
+    slider.style.setProperty("--fill-pct", `${pct * 100}%`)
+    slider.style.setProperty("--fill-color", color)
+    slider.style.setProperty("--glow-color", color.replace("rgb(", "rgba(").replace(")", ", 0.28)"))
+  }
+
+  feelingColor(pct) {
+    if (pct < 0.5) {
+      const t = pct * 2
+      return `rgb(${Math.round(248 + (251 - 248) * t)}, ${Math.round(113 + (191 - 113) * t)}, ${Math.round(113 + (36 - 113) * t)})`
+    } else {
+      const t = (pct - 0.5) * 2
+      return `rgb(${Math.round(251 + (74 - 251) * t)}, ${Math.round(191 + (222 - 191) * t)}, ${Math.round(36 + (128 - 36) * t)})`
+    }
   }
 }
