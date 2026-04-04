@@ -1,27 +1,29 @@
 <div class="w-full max-w-lg mx-auto" data-controller="memberships">
 
   <div class="mb-10">
-    <h1 class="text-4xl font-black tracking-tight text-white">Your platforms</h1>
-    <p class="text-gray-500 mt-2 text-base">Slide to rate how each one is going</p>
+    <h1 class="text-5xl font-black tracking-tight text-gray-950 leading-tight">
+      Your<br><em class="not-italic" style="color: #7c3aed;">platforms.</em>
+    </h1>
+    <p class="text-gray-500 mt-3 text-base">Slide to rate how each one is going</p>
   </div>
 
-  <div class="space-y-3">
+  <div class="space-y-4">
     <% @memberships.each do |membership| %>
-      <% accent = membership.platform.color.presence || "#6366f1" %>
-      <div class="membership-card rounded-2xl p-5" style="border-left-color: <%= accent %>">
+      <% accent = membership.platform.color.presence || "#7c3aed" %>
+      <div class="membership-card p-5" style="--accent: <%= accent %>">
 
-        <div class="flex items-start justify-between mb-4">
+        <div class="flex items-start justify-between mb-5">
           <div class="flex-1 min-w-0 pr-4">
             <%= link_to membership.platform.name,
                         admin_switch_membership_path(membership),
                         data: { turbo_method: :patch },
-                        class: "block text-2xl font-black text-white leading-tight hover:opacity-70 transition-opacity truncate" %>
-            <p class="text-xs uppercase tracking-widest text-gray-500 mt-1 font-medium"><%= membership.role.humanize %></p>
+                        class: "block text-2xl font-black text-gray-950 leading-tight hover:opacity-60 transition-opacity truncate" %>
+            <p class="text-xs uppercase tracking-widest text-gray-400 mt-1 font-semibold"><%= membership.role.humanize %></p>
           </div>
           <%= link_to "→",
                       admin_switch_membership_path(membership),
                       data: { turbo_method: :patch },
-                      class: "text-gray-600 hover:text-white transition-colors text-xl mt-1 flex-shrink-0 font-light" %>
+                      class: "text-gray-300 hover:text-gray-900 transition-colors text-xl mt-1 flex-shrink-0" %>
         </div>
 
         <input
@@ -38,9 +40,9 @@
       </div>
     <% end %>
 
-    <div class="add-platform-card rounded-2xl p-5 flex items-center justify-center">
-      <%= modal_link_to new_admin_platform_path, class: "flex items-center gap-3 text-gray-600 hover:text-white transition-colors group" do %>
-        <span class="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center text-lg leading-none group-hover:border-white transition-colors">+</span>
+    <div class="add-platform-card p-5 flex items-center justify-center">
+      <%= modal_link_to new_admin_platform_path, class: "flex items-center gap-3 text-gray-400 hover:text-gray-900 transition-colors group" do %>
+        <span class="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center text-lg leading-none">+</span>
         <span class="text-base font-semibold">New platform</span>
       <% end %>
     </div>

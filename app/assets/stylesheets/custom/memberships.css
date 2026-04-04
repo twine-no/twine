@@ -1,41 +1,46 @@
-/* Memberships home page */
+/* Memberships home — warm, hand-crafted, Fly.io-inspired */
 
 .membership-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-left-width: 3px;
-  transition: background 0.2s ease, transform 0.15s ease;
+  background: white;
+  border: 2px solid #111;
+  border-left: 5px solid var(--accent, #7c3aed);
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 #111;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .membership-card:hover {
-  background: rgba(255, 255, 255, 0.07);
-  transform: translateX(3px);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #111;
 }
 
 .add-platform-card {
   background: transparent;
-  border: 2px dashed rgba(255, 255, 255, 0.12);
-  transition: border-color 0.2s ease, background 0.2s ease;
+  border: 2px dashed #bbb;
+  border-radius: 14px;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .add-platform-card:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.03);
+  border-color: #111;
+  background: white;
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 #111;
 }
 
 /* Feeling slider */
 
 .memberships-slider {
   --fill-pct: 50%;
-  --accent: #6366f1;
+  --accent: #7c3aed;
   -webkit-appearance: none;
   appearance: none;
-  height: 5px;
+  height: 6px;
   border-radius: 9999px;
   background: linear-gradient(
     to right,
     var(--accent) var(--fill-pct),
-    rgba(255, 255, 255, 0.1) var(--fill-pct)
+    #e5e7eb var(--fill-pct)
   );
   outline: none;
   cursor: pointer;
@@ -44,40 +49,40 @@
 }
 
 .memberships-slider:hover {
-  height: 8px;
+  height: 9px;
 }
 
 .memberships-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: white;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+  border: 2px solid #111;
+  box-shadow: 2px 2px 0 #111;
   cursor: grab;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s ease;
 }
 
 .memberships-slider:hover::-webkit-slider-thumb {
-  transform: scale(1.25);
-  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.15);
+  transform: scale(1.2);
 }
 
 .memberships-slider:active::-webkit-slider-thumb {
   cursor: grabbing;
-  transform: scale(1.35);
+  transform: scale(1.3);
 }
 
 .memberships-slider::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: white;
-  border: none;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+  border: 2px solid #111;
+  box-shadow: 2px 2px 0 #111;
   cursor: grab;
 }
 
 .memberships-slider:hover::-moz-range-thumb {
-  transform: scale(1.25);
+  transform: scale(1.2);
 }
