@@ -6,20 +6,19 @@
 
   <div class="space-y-4">
     <% @memberships.each do |membership| %>
-      <% accent = membership.platform.color.presence || "#7c3aed" %>
-      <div class="membership-card p-5" style="--accent: <%= accent %>">
+      <div class="membership-card p-5" style="--accent: <%= platform_accent_color(membership.platform) %>">
 
         <div class="flex items-start justify-between mb-5">
           <div class="flex-1 min-w-0 pr-4">
             <%= link_to membership.platform.name,
-                        admin_switch_membership_path(membership),
-                        data: { turbo_method: :patch },
+                        admin_membership_switch_path(membership),
+                        data: { turbo_method: :post },
                         class: "block text-2xl font-black text-gray-950 leading-tight hover:opacity-60 transition-opacity truncate" %>
             <p class="text-xs uppercase tracking-widest text-gray-400 mt-1 font-semibold"><%= membership.role.humanize %></p>
           </div>
           <%= link_to "→",
-                      admin_switch_membership_path(membership),
-                      data: { turbo_method: :patch },
+                      admin_membership_switch_path(membership),
+                      data: { turbo_method: :post },
                       class: "text-gray-300 hover:text-gray-900 transition-colors text-xl mt-1 flex-shrink-0" %>
         </div>
 
@@ -30,9 +29,8 @@
           value="<%= membership.feeling || 50 %>"
           class="memberships-slider w-full"
           data-memberships-target="slider"
-          data-membership-id="<%= membership.id %>"
+          data-action-url="<%= admin_membership_feeling_path(membership) %>"
           data-action="input->memberships#preview change->memberships#save"
-          style="--accent: <%= accent %>"
         >
       </div>
     <% end %>

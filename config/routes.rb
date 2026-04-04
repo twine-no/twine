@@ -37,12 +37,13 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root to: "memberships#show"
-    patch "memberships/:id/feeling", to: "memberships#update_feeling", as: :membership_feeling
-    patch "memberships/:id/switch", to: "memberships#switch", as: :switch_membership
     resource :platform, only: [ :new, :create ]
     resource :onboarding, only: [ :show, :update ]
     resource :dashboard, only: [ :show ]
-    resources :memberships, path: "members", controller: "members"
+    resources :memberships, path: "members", controller: "members" do
+      resource :feeling, only: [ :update ], module: :memberships
+      resource :switch, only: [ :create ], module: :memberships
+    end
     resources :groups, only: [ :new, :create, :edit, :update, :destroy ]
     resources :groups_memberships, only: [ :create, :destroy ]
     resources :links, only: [ :new, :create, :update, :destroy ] do

@@ -3,17 +3,17 @@
     <h2 class="text-xl font-bold mb-6 text-gray-900">New platform</h2>
 
     <%= form_with model: @platform, url: admin_platform_path,
-                  data: { turbo_frame: "_top" } do |f| %>
+                  data: { turbo_frame: "_top" } do |form| %>
       <%= render 'navigation/form_errors', model: @platform %>
 
       <div class="form-group">
-        <%= f.label :name, "Name" %>
-        <%= f.text_field :name, class: "form-control", required: true, autofocus: true,
+        <%= form.label :name, "Name" %>
+        <%= form.text_field :name, class: "form-control", required: true, autofocus: true,
                          placeholder: "e.g. Kjelsås Fotball" %>
       </div>
 
       <div class="mt-6">
-        <%= f.submit "Create platform", class: "button button-primary w-full" %>
+        <%= form.submit "Create platform", class: "button button-primary w-full" %>
       </div>
     <% end %>
   <% end %>

@@ -15,7 +15,7 @@ export default class extends Controller {
     const slider = event.currentTarget
     this.updateTrackFill(slider)
 
-    await fetch(`/admin/memberships/${slider.dataset.membershipId}/feeling`, {
+    await fetch(slider.dataset.actionUrl, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

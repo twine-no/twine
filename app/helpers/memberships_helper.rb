@@ -1,4 +1,8 @@
 module MembershipsHelper
+  def platform_accent_color(platform)
+    platform.color.presence || "#7c3aed"
+  end
+
   def membership_role_color(membership)
     case membership.role
     when "member"
