@@ -13,7 +13,6 @@ export default class extends Controller {
   }
 
   sliderTargetDisconnected(slider) {
-    clearTimeout(this.labelTimers?.[slider.id])
     this.hideLabel(slider)
   }
 
@@ -21,8 +20,6 @@ export default class extends Controller {
     const slider = event.currentTarget
     this.updateTrackFill(slider)
     this.showLabel(slider)
-    clearTimeout(this.labelTimers?.[slider.id])
-
     if (parseInt(slider.value) === 100) this.emitSparks(slider)
   }
 
@@ -78,20 +75,30 @@ export default class extends Controller {
 
   dismissLabel(slider) {
     const label = document.getElementById(slider.dataset.labelId)
-    if (!label) return
+    if (!label || !label.textContent) return
 
-    clearTimeout(this.labelTimers?.[slider.id])
-    label.style.animation = "none"
-    label.offsetHeight // force reflow so re-adding animation starts fresh
+    const rect = label.getBoundingClientRect()
+    if (rect.width === 0) return
 
-    this.labelTimers ||= {}
-    this.labelTimers[slider.id] = setTimeout(() => {
-      label.style.animation = "label-dismiss 0.75s cubic-bezier(0.2, 0, 0.38, 1) forwards"
-      label.addEventListener("animationend", () => {
-        label.style.animation = ""
-        this.hideLabel(slider)
-      }, { once: true })
-    }, 400)
+    // Clone into body so Turbo Stream replacement doesn't interrupt the animation
+    const clone = document.createElement("span")
+    clone.textContent = label.textContent
+    clone.style.cssText = `
+      position: fixed;
+      left: ${rect.left + rect.width / 2}px;
+      top: ${rect.top}px;
+      color: ${label.style.color};
+      pointer-events: none;
+      z-index: 9999;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+      animation: label-dismiss 0.9s cubic-bezier(0.2, 0, 0.38, 1) forwards;
+    `
+    document.body.appendChild(clone)
+    clone.addEventListener("animationend", () => clone.remove(), { once: true })
+
+    this.hideLabel(slider)
   }
 
   emitSparks(slider) {

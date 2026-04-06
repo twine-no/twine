@@ -35,9 +35,9 @@
 /* Feeling slider */
 
 @keyframes label-dismiss {
-  0%   { opacity: 1; transform: translate(-50%, 0)    scale(1);    }
-  25%  { opacity: 1; transform: translate(-50%, 0)    scale(1.08); }
-  100% { opacity: 0; transform: translate(-50%, -8px) scale(1.55); }
+  0%   { opacity: 1; transform: translate(-50%, 0)     scale(1);    }
+  40%  { opacity: 1; transform: translate(-50%, 0)     scale(1.06); }
+  100% { opacity: 0; transform: translate(-50%, -10px) scale(1.6);  }
 }
 
 @keyframes spark-fly {
