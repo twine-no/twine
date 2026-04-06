@@ -15,7 +15,7 @@ module Users
           [Current.user, :memberships],
           target: ActionView::RecordIdentifier.dom_id(@membership, :assessment),
           partial: "users/assessments/slider",
-          locals: { membership: membership }
+          locals: { membership: @membership }
         )
 
         head :ok
