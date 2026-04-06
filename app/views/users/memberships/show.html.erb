@@ -8,24 +8,32 @@
 
   <div class="space-y-4"
        data-controller="sortable"
-       data-sortable-update-path-value="<%= users_membership_order_path %>">
+       data-sortable-update-path-value="<%= users_membership_order_path %>"
+       data-sortable-handle-value=".drag-handle">
     <% @memberships.each do |membership| %>
-      <div class="membership-card p-5 cursor-grab active:cursor-grabbing" data-id="<%= membership.id %>">
+      <div class="membership-card flex items-stretch" data-id="<%= membership.id %>">
 
-        <div class="flex items-start justify-between mb-5">
-          <div class="flex-1 min-w-0 pr-4">
-            <%= link_to membership.platform.name,
-                        users_membership_switch_path(membership),
-                        data: { turbo_method: :post },
-                        class: "block text-xl font-display font-semibold text-gray-900 leading-tight truncate" %>
-          </div>
-          <%= link_to "→",
-                      users_membership_switch_path(membership),
-                      data: { turbo_method: :post },
-                      class: "text-gray-300 hover:text-gray-900 transition-colors text-xl mt-1 flex-shrink-0" %>
+        <div class="drag-handle flex items-center px-3 text-gray-300 hover:text-gray-400 cursor-grab active:cursor-grabbing">
+          <%= svg_tag "icons/mingcute/dot_grid_line.svg", class: "w-5 h-5" %>
         </div>
 
-        <%= render "users/assessments/slider", membership: membership %>
+        <div class="flex-1 p-5 min-w-0">
+          <div class="flex items-start justify-between mb-5">
+            <div class="flex-1 min-w-0 pr-4">
+              <%= link_to membership.platform.name,
+                          users_membership_switch_path(membership),
+                          data: { turbo_method: :post },
+                          class: "block text-xl font-display font-semibold text-gray-900 leading-tight truncate" %>
+            </div>
+            <%= link_to "→",
+                        users_membership_switch_path(membership),
+                        data: { turbo_method: :post },
+                        class: "text-gray-300 hover:text-gray-900 transition-colors text-xl mt-1 flex-shrink-0" %>
+          </div>
+
+          <%= render "users/assessments/slider", membership: membership %>
+        </div>
+
       </div>
     <% end %>
   </div>

@@ -3,12 +3,13 @@ import Sortable from "sortablejs";
 import {request} from "helpers/request_helpers";
 
 export default class extends Controller {
-    static values = {updatePath: String};
+    static values = {updatePath: String, handle: String};
 
     connect() {
         this.sortable = Sortable.create(this.element, {
             animation: 150,
             ghostClass: "bg-gray-200",
+            handle: this.hasHandleValue ? this.handleValue : undefined,
             onEnd: this.reorder.bind(this),
         });
     }

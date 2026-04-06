@@ -11,12 +11,16 @@ export default class extends Controller {
   }
 
   preview(event) {
-    this.updateTrackFill(event.currentTarget)
+    const slider = event.currentTarget
+    this.updateTrackFill(slider)
+    this.showLabel(slider)
+    clearTimeout(this.labelTimers?.[slider.id])
   }
 
   async save(event) {
     const slider = event.currentTarget
     this.updateTrackFill(slider)
+    this.scheduleHideLabel(slider)
 
     await fetch(slider.dataset.actionUrl, {
       method: "POST",
@@ -44,6 +48,19 @@ export default class extends Controller {
       label.style.color = color
       label.style.left = `${pct * (slider.offsetWidth - THUMB_WIDTH) + THUMB_WIDTH / 2}px`
     }
+  }
+
+  showLabel(slider) {
+    const label = document.getElementById(slider.dataset.labelId)
+    if (label) label.classList.replace("opacity-0", "opacity-100")
+  }
+
+  scheduleHideLabel(slider) {
+    this.labelTimers ||= {}
+    this.labelTimers[slider.id] = setTimeout(() => {
+      const label = document.getElementById(slider.dataset.labelId)
+      if (label) label.classList.replace("opacity-100", "opacity-0")
+    }, 1200)
   }
 
   feelingColor(pct) {
