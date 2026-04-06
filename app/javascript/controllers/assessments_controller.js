@@ -29,7 +29,8 @@ export default class extends Controller {
   async save(event) {
     const slider = event.currentTarget
     this.updateTrackFill(slider)
-    this.scheduleHideLabel(slider)
+    this.showLabel(slider)
+    this.dismissLabel(slider)
 
     await fetch(slider.dataset.actionUrl, {
       method: "POST",
@@ -75,9 +76,22 @@ export default class extends Controller {
     }
   }
 
-  scheduleHideLabel(slider) {
+  dismissLabel(slider) {
+    const label = document.getElementById(slider.dataset.labelId)
+    if (!label) return
+
+    clearTimeout(this.labelTimers?.[slider.id])
+    label.style.animation = "none"
+    label.offsetHeight // force reflow so re-adding animation starts fresh
+
     this.labelTimers ||= {}
-    this.labelTimers[slider.id] = setTimeout(() => this.hideLabel(slider), 1200)
+    this.labelTimers[slider.id] = setTimeout(() => {
+      label.style.animation = "label-dismiss 0.75s cubic-bezier(0.2, 0, 0.38, 1) forwards"
+      label.addEventListener("animationend", () => {
+        label.style.animation = ""
+        this.hideLabel(slider)
+      }, { once: true })
+    }, 400)
   }
 
   emitSparks(slider) {
