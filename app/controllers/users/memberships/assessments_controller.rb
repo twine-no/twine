@@ -12,7 +12,7 @@ module Users
         end
 
         Turbo::StreamsChannel.broadcast_replace_to(
-          [Current.user, :memberships],
+          [ Current.user, :memberships ],
           target: ActionView::RecordIdentifier.dom_id(@membership, :assessment),
           partial: "users/assessments/slider",
           locals: { membership: @membership }
