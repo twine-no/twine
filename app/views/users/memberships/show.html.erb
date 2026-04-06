@@ -1,0 +1,38 @@
+<%= turbo_stream_from Current.user, :memberships %>
+
+<div class="w-full max-w-lg mx-auto" data-controller="memberships">
+
+  <div class="mb-10">
+    <h1 class="text-4xl font-display font-semibold text-gray-900 leading-tight">How do you feel it's going?</h1>
+  </div>
+
+  <div class="space-y-4">
+    <% @memberships.each do |membership| %>
+      <div class="membership-card p-5">
+
+        <div class="flex items-start justify-between mb-5">
+          <div class="flex-1 min-w-0 pr-4">
+            <%= link_to membership.platform.name,
+                        users_membership_switch_path(membership),
+                        data: { turbo_method: :post },
+                        class: "block text-xl font-display font-semibold text-gray-900 leading-tight hover:opacity-60 transition-opacity truncate" %>
+          </div>
+          <%= link_to "→",
+                      users_membership_switch_path(membership),
+                      data: { turbo_method: :post },
+                      class: "text-gray-300 hover:text-gray-900 transition-colors text-xl mt-1 flex-shrink-0" %>
+        </div>
+
+        <%= render "feeling_slider", membership: membership %>
+      </div>
+    <% end %>
+
+    <div class="add-platform-card p-5 flex items-center justify-center">
+      <%= modal_link_to new_users_platform_path, class: "flex items-center gap-3 text-gray-400 hover:text-gray-900 transition-colors group" do %>
+        <span class="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center text-lg leading-none">+</span>
+        <span class="text-base font-semibold">Work on something new</span>
+      <% end %>
+    </div>
+  </div>
+
+</div>

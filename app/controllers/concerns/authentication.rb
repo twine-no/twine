@@ -40,7 +40,7 @@ module Authentication
   end
 
   def default_landing_url(user)
-    user.has_admin_rights_at?(Current.platform) ? admin_root_url : member_dashboard_url
+    user.has_admin_rights_at?(Current.platform) ? me_url : member_dashboard_url
   end
 
   def start_new_session_for(user)

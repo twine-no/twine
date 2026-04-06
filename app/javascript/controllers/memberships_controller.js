@@ -3,8 +3,8 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["slider"]
 
-  connect() {
-    this.sliderTargets.forEach(slider => this.updateTrackFill(slider))
+  sliderTargetConnected(slider) {
+    this.updateTrackFill(slider)
   }
 
   preview(event) {

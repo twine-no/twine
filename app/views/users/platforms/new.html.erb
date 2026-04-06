@@ -2,7 +2,7 @@
   <%= modal_content class: "relative py-8 px-8 min-w-[28vw]" do %>
     <h2 class="text-xl font-bold mb-6 text-gray-900">New platform</h2>
 
-    <%= form_with model: @platform, url: admin_platform_path,
+    <%= form_with model: @platform, url: users_platform_path,
                   data: { turbo_frame: "_top" } do |form| %>
       <%= render 'navigation/form_errors', model: @platform %>
 

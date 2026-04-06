@@ -35,15 +35,20 @@ Rails.application.routes.draw do
 
   resources :events, only: [ :index, :show ], controller: :meetings
 
-  namespace :admin do
-    root to: "memberships#show"
-    resource :platform, only: [ :new, :create ]
-    resource :onboarding, only: [ :show, :update ]
-    resource :dashboard, only: [ :show ]
-    resources :memberships, path: "members", controller: "members" do
+  get "me", to: "users/memberships#show", as: :me
+
+  namespace :users do
+    resources :memberships, only: [] do
       resource :feeling, only: [ :update ], module: :memberships
       resource :switch, only: [ :create ], module: :memberships
     end
+    resource :platform, only: [ :new, :create ]
+  end
+
+  namespace :admin do
+    resource :onboarding, only: [ :show, :update ]
+    resource :dashboard, only: [ :show ]
+    resources :memberships, path: "members"
     resources :groups, only: [ :new, :create, :edit, :update, :destroy ]
     resources :groups_memberships, only: [ :create, :destroy ]
     resources :links, only: [ :new, :create, :update, :destroy ] do

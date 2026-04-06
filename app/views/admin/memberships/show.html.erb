@@ -1,45 +1,43 @@
-<div class="w-full max-w-lg mx-auto" data-controller="memberships">
-
-  <div class="mb-10">
-    <h1 class="text-4xl font-black tracking-tight text-gray-950 leading-tight">How do you feel it's going?</h1>
-  </div>
-
-  <div class="space-y-4">
-    <% @memberships.each do |membership| %>
-      <div class="membership-card p-5">
-
-        <div class="flex items-start justify-between mb-5">
-          <div class="flex-1 min-w-0 pr-4">
-            <%= link_to membership.platform.name,
-                        admin_membership_switch_path(membership),
-                        data: { turbo_method: :post },
-                        class: "block text-2xl font-black text-gray-950 leading-tight hover:opacity-60 transition-opacity truncate" %>
-          </div>
-          <%= link_to "→",
-                      admin_membership_switch_path(membership),
-                      data: { turbo_method: :post },
-                      class: "text-gray-300 hover:text-gray-900 transition-colors text-xl mt-1 flex-shrink-0" %>
-        </div>
-
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value="<%= membership.feeling || 50 %>"
-          class="memberships-slider w-full"
-          data-memberships-target="slider"
-          data-action-url="<%= admin_membership_feeling_path(membership) %>"
-          data-action="input->memberships#preview change->memberships#save"
-        >
+<div class="max-w-4xl">
+  <%= card class: 'relative' do %>
+    <%= turbo_frame_tag @membership do %>
+      <div class="absolute top-4 right-4">
+        <%= link_to edit_admin_membership_path(@membership),
+                    class: "button button-secondary button-xs inline-flex items-center gap-1" do %>
+          <%= svg_tag "icons/mingcute/edit_line.svg", class: "inline h-3 w-3" %>
+          Edit
+        <% end %>
       </div>
+
+      <p class="text-lg">
+        <strong class="text-gray-700">Full Name:</strong>
+        <span class="text-gray-900"><%= @membership.user.full_name %></span>
+      </p>
+
+      <p class="text-lg mt-4">
+        <strong class="text-gray-700">Email:</strong>
+        <span class="text-gray-900"><%= @membership.user.email %></span>
+      </p>
+
+      <p class="text-lg mt-4">
+        <strong class="text-gray-700">Role:</strong>
+        <span class="text-gray-900"><%= @membership.role.humanize %></span>
+      </p>
     <% end %>
+  <% end %>
 
-    <div class="add-platform-card p-5 flex items-center justify-center">
-      <%= modal_link_to new_admin_platform_path, class: "flex items-center gap-3 text-gray-400 hover:text-gray-900 transition-colors group" do %>
-        <span class="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center text-lg leading-none">+</span>
-        <span class="text-base font-semibold">Work on something new</span>
-      <% end %>
-    </div>
+  <div class="flex space-x-4">
+    <%= tooltip "You can't delete yourself", display_if: Current.user == @membership.user do %>
+      <%= button_to "Delete member",
+                    admin_membership_path(@membership),
+                    method: :delete,
+                    disabled: Current.user == @membership.user,
+                    form: {
+                      data: {
+                        turbo_confirm: "Are you sure you want to remove member #{@membership.user.full_name}?"
+                      }
+                    },
+                    class: "button button-secondary" %>
+    <% end %>
   </div>
-
 </div>

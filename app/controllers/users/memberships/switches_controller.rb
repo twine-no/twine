@@ -1,4 +1,4 @@
-module Admin
+module Users
   module Memberships
     class SwitchesController < ApplicationController
       def create
@@ -7,7 +7,7 @@ module Admin
         if Current.session.update(platform: membership.platform)
           redirect_to admin_dashboard_path
         else
-          redirect_to admin_root_path, alert: "Couldn't switch platform"
+          redirect_to me_path, alert: "Couldn't switch platform"
         end
       end
     end

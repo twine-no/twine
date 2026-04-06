@@ -12,16 +12,16 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to member_dashboard_path
   end
 
-  test "#new redirects to the admin dashboard, if admin is already signed in" do
+  test "#new redirects to /me, if admin is already signed in" do
     login_as users(:admin), on: platforms(:coffee_shop)
     get new_session_path
-    assert_redirected_to admin_root_path
+    assert_redirected_to me_path
   end
 
   test "#create succeeds if email/password combination exists, logs in admin" do
     assert_difference -> { users(:admin).sessions.count } do
       post session_url, params: { email: users(:admin).email, password: "password" }
-      assert_redirected_to admin_root_path
+      assert_redirected_to me_path
     end
   end
 

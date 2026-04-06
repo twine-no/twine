@@ -1,0 +1,12 @@
+<%# locals: (membership:) %>
+<input
+  type="range"
+  min="0"
+  max="100"
+  value="<%= membership.feeling || 50 %>"
+  id="<%= dom_id(membership, :feeling) %>"
+  class="memberships-slider w-full"
+  data-memberships-target="slider"
+  data-action-url="<%= users_membership_feeling_path(membership) %>"
+  data-action="input->memberships#preview change->memberships#save"
+>

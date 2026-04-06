@@ -1,4 +1,4 @@
-module Admin
+module Users
   class PlatformsController < ApplicationController
     def new
       @platform = Platform.new
@@ -10,7 +10,7 @@ module Admin
       if @platform.save
         Current.user.memberships.create!(platform: @platform, role: :super_admin)
         Current.session.update!(platform: @platform)
-        redirect_to admin_root_path, notice: "#{@platform.name} created!"
+        redirect_to me_path, notice: "#{@platform.name} created!"
       else
         render :new, status: :unprocessable_content
       end
