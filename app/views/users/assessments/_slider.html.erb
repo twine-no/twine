@@ -1,11 +1,10 @@
 <%# locals: (membership:) %>
-<div class="relative pb-5">
+<div id="<%= dom_id(membership, :assessment) %>" class="relative pb-5">
   <input
     type="range"
     min="0"
     max="100"
     value="<%= membership.feeling || 50 %>"
-    id="<%= dom_id(membership, :assessment) %>"
     class="memberships-slider w-full"
     data-assessments-target="slider"
     data-label-id="<%= dom_id(membership, :assessment_label) %>"

@@ -1,13 +1,20 @@
 import { Controller } from "@hotwired/stimulus"
 
-const FEELING_LABELS = ["Calamity", "Critical", "Bad", "Not good", "Mid", "Ok", "Good", "Great", "Amazing", "Perfect"]
+const FEELING_LABELS = ["Terribly", "Poorly", "Worryingly", "Not good", "Meh", "Ok", "Good", "Great", "Amazing", "Perfect"]
 const THUMB_WIDTH = 18
+const SPARK_COLORS = ["#4ade80", "#facc15", "#fb923c", "#a78bfa", "#38bdf8"]
 
 export default class extends Controller {
   static targets = ["slider"]
 
   sliderTargetConnected(slider) {
     this.updateTrackFill(slider)
+    this.hideLabel(slider)
+  }
+
+  sliderTargetDisconnected(slider) {
+    clearTimeout(this.labelTimers?.[slider.id])
+    this.hideLabel(slider)
   }
 
   preview(event) {
@@ -15,6 +22,8 @@ export default class extends Controller {
     this.updateTrackFill(slider)
     this.showLabel(slider)
     clearTimeout(this.labelTimers?.[slider.id])
+
+    if (parseInt(slider.value) === 100) this.emitSparks(slider)
   }
 
   async save(event) {
@@ -52,15 +61,54 @@ export default class extends Controller {
 
   showLabel(slider) {
     const label = document.getElementById(slider.dataset.labelId)
-    if (label) label.classList.replace("opacity-0", "opacity-100")
+    if (label) {
+      label.classList.remove("opacity-0")
+      label.classList.add("opacity-100")
+    }
+  }
+
+  hideLabel(slider) {
+    const label = document.getElementById(slider.dataset.labelId)
+    if (label) {
+      label.classList.remove("opacity-100")
+      label.classList.add("opacity-0")
+    }
   }
 
   scheduleHideLabel(slider) {
     this.labelTimers ||= {}
-    this.labelTimers[slider.id] = setTimeout(() => {
-      const label = document.getElementById(slider.dataset.labelId)
-      if (label) label.classList.replace("opacity-100", "opacity-0")
-    }, 1200)
+    this.labelTimers[slider.id] = setTimeout(() => this.hideLabel(slider), 1200)
+  }
+
+  emitSparks(slider) {
+    const rect = slider.getBoundingClientRect()
+    const thumbX = rect.left + rect.width - THUMB_WIDTH / 2
+    const thumbY = rect.top + rect.height / 2
+
+    for (let i = 0; i < 8; i++) {
+      const spark = document.createElement("span")
+      const color = SPARK_COLORS[i % SPARK_COLORS.length]
+      const angle = (i / 8) * 2 * Math.PI
+      const distance = 28 + Math.random() * 18
+      const tx = Math.cos(angle) * distance
+      const ty = Math.sin(angle) * distance
+
+      spark.style.cssText = `
+        position: fixed;
+        pointer-events: none;
+        width: 5px; height: 5px;
+        border-radius: 50%;
+        background: ${color};
+        left: ${thumbX}px;
+        top: ${thumbY}px;
+        transform: translate(-50%, -50%);
+        animation: spark-fly 0.55s ease-out forwards;
+        --tx: ${tx}px; --ty: ${ty}px;
+        z-index: 9999;
+      `
+      document.body.appendChild(spark)
+      spark.addEventListener("animationend", () => spark.remove(), { once: true })
+    }
   }
 
   feelingColor(pct) {
