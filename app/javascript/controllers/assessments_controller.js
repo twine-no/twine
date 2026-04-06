@@ -1,5 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
+const FEELING_LABELS = ["Calamity", "Critical", "Bad", "Not good", "Mid", "Ok", "Good", "Great", "Amazing", "Perfect"]
+const THUMB_WIDTH = 18
+
 export default class extends Controller {
   static targets = ["slider"]
 
@@ -34,6 +37,13 @@ export default class extends Controller {
     slider.style.setProperty("--fill-pct", `${pct * 100}%`)
     slider.style.setProperty("--fill-color", color)
     slider.style.setProperty("--glow-color", color.replace("rgb(", "rgba(").replace(")", ", 0.28)"))
+
+    const label = document.getElementById(slider.dataset.labelId)
+    if (label) {
+      label.textContent = FEELING_LABELS[Math.min(Math.floor(pct * 10), 9)]
+      label.style.color = color
+      label.style.left = `${pct * (slider.offsetWidth - THUMB_WIDTH) + THUMB_WIDTH / 2}px`
+    }
   }
 
   feelingColor(pct) {

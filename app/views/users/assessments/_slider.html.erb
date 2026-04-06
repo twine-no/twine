@@ -1,12 +1,19 @@
 <%# locals: (membership:) %>
-<input
-  type="range"
-  min="0"
-  max="100"
-  value="<%= membership.feeling || 50 %>"
-  id="<%= dom_id(membership, :assessment) %>"
-  class="memberships-slider w-full"
-  data-assessments-target="slider"
-  data-action-url="<%= users_membership_assessments_path(membership) %>"
-  data-action="input->assessments#preview change->assessments#save"
->
+<div class="relative pb-6">
+  <input
+    type="range"
+    min="0"
+    max="100"
+    value="<%= membership.feeling || 50 %>"
+    id="<%= dom_id(membership, :assessment) %>"
+    class="memberships-slider w-full"
+    data-assessments-target="slider"
+    data-label-id="<%= dom_id(membership, :assessment_label) %>"
+    data-action-url="<%= users_membership_assessments_path(membership) %>"
+    data-action="input->assessments#preview change->assessments#save"
+  >
+  <span
+    id="<%= dom_id(membership, :assessment_label) %>"
+    class="absolute top-[22px] text-xs font-semibold whitespace-nowrap -translate-x-1/2"
+  ></span>
+</div>
