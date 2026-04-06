@@ -110,7 +110,7 @@ export default class extends Controller {
       font-size: 0.75rem;
       font-weight: 600;
       white-space: nowrap;
-      animation: label-dismiss 0.9s cubic-bezier(0.2, 0, 0.38, 1) forwards;
+      animation: label-dismiss 0.55s cubic-bezier(0.25, 0, 0.3, 1) forwards;
     `
     document.body.appendChild(clone)
     clone.addEventListener("animationend", () => clone.remove(), { once: true })
