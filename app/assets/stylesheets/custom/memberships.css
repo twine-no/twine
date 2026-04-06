@@ -14,24 +14,22 @@
 }
 
 .add-platform-card {
-  border: 1.5px dashed #c49870;
+  border: 1.5px dashed #7a5030;
   border-radius: 16px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .add-platform-card:hover {
-  border-color: #7a5030;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
   transform: translateY(-2px);
 }
 
 .add-platform-card a {
-  color: #c49870;
-  transition: color 0.2s ease;
+  color: #7a5030;
 }
 
 .add-platform-card a:hover {
-  color: #7a5030;
+  opacity: 0.7;
 }
 
 /* Feeling slider */
