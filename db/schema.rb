@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_04_160000) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_06_000000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -47,6 +47,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_04_160000) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "assessments", force: :cascade do |t|
+    t.integer "membership_id", null: false
+    t.integer "value", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["membership_id"], name: "index_assessments_on_membership_id"
   end
 
   create_table "groups", force: :cascade do |t|
@@ -247,6 +255,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_04_160000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "assessments", "memberships"
   add_foreign_key "invites", "meetings"
   add_foreign_key "invites", "memberships"
   add_foreign_key "meetings", "platforms"

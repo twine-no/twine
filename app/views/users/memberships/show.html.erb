@@ -1,6 +1,6 @@
 <%= turbo_stream_from Current.user, :memberships %>
 
-<div class="w-full max-w-lg mx-auto" data-controller="memberships">
+<div class="w-full max-w-lg mx-auto" data-controller="assessments">
 
   <div class="mb-10">
     <h1 class="text-4xl font-display font-semibold text-gray-900 leading-tight">How do you feel it's going?</h1>
@@ -23,7 +23,7 @@
                       class: "text-gray-300 hover:text-gray-900 transition-colors text-xl mt-1 flex-shrink-0" %>
         </div>
 
-        <%= render "feeling_slider", membership: membership %>
+        <%= render "users/assessments/slider", membership: membership %>
       </div>
     <% end %>
 

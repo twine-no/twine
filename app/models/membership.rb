@@ -4,6 +4,7 @@ class Membership < ApplicationRecord
   belongs_to :platform, required: true
   belongs_to :user, required: true
 
+  has_many :assessments, dependent: :destroy
   has_many :invites, dependent: :destroy
   has_many :meetings, through: :invites
 

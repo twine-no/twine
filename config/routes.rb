@@ -39,7 +39,7 @@ Rails.application.routes.draw do
 
   namespace :users do
     resources :memberships, only: [] do
-      resource :feeling, only: [ :update ], module: :memberships
+      resources :assessments, only: [ :create ], module: :memberships
       resource :switch, only: [ :create ], module: :memberships
     end
     resource :platform, only: [ :new, :create ]

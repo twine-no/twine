@@ -16,12 +16,12 @@ export default class extends Controller {
     this.updateTrackFill(slider)
 
     await fetch(slider.dataset.actionUrl, {
-      method: "PATCH",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content
       },
-      body: JSON.stringify({ feeling: slider.value })
+      body: JSON.stringify({ value: slider.value })
     })
 
     slider.classList.add("feeling-saved")
