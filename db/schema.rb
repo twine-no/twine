@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_06_000000) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_06_000001) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -140,6 +140,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_06_000000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "feeling"
+    t.integer "position"
     t.index ["platform_id", "user_id"], name: "index_memberships_on_platform_id_and_user_id", unique: true
     t.index ["platform_id"], name: "index_memberships_on_platform_id"
     t.index ["user_id"], name: "index_memberships_on_user_id"

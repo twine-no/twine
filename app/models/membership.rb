@@ -12,6 +12,8 @@ class Membership < ApplicationRecord
 
   enum :role, %i[member admin super_admin invited]
 
+  before_create :set_position
+
   validate :role_was_not_set_back_to_invited, if: :role_changed?
 
   table_filter_by %w[role]
@@ -49,5 +51,9 @@ class Membership < ApplicationRecord
 
   def role_was_not_set_back_to_invited
     self.errors.add(:role, "Can't be changed back to invited") if invited? && role_was != "invited"
+  end
+
+  def set_position
+    self.position = Membership.where(user_id: user_id).maximum(:position).to_i + 1
   end
 end

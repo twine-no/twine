@@ -43,6 +43,7 @@ Rails.application.routes.draw do
       resource :switch, only: [ :create ], module: :memberships
     end
     resource :platform, only: [ :new, :create ]
+    resource :membership_order, only: [ :update ]
   end
 
   namespace :admin do
