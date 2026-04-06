@@ -8,6 +8,8 @@ export default class extends Controller {
   static targets = ["slider"]
 
   sliderTargetConnected(slider) {
+    const latest = this.latestValues?.[slider.dataset.labelId]
+    if (latest !== undefined && parseInt(slider.value) !== latest) slider.value = latest
     this.updateTrackFill(slider)
     this.hideLabel(slider)
   }
@@ -25,18 +27,33 @@ export default class extends Controller {
 
   async save(event) {
     const slider = event.currentTarget
+    const key = slider.dataset.labelId
+
+    this.saveControllers ||= {}
+    this.saveControllers[key]?.abort()
+    this.saveControllers[key] = new AbortController()
+
+    this.latestValues ||= {}
+    this.latestValues[key] = parseInt(slider.value)
+
     this.updateTrackFill(slider)
     this.showLabel(slider)
     this.dismissLabel(slider)
 
-    await fetch(slider.dataset.actionUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content
-      },
-      body: JSON.stringify({ value: slider.value })
-    })
+    try {
+      await fetch(slider.dataset.actionUrl, {
+        method: "POST",
+        signal: this.saveControllers[key].signal,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content
+        },
+        body: JSON.stringify({ value: slider.value })
+      })
+    } catch (e) {
+      if (e.name !== "AbortError") throw e
+      return
+    }
 
     slider.classList.add("feeling-saved")
     slider.addEventListener("animationend", () => slider.classList.remove("feeling-saved"), { once: true })
