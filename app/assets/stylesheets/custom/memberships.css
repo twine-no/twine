@@ -14,13 +14,13 @@
 }
 
 .add-platform-card {
-  border: 1.5px dashed #d4cdc6;
+  border: 1.5px dashed #c4b5a8;
   border-radius: 16px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .add-platform-card:hover {
-  border-color: #a39890;
+  border-color: #8c7060;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
   transform: translateY(-2px);
 }
