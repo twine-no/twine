@@ -1,0 +1,20 @@
+<%= turbo_frame_tag :modal_content do %>
+  <%= modal_content class: "relative py-8 px-8 min-w-[28vw]" do %>
+    <h2 class="text-xl font-bold mb-6 text-gray-900">New platform</h2>
+
+    <%= form_with model: @platform, url: users_platform_path,
+                  data: { turbo_frame: "_top" } do |form| %>
+      <%= render 'navigation/form_errors', model: @platform %>
+
+      <div class="form-group">
+        <%= form.label :name, "Name" %>
+        <%= form.text_field :name, class: "form-control", required: true, autofocus: true,
+                         placeholder: "e.g. Kjelsås Fotball" %>
+      </div>
+
+      <div class="mt-6">
+        <%= form.submit "Create platform", class: "button button-primary w-full" %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

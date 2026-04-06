@@ -68,7 +68,6 @@ module Admin
       existing_user = User.find_by(email: user.email)
       return existing_user if existing_user
 
-      # User must reset their password when invited
       temporary_password = SecureRandom.base58
       user.password = temporary_password
       user

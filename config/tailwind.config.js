@@ -21,7 +21,8 @@ module.exports = {
             fontFamily: {
                 sans: ["", 'InterVariable', "", 'system-ui', 'sans-serif'],
                 serif: ['Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
-                mono: ['ui-monospace', 'FSMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace']
+                mono: ['ui-monospace', 'FSMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+                display: ['Lora', 'Georgia', 'serif'],
             },
         },
     },

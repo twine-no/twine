@@ -35,6 +35,16 @@ Rails.application.routes.draw do
 
   resources :events, only: [ :index, :show ], controller: :meetings
 
+  get "me", to: "users/memberships#show", as: :me
+
+  namespace :users do
+    resources :memberships, only: [] do
+      resources :assessments, only: [ :create ], module: :memberships
+      resource :switch, only: [ :create ], module: :memberships
+    end
+    resource :platform, only: [ :new, :create ]
+  end
+
   namespace :admin do
     resource :onboarding, only: [ :show, :update ]
     resource :dashboard, only: [ :show ]
