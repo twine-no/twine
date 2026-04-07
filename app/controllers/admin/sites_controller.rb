@@ -45,7 +45,7 @@ module Admin
         :about,
         :shortname,
         :listed,
-        :life_area
+        :category
       )
     end
   end

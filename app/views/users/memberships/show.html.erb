@@ -14,7 +14,7 @@
   </div>
 
   <% %w[work personal].each do |area| %>
-    <% area_memberships = @memberships.select { |m| m.platform.life_area == area } %>
+    <% area_memberships = @memberships.select { |m| m.platform.category == area } %>
     <div data-tab="<%= area %>" data-tab-bar-target="panel">
       <% if area_memberships.any? %>
         <div class="space-y-2"

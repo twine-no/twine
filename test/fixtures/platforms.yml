@@ -1,23 +1,20 @@
 football_meetup:
   name: Casual Football Meetup
-  category: 0
   shortname: footballmeetup
   listed: true
-  life_area: personal
+  category: personal
 
 coffee_shop:
   name: Spring Coffee
-  category: 1
   shortname: springcoffee
   listed: false
   domain: unlisted.lvh.me
-  life_area: work
+  category: work
 
 political_chapter:
   name: Kjelsås Labour Party
-  category: 2
   shortname: kjelsasap
   listed: true
   domain: kjelsasap.lvh.me
   color: "#ffffff"
-  life_area: work
+  category: work

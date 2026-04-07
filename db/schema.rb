@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_07_000001) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_07_000002) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -161,13 +161,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_07_000001) do
     t.string "shortname"
     t.boolean "listed"
     t.string "tagline"
-    t.string "category", default: "unorganised", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "calendar_tagline"
     t.string "domain"
     t.string "color"
-    t.string "life_area", default: "work", null: false
+    t.string "category", default: "work", null: false
     t.index ["shortname"], name: "index_platforms_on_shortname", unique: true
   end
 

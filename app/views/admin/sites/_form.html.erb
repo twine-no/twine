@@ -45,11 +45,11 @@
 
 
   <div class="form-group">
-    <%= form.label :life_area, "Category" %>
+    <%= form.label :category, "Category" %>
     <div class="flex gap-4 mt-2">
       <% [["💼 Work", "work"], ["🌱 Personal", "personal"]].each do |label, value| %>
         <label class="flex items-center gap-2 cursor-pointer">
-          <%= form.radio_button :life_area, value,
+          <%= form.radio_button :category, value,
                                 class: "radio radio-sm",
                                 data: { action: "change->submit-on-change#submit" } %>
           <span><%= label %></span>
