@@ -1,33 +1,51 @@
 <%= turbo_stream_from Current.user, :memberships %>
 
-<div class="w-full max-w-lg mx-auto" data-controller="assessments">
+<div class="w-full max-w-lg mx-auto"
+     data-controller="assessments tab-bar"
+     data-tab-bar-storage-key-value="membership-dashboard-area">
 
-  <div class="mb-10">
-    <h1 class="text-4xl font-display font-semibold text-gray-900 leading-tight">How do you feel it's going?</h1>
+  <div class="mb-8">
+    <h1 class="text-4xl font-display font-semibold text-gray-900 leading-tight mb-5">How do you feel it's going?</h1>
+
+    <div class="tabs tabs-box" role="tablist">
+      <button class="tab" data-tab="work" data-tab-bar-target="tab" data-action="click->tab-bar#select">💼 Work</button>
+      <button class="tab" data-tab="personal" data-tab-bar-target="tab" data-action="click->tab-bar#select">🌱 Personal</button>
+    </div>
   </div>
 
-  <div class="space-y-4">
-    <% @memberships.each do |membership| %>
-      <div class="membership-card p-5">
+  <% %w[work personal].each do |area| %>
+    <% area_memberships = @memberships.select { |m| m.platform.category == area } %>
+    <div data-tab="<%= area %>" data-tab-bar-target="panel">
+      <% if area_memberships.any? %>
+        <div class="space-y-2"
+             data-controller="sortable"
+             data-sortable-update-path-value="<%= users_membership_order_path %>"
+             data-sortable-handle-value=".drag-handle">
+          <% area_memberships.each do |membership| %>
+            <div class="membership-card p-4" data-id="<%= membership.id %>">
 
-        <div class="flex items-start justify-between mb-5">
-          <div class="flex-1 min-w-0 pr-4">
-            <%= link_to membership.platform.name,
-                        users_membership_switch_path(membership),
-                        data: { turbo_method: :post },
-                        class: "block text-xl font-display font-semibold text-gray-900 leading-tight hover:opacity-60 transition-opacity truncate" %>
-          </div>
-          <%= link_to "→",
-                      users_membership_switch_path(membership),
-                      data: { turbo_method: :post },
-                      class: "text-gray-300 hover:text-gray-900 transition-colors text-xl mt-1 flex-shrink-0" %>
+              <div class="flex items-center justify-between mb-3">
+                <%= link_to membership.platform.name,
+                            users_membership_switch_path(membership),
+                            data: { turbo_method: :post },
+                            class: "block text-xl font-display font-semibold text-gray-900 leading-tight truncate flex-1 min-w-0 pr-3" %>
+                <div class="drag-handle text-gray-300 hover:text-gray-400 cursor-grab active:cursor-grabbing flex-shrink-0">
+                  <%= svg_tag "icons/mingcute/dot_grid_line.svg", class: "w-5 h-5" %>
+                </div>
+              </div>
+
+              <%= render "users/assessments/slider", membership: membership %>
+            </div>
+          <% end %>
         </div>
+      <% else %>
+        <p class="text-sm text-gray-400 text-center py-6">No <%= area %> platforms yet.</p>
+      <% end %>
+    </div>
+  <% end %>
 
-        <%= render "users/assessments/slider", membership: membership %>
-      </div>
-    <% end %>
-
-    <div class="add-platform-card p-5 flex items-center justify-center">
+  <div class="mt-2">
+    <div class="add-platform-card py-3 px-5 flex items-center justify-center">
       <%= modal_link_to new_users_platform_path, class: "flex items-center gap-3 group" do %>
         <%= svg_tag "icons/mingcute/add_circle_line.svg", class: "w-6 h-6 flex-shrink-0" %>
         <span class="text-base font-semibold">Work on something new</span>

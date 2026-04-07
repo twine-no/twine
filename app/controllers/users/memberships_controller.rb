@@ -3,7 +3,7 @@ module Users
     layout "overview"
 
     def show
-      @memberships = Current.user.memberships.includes(:platform).where.not(role: :invited).order(:created_at)
+      @memberships = Current.user.memberships.includes(:platform).where.not(role: :invited).order(:position, :created_at)
     end
   end
 end

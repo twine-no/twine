@@ -2,16 +2,19 @@ you_manage_the_coffee_shop:
   user: me
   platform: coffee_shop
   role: super_admin
+  position: 0
 
 you_sit_on_the_political_chapter_board:
   user: me
   platform: political_chapter
   role: super_admin
+  position: 1
 
 you_organise_the_football_meetup:
   user: me
   platform: football_meetup
   role: super_admin
+  position: 2
 
 dave_is_a_coffee_shop_shareholder:
   user: dave

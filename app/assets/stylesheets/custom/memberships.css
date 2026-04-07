@@ -34,6 +34,17 @@
 
 /* Feeling slider */
 
+@keyframes label-dismiss {
+  0%   { opacity: 1;   transform: translate(-50%, 0px)   scale(1);    }
+  18%  { opacity: 1;   transform: translate(-50%, -3px)  scale(1.45); }
+  100% { opacity: 0;   transform: translate(-50%, -20px) scale(0.9);  }
+}
+
+@keyframes spark-fly {
+  0%   { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0); opacity: 0; }
+}
+
 @keyframes feeling-saved {
   0%   { filter: brightness(1); }
   40%  { filter: brightness(1.35); }
