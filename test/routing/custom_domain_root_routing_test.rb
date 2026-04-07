@@ -6,12 +6,9 @@ class CustomDomainRootRoutingTest < ActionDispatch::IntegrationTest
   end
 
   test "primary domain routes root to welcome#index" do
-    env = Rack::MockRequest.env_for("http://localhost/")
-    req = ActionDispatch::Request.new(env)
-    found = nil
-    Rails.application.routes.router.recognize(req) { |_route, params| found = params }
-    assert_equal "welcome", found[:controller]
-    assert_equal "index", found[:action]
+    get "/"
+    assert_equal "welcome", @controller.controller_name
+    assert_equal "index", @controller.action_name
   end
 
   test "root on political_chapter's custom domain routes to public/platforms#show" do
