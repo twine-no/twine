@@ -44,7 +44,8 @@ module Admin
         :calendar_tagline,
         :about,
         :shortname,
-        :listed
+        :listed,
+        :life_area
       )
     end
   end

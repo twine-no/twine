@@ -3,6 +3,7 @@ football_meetup:
   category: 0
   shortname: footballmeetup
   listed: true
+  life_area: personal
 
 coffee_shop:
   name: Spring Coffee
@@ -10,6 +11,7 @@ coffee_shop:
   shortname: springcoffee
   listed: false
   domain: unlisted.lvh.me
+  life_area: work
 
 political_chapter:
   name: Kjelsås Labour Party
@@ -18,3 +20,4 @@ political_chapter:
   listed: true
   domain: kjelsasap.lvh.me
   color: "#ffffff"
+  life_area: work

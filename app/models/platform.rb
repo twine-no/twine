@@ -7,6 +7,7 @@ class Platform < ApplicationRecord
   has_many :links, dependent: :destroy
 
   enum :category, { unorganised: "unorganised", shareholder_org: "shareholder_org", member_org: "member_org" }
+  enum :life_area, { work: "work", personal: "personal" }
 
   scope :listed, -> { where(listed: true) }
 
