@@ -19,5 +19,10 @@
       <%= svg_tag 'icons/mingcute/web_line', class: 'size-5 shrink-0' %>
       Site
     <% end %>
+
+    <%= button_to session_path, method: :delete, form: { class: "bottom-bar-link" } do %>
+      <%= svg_tag 'icons/mingcute/user_4_line', class: 'size-5 shrink-0' %>
+      Log out
+    <% end %>
   </div>
 </div>
