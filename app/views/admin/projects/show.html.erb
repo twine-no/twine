@@ -3,8 +3,6 @@
   <%= breadcrumb @project.title %>
 <% end %>
 
-<%= turbo_frame_tag :modal_content %>
-
 <div class="max-w-2xl">
   <div class="flex items-start justify-between mb-6 gap-4">
     <div class="flex items-start gap-4">
@@ -28,40 +26,21 @@
   </div>
 
   <div class="membership-card overflow-hidden">
-    <% if @tasks.any? %>
-      <ul class="list-none m-0 p-0">
-        <% @tasks.each do |task| %>
-          <li class="flex items-center gap-3 px-5 py-3 border-b border-[#e8e0d8] last:border-b-0">
-            <%= button_to admin_project_task_path(@project, task),
-                          method: :patch,
-                          params: { task: { completed: !task.completed } },
-                          class: "shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all cursor-pointer bg-transparent p-0 #{task.completed? ? 'border-[#76B041] bg-[#76B041]' : 'border-gray-300 hover:border-[#17BEBB]'}" do %>
-              <% if task.completed? %>
-                <%= svg_tag 'icons/mingcute/check_circle_line', class: 'size-4 text-white' %>
-              <% end %>
-            <% end %>
-            <span class="flex-1 text-sm <%= task.completed? ? 'line-through text-gray-400' : 'text-gray-800' %>">
-              <%= task.title %>
-            </span>
-            <%= button_to admin_project_task_path(@project, task),
-                          method: :delete,
-                          class: "shrink-0 w-6 h-6 flex items-center justify-center text-gray-300 hover:text-red-400 transition-colors bg-transparent p-0 border-0 cursor-pointer" do %>
-              <%= svg_tag 'icons/mingcute/close_line', class: 'size-4' %>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
-    <% end %>
+    <ul id="tasks" class="list-none m-0 p-0">
+      <%= render @tasks, project: @project %>
+    </ul>
 
-    <div class="px-5 py-4">
-      <%= form_with model: [:admin, @project, @new_task], url: admin_project_tasks_path(@project) do |form| %>
+    <div class="px-5 py-3 border-t border-[#e8e0d8]">
+      <%= form_with model: [:admin, @project, @new_task],
+                    url: admin_project_tasks_path(@project),
+                    data: { controller: "forms--reset", action: "turbo:submit-end->forms--reset#reset" } do |form| %>
         <div class="flex items-center gap-2">
           <%= svg_tag 'icons/mingcute/add_circle_line', class: 'size-5 text-gray-300 shrink-0' %>
           <%= form.text_field :title,
                               placeholder: "Add a task…",
                               class: "flex-1 bg-transparent border-0 outline-none text-sm text-gray-800 placeholder-gray-400 focus:ring-0",
-                              autocomplete: "off" %>
-          <%= form.submit "Add", class: "button button-primary button-sm" %>
+                              autocomplete: "off",
+                              autofocus: @tasks.none? %>
         </div>
       <% end %>
     </div>

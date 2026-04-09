@@ -19,9 +19,9 @@ module Admin
       @project = Current.platform.projects.new(project_params)
 
       if @project.save
-        redirect_to admin_project_path(@project), notice: "#{@project.title} created"
+        redirect_to admin_project_path(@project)
       else
-        render_inside_modal :new, status: :unprocessable_content
+        redirect_to admin_projects_path, alert: @project.errors.full_messages.to_sentence
       end
     end
 

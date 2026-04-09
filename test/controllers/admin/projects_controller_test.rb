@@ -38,15 +38,14 @@ module Admin
         post admin_projects_path, params: { project: { title: "New Project" } }
       end
       assert_redirected_to admin_project_path(Project.last)
-      assert_equal "New Project created", flash[:notice]
     end
 
-    test "#create renders errors when title is blank" do
+    test "#create redirects to index when title is blank" do
       login_as users(:admin), on: platforms(:coffee_shop)
       assert_no_difference -> { Project.count } do
         post admin_projects_path, params: { project: { title: "" } }
       end
-      assert_response :unprocessable_content
+      assert_redirected_to admin_projects_path
     end
 
     test "#edit succeeds" do

@@ -7,7 +7,12 @@ module Admin
       @task = @project.tasks.new(task_params)
 
       if @task.save
-        redirect_to admin_project_path(@project)
+        respond_to do |format|
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.append(:tasks, partial: "admin/tasks/task", locals: { task: @task, project: @project })
+          end
+          format.html { redirect_to admin_project_path(@project) }
+        end
       else
         redirect_to admin_project_path(@project), alert: @task.errors.full_messages.to_sentence
       end
@@ -15,12 +20,22 @@ module Admin
 
     def update
       @task.update!(task_params)
-      redirect_to admin_project_path(@project)
+
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(@task, partial: "admin/tasks/task", locals: { task: @task, project: @project })
+        end
+        format.html { redirect_to admin_project_path(@project) }
+      end
     end
 
     def destroy
       @task.destroy!
-      redirect_to admin_project_path(@project)
+
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.remove(@task) }
+        format.html { redirect_to admin_project_path(@project) }
+      end
     end
 
     private
