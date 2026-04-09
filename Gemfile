@@ -89,3 +89,4 @@ group :test do
 end
 
 gem "bugsnag", "~> 6.27"
+gem "mcp"

@@ -1,0 +1,55 @@
+<% breadcrumbs do %>
+  <%= breadcrumb "Projects", admin_projects_path %>
+  <%= breadcrumb @project.title %>
+<% end %>
+
+<div class="max-w-2xl">
+  <div class="flex items-start gap-4 mb-6">
+    <div class="w-12 h-12 rounded-xl bg-[#17BEBB]/10 flex items-center justify-center shrink-0 mt-2">
+      <%= svg_tag 'icons/mingcute/task_2_line', class: 'size-6 text-[#17BEBB]' %>
+    </div>
+
+    <div class="flex-1 min-w-0">
+      <%= form_with model: [:admin, @project], data: { controller: "submit-on-change" } do |form| %>
+        <%= form.submit data: { "submit-on-change-target": "submitButton" }, class: "hidden" %>
+        <%= form.text_field :title,
+                            class: "main-title block w-full bg-transparent border-0 outline-none p-0 focus:ring-0 hover:opacity-70 transition-opacity cursor-text",
+                            data: { action: "blur->submit-on-change#submit" },
+                            required: true %>
+        <%= form.text_area :description,
+                           rows: 2,
+                           placeholder: "Add a description…",
+                           class: "block w-full text-sm text-gray-500 bg-transparent border-0 outline-none p-0 mt-1 resize-none focus:ring-0 placeholder-gray-400 cursor-text",
+                           data: { action: "blur->submit-on-change#submit" } %>
+      <% end %>
+    </div>
+
+    <div class="shrink-0 mt-1">
+      <%= button_to "Delete", admin_project_path(@project),
+                    method: :delete,
+                    data: { turbo_confirm: "Delete #{@project.title} and all its tasks?" },
+                    class: "button button-danger" %>
+    </div>
+  </div>
+
+  <div class="membership-card overflow-hidden">
+    <ul id="tasks" class="list-none m-0 p-0">
+      <%= render @tasks, project: @project %>
+    </ul>
+
+    <div class="px-5 py-3 border-t border-[#e8e0d8]">
+      <%= form_with model: [:admin, @project, @new_task],
+                    url: admin_project_tasks_path(@project),
+                    data: { controller: "forms--reset", action: "turbo:submit-end->forms--reset#reset" } do |form| %>
+        <div class="flex items-center gap-2">
+          <%= svg_tag 'icons/mingcute/add_circle_line', class: 'size-5 text-gray-300 shrink-0' %>
+          <%= form.text_field :title,
+                              placeholder: "Add a task…",
+                              class: "flex-1 bg-transparent border-0 outline-none text-sm text-gray-800 placeholder-gray-400 focus:ring-0",
+                              autocomplete: "off",
+                              autofocus: @tasks.none? %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

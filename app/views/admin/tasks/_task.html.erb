@@ -1,0 +1,21 @@
+<%# locals: (task:, project:) %>
+<li id="<%= dom_id(task) %>" class="flex items-center gap-3 px-5 py-3 border-b border-[#e8e0d8] last:border-0 group">
+  <%= button_to admin_project_task_path(project, task),
+                method: :patch,
+                params: { task: { completed: !task.completed } },
+                form: { class: "shrink-0 flex" } do %>
+    <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all cursor-pointer <%= task.completed? ? 'border-[#76B041] bg-[#76B041]' : 'border-gray-300 group-hover:border-[#17BEBB]' %>">
+      <% if task.completed? %>
+        <%= svg_tag 'icons/mingcute/check_circle_line', class: 'size-3 text-white' %>
+      <% end %>
+    </div>
+  <% end %>
+  <span class="flex-1 text-sm leading-relaxed transition-all <%= task.completed? ? 'line-through text-gray-400' : 'text-gray-800' %>">
+    <%= task.title %>
+  </span>
+  <%= button_to admin_project_task_path(project, task),
+                method: :delete,
+                form: { class: "shrink-0 flex opacity-0 group-hover:opacity-100 transition-opacity" } do %>
+    <%= svg_tag 'icons/mingcute/close_line', class: 'size-4 text-gray-400 hover:text-red-400 cursor-pointer' %>
+  <% end %>
+</li>

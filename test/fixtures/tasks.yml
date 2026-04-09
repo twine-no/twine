@@ -1,0 +1,14 @@
+website_relaunch_design:
+  title: Finalise design mockups
+  project: coffee_shop_website_relaunch
+  completed: false
+
+website_relaunch_copy:
+  title: Write homepage copy
+  project: coffee_shop_website_relaunch
+  completed: true
+
+annual_event_venue:
+  title: Book venue
+  project: coffee_shop_annual_event
+  completed: false

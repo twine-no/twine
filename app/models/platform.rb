@@ -5,6 +5,7 @@ class Platform < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :meetings, dependent: :delete_all
   has_many :links, dependent: :destroy
+  has_many :projects, dependent: :destroy
 
   enum :category, { work: "work", personal: "personal" }
 

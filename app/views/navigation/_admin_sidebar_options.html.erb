@@ -24,6 +24,13 @@
         </li>
 
         <li>
+          <%= link_to admin_projects_path, class: "sidebar-link #{sidebar_active_html_class(%w[projects tasks])}" do %>
+            <%= svg_tag 'icons/mingcute/task_2_line', class: 'size-6 shrink-0 group-hover:text-white' %>
+            Projects
+          <% end %>
+        </li>
+
+        <li>
           <%= link_to admin_site_path, class: "sidebar-link #{sidebar_active_html_class('sites')}" do %>
             <%= svg_tag 'icons/mingcute/web_line', class: 'size-6 shrink-0 group-hover:text-white' %>
             Website

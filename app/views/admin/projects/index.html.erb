@@ -1,0 +1,54 @@
+<% if @projects.any? %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <% @projects.each do |project| %>
+      <%= link_to admin_project_path(project), class: "membership-card p-5 flex flex-col gap-4 no-underline text-inherit" do %>
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-[#17BEBB]/10 flex items-center justify-center mb-3">
+            <%= svg_tag 'icons/mingcute/task_2_line', class: 'size-5 text-[#17BEBB]' %>
+          </div>
+          <h3 class="font-display font-semibold text-gray-900 text-lg mt-0 mb-1"><%= project.title %></h3>
+          <p class="text-sm text-gray-500 m-0 line-clamp-2"><%= project.description.presence || "No description yet" %></p>
+        </div>
+        <div class="flex items-center justify-between pt-3 border-t border-[#e8e0d8] mt-auto">
+          <span class="text-xs text-gray-400">
+            <%= pluralize(project.tasks.size, "task") %>
+            &middot;
+            <%= project.tasks.count(&:completed?) %> done
+          </span>
+          <% if project.tasks.none? %>
+            <span class="text-xs text-gray-300">No tasks yet</span>
+          <% elsif project.tasks.all?(&:completed?) %>
+            <span class="text-xs font-medium text-[#76B041]">All done</span>
+          <% else %>
+            <span class="text-xs font-medium text-[#17BEBB]"><%= project.tasks.count { |t| !t.completed? } %> remaining</span>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <div class="add-platform-card flex items-center px-5 py-4 col-span-1">
+      <%= form_with url: admin_projects_path do |form| %>
+        <div class="flex items-center gap-3 w-full">
+          <%= svg_tag "icons/mingcute/add_circle_line.svg", class: "w-5 h-5 flex-shrink-0 text-[#7a5030]/60" %>
+          <%= form.text_field "project[title]",
+                              placeholder: "Start a new project…",
+                              class: "flex-1 bg-transparent border-0 outline-none text-sm text-[#7a5030] placeholder-[#7a5030]/60 focus:ring-0 font-semibold",
+                              autocomplete: "off" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <div class="add-platform-card flex items-center px-5 py-6 max-w-sm">
+    <%= form_with url: admin_projects_path do |form| %>
+      <div class="flex items-center gap-3 w-full">
+        <%= svg_tag "icons/mingcute/add_circle_line.svg", class: "w-5 h-5 flex-shrink-0 text-[#7a5030]/60" %>
+        <%= form.text_field "project[title]",
+                            placeholder: "Start your first project…",
+                            class: "flex-1 bg-transparent border-0 outline-none text-sm text-[#7a5030] placeholder-[#7a5030]/60 focus:ring-0 font-semibold",
+                            autocomplete: "off",
+                            autofocus: true %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
