@@ -32,7 +32,7 @@ module Admin
       if @project.update(project_params)
         redirect_to admin_project_path(@project), notice: "#{@project.title} updated"
       else
-        render_inside_modal :edit, status: :unprocessable_content
+        redirect_to admin_project_path(@project), alert: @project.errors.full_messages.to_sentence
       end
     end
 
