@@ -1,0 +1,15 @@
+<%= turbo_frame_tag :modal_content do %>
+  <%= modal_content do %>
+    <h2 class="mt-0">Edit project</h2>
+    <%= form_with model: [:admin, @project], data: { turbo_frame: "_top" } do |form| %>
+      <%= render 'navigation/form_errors', model: @project %>
+
+      <div class="form-group">
+        <%= form.label :title %>
+        <%= form.text_field :title, class: "form-control", autofocus: true, autocomplete: "off" %>
+      </div>
+
+      <%= form.submit "Save", class: "button button-primary" %>
+    <% end %>
+  <% end %>
+<% end %>

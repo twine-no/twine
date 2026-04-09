@@ -1,0 +1,11 @@
+coffee_shop_website_relaunch:
+  title: Website Relaunch
+  platform: coffee_shop
+
+coffee_shop_annual_event:
+  title: Annual Member Event
+  platform: coffee_shop
+
+football_club_kit_order:
+  title: Kit Order
+  platform: football_meetup

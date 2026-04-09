@@ -1,0 +1,59 @@
+<% breadcrumbs do %>
+  <%= breadcrumb "Projects", admin_projects_path %>
+  <%= breadcrumb @project.title %>
+<% end %>
+
+<%= turbo_frame_tag :modal_content %>
+
+<div class="max-w-2xl">
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="mb-0"><%= @project.title %></h1>
+    <div class="flex gap-2">
+      <%= modal_link_to "Edit", edit_admin_project_path(@project), class: "button button-secondary" %>
+      <%= button_to "Delete", admin_project_path(@project),
+                    method: :delete,
+                    data: { turbo_confirm: "Delete #{@project.title} and all its tasks?" },
+                    class: "button button-danger" %>
+    </div>
+  </div>
+
+  <%= card do %>
+    <% if @tasks.any? %>
+      <ul class="divide-y divide-base-200 list-none m-0 p-0 mb-4">
+        <% @tasks.each do |task| %>
+          <li class="py-2 flex items-center gap-3">
+            <%= button_to admin_project_task_path(@project, task),
+                          method: :patch,
+                          params: { task: { completed: !task.completed } },
+                          class: "btn btn-ghost btn-sm btn-circle shrink-0" do %>
+              <% if task.completed %>
+                <%= svg_tag 'icons/mingcute/check_circle_line', class: 'size-5 text-success' %>
+              <% else %>
+                <%= svg_tag 'icons/mingcute/task_2_line', class: 'size-5 text-base-content/30' %>
+              <% end %>
+            <% end %>
+            <span class="flex-1 <%= 'line-through text-base-content/40' if task.completed %>">
+              <%= task.title %>
+            </span>
+            <%= button_to admin_project_task_path(@project, task),
+                          method: :delete,
+                          class: "btn btn-ghost btn-sm btn-circle shrink-0 text-base-content/30 hover:text-error" do %>
+              <%= svg_tag 'icons/mingcute/close_line', class: 'size-4' %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <%= form_with model: [:admin, @project, @new_task], url: admin_project_tasks_path(@project) do |form| %>
+      <div class="flex gap-2">
+        <%= form.text_field :title,
+                            placeholder: "Add a task…",
+                            class: "form-control flex-1",
+                            autocomplete: "off",
+                            autofocus: @tasks.none? %>
+        <%= form.submit "Add", class: "button button-primary" %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

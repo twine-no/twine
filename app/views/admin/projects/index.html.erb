@@ -1,0 +1,25 @@
+<div class="flex items-center justify-between mb-4">
+  <h1>Projects</h1>
+  <%= modal_link_to "New project", new_admin_project_path, class: "button button-primary" %>
+</div>
+
+<%= turbo_frame_tag :modal_content %>
+
+<% if @projects.any? %>
+  <%= card do %>
+    <ul class="divide-y divide-base-200 list-none m-0 p-0">
+      <% @projects.each do |project| %>
+        <li class="py-3 flex items-center justify-between">
+          <%= link_to project.title, admin_project_path(project), class: "font-medium hover:underline" %>
+          <span class="text-sm text-base-content/50">
+            <%= pluralize(project.tasks.count, "task") %>
+            &middot;
+            <%= pluralize(project.tasks.where(completed: true).count, "done") %>
+          </span>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+<% else %>
+  <p class="text-base-content/50">No projects yet.</p>
+<% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_07_000002) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_09_000001) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -170,6 +170,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_07_000002) do
     t.index ["shortname"], name: "index_platforms_on_shortname", unique: true
   end
 
+  create_table "projects", force: :cascade do |t|
+    t.string "title", null: false
+    t.integer "platform_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["platform_id"], name: "index_projects_on_platform_id"
+  end
+
   create_table "rsvps", force: :cascade do |t|
     t.integer "invite_id"
     t.string "answer", default: "unanswered", null: false
@@ -243,6 +251,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_07_000002) do
     t.index ["rsvp_id"], name: "index_surveys_responses_on_rsvp_id"
   end
 
+  create_table "tasks", force: :cascade do |t|
+    t.string "title", null: false
+    t.integer "project_id", null: false
+    t.boolean "completed", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_tasks_on_project_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
@@ -262,9 +279,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_07_000002) do
   add_foreign_key "meetings", "platforms"
   add_foreign_key "memberships", "platforms"
   add_foreign_key "memberships", "users"
+  add_foreign_key "projects", "platforms"
   add_foreign_key "rsvps", "invites"
   add_foreign_key "sessions", "platforms"
   add_foreign_key "sessions", "users"
   add_foreign_key "surveys_alternatives_responses", "surveys_alternatives", column: "alternative_id"
   add_foreign_key "surveys_alternatives_responses", "surveys_responses", column: "response_id"
+  add_foreign_key "tasks", "projects"
 end

@@ -67,6 +67,10 @@ Rails.application.routes.draw do
       resource :surveys, only: [ :new, :create, :edit, :update ]
     end
 
+    resources :projects do
+      resources :tasks, only: [ :create, :update, :destroy ]
+    end
+
     namespace :messages do
       resources :meeting_invites, only: [ :new, :create ]
     end
