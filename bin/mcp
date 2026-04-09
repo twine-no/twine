@@ -16,7 +16,7 @@ server = MCP::Server.new(
     Mcp::Tools::ListProjectsTool,
     Mcp::Tools::CreateProjectTool,
     Mcp::Tools::UpdateProjectTool,
-    Mcp::Tools::UpdateProjectFeelingTool,
+    Mcp::Tools::UpdatePlatformFeelingTool,
     Mcp::Tools::DeleteProjectTool,
     Mcp::Tools::CreateTaskTool,
     Mcp::Tools::UpdateTaskTool,

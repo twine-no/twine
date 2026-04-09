@@ -22,9 +22,9 @@ module Mcp
 
           ## Projects & Tasks
 
-          - Projects belong to a platform. Each project can have a **feeling** (1–5) expressing how it's going:
+          - Each platform has a **feeling** (1–5) expressing how it's going overall:
             1 = Stuck, 2 = Struggling, 3 = OK, 4 = Going well, 5 = Excellent
-          - Tasks belong to a project and can be marked completed.
+          - Projects belong to a platform. Tasks belong to a project and can be marked completed.
 
           ## Meetings
 
@@ -39,7 +39,7 @@ module Mcp
           | `list_projects` | Projects and tasks for a platform |
           | `create_project` | Create a new project |
           | `update_project` | Update a project's title or description |
-          | `update_project_feeling` | Update how a project is going (1–5) |
+          | `update_platform_feeling` | Update how a platform is going overall (1–5) |
           | `delete_project` | Delete a project and all its tasks |
           | `create_task` | Add a task to a project |
           | `update_task` | Rename a task or mark it completed/incomplete |

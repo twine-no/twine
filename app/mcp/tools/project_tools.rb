@@ -23,10 +23,8 @@ module Mcp
         lines = [ "# Projects for #{platform.name}\n" ]
 
         projects.each do |project|
-          feeling = project.feeling ? "#{FEELING_LABELS[project.feeling]} (#{project.feeling}/5)" : "not set"
           lines << "## [#{project.id}] #{project.title}"
           lines << "   Description: #{project.description.presence || '—'}"
-          lines << "   Feeling: #{feeling}"
 
           tasks = project.tasks.order(completed: :asc, created_at: :asc)
           if tasks.any?
@@ -110,29 +108,29 @@ module Mcp
       def self.error(str) = MCP::Tool::Response.new([ { type: "text", text: "Error: #{str}" } ], error: true)
     end
 
-    class UpdateProjectFeelingTool < MCP::Tool
-      tool_name "update_project_feeling"
-      description "Updates how a project is going. Feeling is 1–5: 1=Stuck, 2=Struggling, 3=OK, 4=Going well, 5=Excellent."
+    class UpdatePlatformFeelingTool < MCP::Tool
+      tool_name "update_platform_feeling"
+      description "Updates how a platform is going overall. Feeling is 1–5: 1=Stuck, 2=Struggling, 3=OK, 4=Going well, 5=Excellent."
 
       input_schema(
         properties: {
-          project_id: { type: "integer", description: "The project ID" },
-          feeling:    { type: "integer", description: "1 (Stuck) to 5 (Excellent)", enum: [ 1, 2, 3, 4, 5 ] }
+          platform_id: { type: "integer", description: "The platform ID" },
+          feeling:     { type: "integer", description: "1 (Stuck) to 5 (Excellent)", enum: [ 1, 2, 3, 4, 5 ] }
         },
-        required: [ "project_id", "feeling" ]
+        required: [ "platform_id", "feeling" ]
       )
 
-      def self.call(project_id:, feeling:)
-        project = Project.find_by(id: project_id)
-        return error("Project #{project_id} not found") unless project
+      def self.call(platform_id:, feeling:)
+        platform = Platform.find_by(id: platform_id)
+        return error("Platform #{platform_id} not found") unless platform
 
         unless (1..5).include?(feeling)
           return error("Feeling must be between 1 and 5.")
         end
 
-        project.update!(feeling: feeling)
+        platform.update!(feeling: feeling)
         label = FEELING_LABELS[feeling]
-        text("Updated feeling for \"#{project.title}\" to #{label} (#{feeling}/5).")
+        text("Updated feeling for \"#{platform.name}\" to #{label} (#{feeling}/5).")
       end
 
       def self.text(str) = MCP::Tool::Response.new([ { type: "text", text: str } ])

@@ -12,7 +12,7 @@ module Mcp
 
     class GetOverviewTool < MCP::Tool
       tool_name "get_overview"
-      description "Returns an overview of all platforms: member count, project status, meeting activity, and project feelings."
+      description "Returns an overview of all platforms: feeling, member count, project status, and meeting activity."
 
       def self.call
         platforms = Platform.includes(projects: :tasks, memberships: :user).order(:name)
@@ -21,9 +21,11 @@ module Mcp
           projects = platform.projects
           upcoming_meetings = platform.meetings.upcoming.count
           past_meetings = platform.meetings.past.count
+          feeling = platform.feeling ? "#{FEELING_LABELS[platform.feeling]} (#{platform.feeling}/5)" : "not set"
 
           platform_lines = [
             "## #{platform.name} (ID: #{platform.id})",
+            "   Feeling: #{feeling}",
             "   Members: #{platform.memberships.size}",
             "   Meetings: #{upcoming_meetings} upcoming, #{past_meetings} past"
           ]
@@ -34,8 +36,7 @@ module Mcp
               tasks = project.tasks
               done = tasks.count(&:completed?)
               total = tasks.size
-              feeling = project.feeling ? "#{FEELING_LABELS[project.feeling]} (#{project.feeling}/5)" : "not set"
-              platform_lines << "     [#{project.id}] #{project.title} — #{done}/#{total} tasks done — feeling: #{feeling}"
+              platform_lines << "     [#{project.id}] #{project.title} — #{done}/#{total} tasks done"
             end
           else
             platform_lines << "   Projects: none"
