@@ -1,25 +1,50 @@
-<div class="flex items-center justify-between mb-4">
-  <h1>Projects</h1>
+<%= turbo_frame_tag :modal_content %>
+
+<div class="flex items-center justify-between mb-6">
+  <h1 class="main-title mb-0">Projects</h1>
   <%= modal_link_to "New project", new_admin_project_path, class: "button button-primary" %>
 </div>
 
-<%= turbo_frame_tag :modal_content %>
-
 <% if @projects.any? %>
-  <%= card do %>
-    <ul class="divide-y divide-base-200 list-none m-0 p-0">
-      <% @projects.each do |project| %>
-        <li class="py-3 flex items-center justify-between">
-          <%= link_to project.title, admin_project_path(project), class: "font-medium hover:underline" %>
-          <span class="text-sm text-base-content/50">
-            <%= pluralize(project.tasks.count, "task") %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <% @projects.each do |project| %>
+      <%= link_to admin_project_path(project), class: "membership-card p-5 flex flex-col gap-4 no-underline text-inherit" do %>
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-[#17BEBB]/10 flex items-center justify-center mb-3">
+            <%= svg_tag 'icons/mingcute/task_2_line', class: 'size-5 text-[#17BEBB]' %>
+          </div>
+          <h3 class="font-display font-semibold text-gray-900 text-lg mt-0 mb-1"><%= project.title %></h3>
+          <p class="text-sm text-gray-500 m-0 line-clamp-2"><%= project.description.presence || "No description yet" %></p>
+        </div>
+        <div class="flex items-center justify-between pt-3 border-t border-[#e8e0d8] mt-auto">
+          <span class="text-xs text-gray-400">
+            <%= pluralize(project.tasks.size, "task") %>
             &middot;
-            <%= pluralize(project.tasks.where(completed: true).count, "done") %>
+            <%= project.tasks.count(&:completed?) %> done
           </span>
-        </li>
+          <% if project.tasks.none? %>
+            <span class="text-xs text-gray-300">No tasks yet</span>
+          <% elsif project.tasks.all?(&:completed?) %>
+            <span class="text-xs font-medium text-[#76B041]">All done</span>
+          <% else %>
+            <span class="text-xs font-medium text-[#17BEBB]"><%= project.tasks.count { |t| !t.completed? } %> remaining</span>
+          <% end %>
+        </div>
       <% end %>
-    </ul>
-  <% end %>
+    <% end %>
+
+    <div class="add-platform-card py-6 px-5 flex items-center justify-center">
+      <%= modal_link_to new_admin_project_path, class: "flex items-center gap-3 group no-underline" do %>
+        <%= svg_tag "icons/mingcute/add_circle_line.svg", class: "w-6 h-6 flex-shrink-0" %>
+        <span class="text-base font-semibold">Start a new project</span>
+      <% end %>
+    </div>
+  </div>
 <% else %>
-  <p class="text-base-content/50">No projects yet.</p>
+  <div class="add-platform-card py-10 px-5 flex items-center justify-center max-w-sm">
+    <%= modal_link_to new_admin_project_path, class: "flex items-center gap-3 group no-underline" do %>
+      <%= svg_tag "icons/mingcute/add_circle_line.svg", class: "w-6 h-6 flex-shrink-0" %>
+      <span class="text-base font-semibold">Start your first project</span>
+    <% end %>
+  </div>
 <% end %>

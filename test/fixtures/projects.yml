@@ -1,11 +1,14 @@
 coffee_shop_website_relaunch:
   title: Website Relaunch
+  description: Redesign and relaunch the member-facing website with fresh copy and visuals
   platform: coffee_shop
 
 coffee_shop_annual_event:
   title: Annual Member Event
+  description: Plan and execute the yearly gathering for all members
   platform: coffee_shop
 
 football_club_kit_order:
   title: Kit Order
+  description: Coordinate the new season kit order and distribution
   platform: football_meetup

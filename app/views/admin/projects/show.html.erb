@@ -6,9 +6,19 @@
 <%= turbo_frame_tag :modal_content %>
 
 <div class="max-w-2xl">
-  <div class="flex items-center justify-between mb-4">
-    <h1 class="mb-0"><%= @project.title %></h1>
-    <div class="flex gap-2">
+  <div class="flex items-start justify-between mb-6 gap-4">
+    <div class="flex items-start gap-4">
+      <div class="w-12 h-12 rounded-xl bg-[#17BEBB]/10 flex items-center justify-center shrink-0 mt-1">
+        <%= svg_tag 'icons/mingcute/task_2_line', class: 'size-6 text-[#17BEBB]' %>
+      </div>
+      <div>
+        <h1 class="main-title mb-1"><%= @project.title %></h1>
+        <% if @project.description.present? %>
+          <p class="text-gray-500 text-sm m-0"><%= @project.description %></p>
+        <% end %>
+      </div>
+    </div>
+    <div class="flex gap-2 shrink-0">
       <%= modal_link_to "Edit", edit_admin_project_path(@project), class: "button button-secondary" %>
       <%= button_to "Delete", admin_project_path(@project),
                     method: :delete,
@@ -17,27 +27,25 @@
     </div>
   </div>
 
-  <%= card do %>
+  <div class="membership-card overflow-hidden">
     <% if @tasks.any? %>
-      <ul class="divide-y divide-base-200 list-none m-0 p-0 mb-4">
+      <ul class="list-none m-0 p-0">
         <% @tasks.each do |task| %>
-          <li class="py-2 flex items-center gap-3">
+          <li class="flex items-center gap-3 px-5 py-3 border-b border-[#e8e0d8] last:border-b-0">
             <%= button_to admin_project_task_path(@project, task),
                           method: :patch,
                           params: { task: { completed: !task.completed } },
-                          class: "btn btn-ghost btn-sm btn-circle shrink-0" do %>
-              <% if task.completed %>
-                <%= svg_tag 'icons/mingcute/check_circle_line', class: 'size-5 text-success' %>
-              <% else %>
-                <%= svg_tag 'icons/mingcute/task_2_line', class: 'size-5 text-base-content/30' %>
+                          class: "shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all cursor-pointer bg-transparent p-0 #{task.completed? ? 'border-[#76B041] bg-[#76B041]' : 'border-gray-300 hover:border-[#17BEBB]'}" do %>
+              <% if task.completed? %>
+                <%= svg_tag 'icons/mingcute/check_circle_line', class: 'size-4 text-white' %>
               <% end %>
             <% end %>
-            <span class="flex-1 <%= 'line-through text-base-content/40' if task.completed %>">
+            <span class="flex-1 text-sm <%= task.completed? ? 'line-through text-gray-400' : 'text-gray-800' %>">
               <%= task.title %>
             </span>
             <%= button_to admin_project_task_path(@project, task),
                           method: :delete,
-                          class: "btn btn-ghost btn-sm btn-circle shrink-0 text-base-content/30 hover:text-error" do %>
+                          class: "shrink-0 w-6 h-6 flex items-center justify-center text-gray-300 hover:text-red-400 transition-colors bg-transparent p-0 border-0 cursor-pointer" do %>
               <%= svg_tag 'icons/mingcute/close_line', class: 'size-4' %>
             <% end %>
           </li>
@@ -45,15 +53,17 @@
       </ul>
     <% end %>
 
-    <%= form_with model: [:admin, @project, @new_task], url: admin_project_tasks_path(@project) do |form| %>
-      <div class="flex gap-2">
-        <%= form.text_field :title,
-                            placeholder: "Add a task…",
-                            class: "form-control flex-1",
-                            autocomplete: "off",
-                            autofocus: @tasks.none? %>
-        <%= form.submit "Add", class: "button button-primary" %>
-      </div>
-    <% end %>
-  <% end %>
+    <div class="px-5 py-4">
+      <%= form_with model: [:admin, @project, @new_task], url: admin_project_tasks_path(@project) do |form| %>
+        <div class="flex items-center gap-2">
+          <%= svg_tag 'icons/mingcute/add_circle_line', class: 'size-5 text-gray-300 shrink-0' %>
+          <%= form.text_field :title,
+                              placeholder: "Add a task…",
+                              class: "flex-1 bg-transparent border-0 outline-none text-sm text-gray-800 placeholder-gray-400 focus:ring-0",
+                              autocomplete: "off" %>
+          <%= form.submit "Add", class: "button button-primary button-sm" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>

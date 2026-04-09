@@ -1,4 +1,4 @@
-<h2 class="mt-0 pt-0">
+<h2 class="mt-0 pt-0 font-display">
   <%= link_to Current.platform.name,
               admin_site_path(focus: :name),
               class: "editable" %>
@@ -6,7 +6,7 @@
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
   <%= card class: "col-span-1" do %>
-    <h3 class="mt-0 mb-2">
+    <h3 class="mt-0 mb-2 font-display">
       <%= svg_tag "icons/mingcute/group_2_line", class: "inline" %>
       <% if Current.platform.memberships.size > 1 %>
         You're organising <%= Current.platform.memberships.size %> people
@@ -34,7 +34,7 @@
   <% end %>
 
   <%= card class: "col-span-1" do %>
-    <h3 class="mt-0 mb-2">
+    <h3 class="mt-0 mb-2 font-display">
       <%= svg_tag "icons/mingcute/calendar_2_line", class: "inline" %>
       <% if Current.platform.meetings.planned.any? %>
         You're planning <%= pluralize Current.platform.meetings.planned.size, "event" %>
@@ -67,7 +67,7 @@
   <% end %>
 
   <%= card class: "col-span-1" do %>
-    <h3 class="mt-0 mb-2">
+    <h3 class="mt-0 mb-2 font-display">
       <%= svg_tag "icons/mingcute/web_line", class: "inline" %>
       <% if Current.platform.listed? %>
         You have a website
@@ -89,7 +89,7 @@
   <% end %>
 
   <%= card class: "col-span-1" do %>
-    <h3 class="mt-0 mb-2">
+    <h3 class="mt-0 mb-2 font-display">
       <%= svg_tag "icons/mingcute/mail_line", class: "inline" %>
       How can we help?
     </h3>

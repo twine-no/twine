@@ -3,7 +3,7 @@ module Admin
     before_action :set_project, only: %i[show edit update destroy]
 
     def index
-      @projects = Current.platform.projects.order(:title)
+      @projects = Current.platform.projects.includes(:tasks).order(:title)
     end
 
     def show
@@ -48,7 +48,7 @@ module Admin
     end
 
     def project_params
-      params.require(:project).permit(:title)
+      params.require(:project).permit(:title, :description)
     end
   end
 end

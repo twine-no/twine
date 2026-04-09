@@ -1,12 +1,17 @@
 <%= turbo_frame_tag :modal_content do %>
   <%= modal_content do %>
-    <h2 class="mt-0">Edit project</h2>
+    <h2 class="mt-0 font-display">Edit project</h2>
     <%= form_with model: [:admin, @project], data: { turbo_frame: "_top" } do |form| %>
       <%= render 'navigation/form_errors', model: @project %>
 
       <div class="form-group">
         <%= form.label :title %>
         <%= form.text_field :title, class: "form-control", autofocus: true, autocomplete: "off" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :description %>
+        <%= form.text_area :description, class: "form-control", rows: 3, placeholder: "What is this project about?" %>
       </div>
 
       <%= form.submit "Save", class: "button button-primary" %>
