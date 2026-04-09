@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative "../config/environment"
+require "mcp"
+
+Dir[File.join(__dir__, "../app/mcp/tools/*.rb")].sort.each { |file| require file }
+
+server = MCP::Server.new(
+  name: "twine",
+  version: "1.0.0",
+  instructions: "Call the `instructions` tool first to understand available tools and how to use them.",
+  tools: [
+    Mcp::Tools::InstructionsTool,
+    Mcp::Tools::GetOverviewTool,
+    Mcp::Tools::ListProjectsTool,
+    Mcp::Tools::CreateProjectTool,
+    Mcp::Tools::UpdateProjectTool,
+    Mcp::Tools::UpdateProjectFeelingTool,
+    Mcp::Tools::DeleteProjectTool,
+    Mcp::Tools::CreateTaskTool,
+    Mcp::Tools::UpdateTaskTool,
+    Mcp::Tools::DeleteTaskTool,
+    Mcp::Tools::ListMeetingsTool,
+    Mcp::Tools::CreateMeetingTool,
+    Mcp::Tools::UpdateMeetingTool,
+    Mcp::Tools::DeleteMeetingTool
+  ]
+)
+
+MCP::Server::Transports::StdioTransport.new(server).open
