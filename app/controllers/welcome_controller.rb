@@ -1,9 +1,7 @@
 class WelcomeController < ApplicationController
   allow_unauthenticated_access
 
-  layout "logged_out"
-
   def index
-    redirect_to after_authentication_url(Current.user) if authenticated?
+    redirect_to edit_page_path if authenticated?
   end
 end

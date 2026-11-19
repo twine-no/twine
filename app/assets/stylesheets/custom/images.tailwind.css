@@ -1,9 +1,9 @@
 @layer components {
     .avatar {
-        @apply rounded-full mx-auto mb-4 border-4 bg-white border-white h-24 w-24 object-cover;
+        @apply mx-auto mb-4 h-24 w-24 rounded-full border-4 border-white bg-white object-cover;
     }
 
-    .avatar-sm {
-        @apply h-16 w-16 mb-0;
+    .avatar-placeholder {
+        @apply object-contain p-3;
     }
 }

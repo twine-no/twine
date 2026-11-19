@@ -1,16 +1,52 @@
-<div class="h-screen flex items-center justify-center">
-  <div class="text-center">
+<section class="grid items-center gap-12 py-8 lg:grid-cols-2 lg:py-16">
+  <div>
+    <p class="badge">🇳🇴 Made in Norway</p>
 
-    <div class="flex w-full mx-auto justify-center">
-      <%= image_tag 'logo.png',
-                    alt: 'Twine logo',
-                    class: 'w-auto h-20' %>
-    </div>
-    <p class="text-xl mt-4">Organise loose groups of people that<br>you don't meet every day 🧶</p>
+    <h1 class="mt-5 font-display text-5xl font-bold tracking-tight sm:text-6xl">Get a free linktree</h1>
 
-    <div class="mt-5">
-      <%= link_to 'Get started', new_session_path, class: 'button button-primary button-xl' %>
-    </div>
+    <p class="mt-5 max-w-md text-lg text-stone-600">
+      One link for everything you share. Pick a username, add your links, and you're live in under a minute.
+    </p>
 
+    <%= form_with url: new_registration_path, method: :get, class: "mt-8 max-w-md" do |form| %>
+      <%= form.label :handle, "Pick your username", class: "sr-only" %>
+      <div class="handle-field">
+        <span><%= page_address_prefix %></span>
+        <%= form.text_field :handle,
+                            placeholder: "yourname",
+                            maxlength: 28,
+                            autocapitalize: "none",
+                            autocomplete: "off",
+                            spellcheck: false %>
+      </div>
+      <%= form.submit "Claim your link", name: nil, class: "button button-primary button-xl mt-3 w-full" %>
+    <% end %>
+
+    <p class="mt-3 text-sm text-stone-500">It's free. No credit card needed.</p>
   </div>
-</div>
+
+  <div class="flex justify-center" inert aria-hidden="true">
+    <div class="phone">
+      <div class="phone-screen">
+        <%= render "public/pages/page", page: example_page %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="grid gap-4 py-8 sm:grid-cols-3">
+  <div class="card">
+    <h2 class="font-semibold">1. Claim your link</h2>
+    <p class="mt-1 text-stone-600">Sign up with an email address and pick the username you want.</p>
+  </div>
+
+  <div class="card">
+    <h2 class="font-semibold">2. Add your links</h2>
+    <p class="mt-1 text-stone-600">Your website, your shop, your socials. Drag them into the order you like.</p>
+  </div>
+
+  <div class="card">
+    <h2 class="font-semibold">3. Share it everywhere</h2>
+    <p class="mt-1 text-stone-600">Put your link in your bio, your email signature or on a poster.</p>
+  </div>
+</section>

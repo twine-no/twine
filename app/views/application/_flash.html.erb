@@ -1,0 +1,5 @@
+<%# locals: () %>
+
+<% flash.each do |_type, message| %>
+  <%= tag.div data: { controller: "flashes", flashes_message_value: message } %>
+<% end %>

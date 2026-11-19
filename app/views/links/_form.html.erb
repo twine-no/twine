@@ -1,0 +1,25 @@
+<%# locals: () %>
+
+<%= form_with scope: :link, url: links_path, class: "card link-row", data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" } do |form| %>
+  <span class="text-stone-400">
+    <%= svg_tag "icons/mingcute/add_circle_line", class: "h-5 w-5" %>
+  </span>
+
+  <div class="link-fields">
+    <%= form.text_field :name,
+                        class: "form-control",
+                        required: true,
+                        maxlength: 80,
+                        placeholder: "Title, like My website",
+                        aria: { label: "Title" } %>
+    <%= form.text_field :url,
+                        class: "form-control",
+                        required: true,
+                        autocapitalize: "none",
+                        spellcheck: false,
+                        placeholder: "example.com",
+                        aria: { label: "Address" } %>
+  </div>
+
+  <%= form.submit "Add link", class: "button button-primary" %>
+<% end %>

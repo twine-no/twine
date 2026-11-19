@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+# Runs the tests with a 5-minute timeout and reports the runtime.
+# Without arguments it runs everything except the system tests.
+
+TIMEOUT_IN_SECONDS = 300
+
+started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+test_process_id = Process.spawn("bin/rails", "test", *ARGV, chdir: File.expand_path("..", __dir__))
+
+watchdog = Thread.new do
+  sleep TIMEOUT_IN_SECONDS
+  Process.kill("TERM", test_process_id)
+  warn "\nThe tests were stopped after #{TIMEOUT_IN_SECONDS} seconds. Stop what you are doing and notify the user."
+end
+
+_, status = Process.wait2(test_process_id)
+watchdog.kill
+
+puts "\nRuntime: #{(Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at).round(1)} seconds"
+exit status.exitstatus || 1

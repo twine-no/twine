@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= render "layouts/head",
+             title: page_browser_title(@page),
+             description: @page.bio,
+             image_url: page_image_url(@page) %>
+</head>
+
+<body class="flex min-h-screen flex-col">
+  <%= yield %>
+</body>
+</html>

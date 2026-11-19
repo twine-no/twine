@@ -35,31 +35,15 @@ module Authentication
     redirect_to new_session_path
   end
 
-  def after_authentication_url(user)
-    session.delete(:return_to_after_authenticating) || default_landing_url(user)
-  end
-
-  def default_landing_url(user)
-    user.has_admin_rights_at?(Current.platform) ? me_url : member_dashboard_url
+  def after_authentication_url
+    session.delete(:return_to_after_authenticating) || edit_page_url
   end
 
   def start_new_session_for(user)
-    platform = params[:platform_id].present? ? user.platforms.find(params[:platform_id]) : user.default_platform
-
-    user.sessions.create!(
-      user_agent: request.user_agent,
-      ip_address: request.remote_ip,
-      platform: platform
-    ).tap do |session|
+    user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
       Current.session = session
       cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
     end
-  end
-
-  def switch_platform_to(platform)
-    return false unless platform.users.include?(Current.session.user)
-
-    Current.session.update(platform: platform)
   end
 
   def terminate_session

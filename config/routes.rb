@@ -1,82 +1,26 @@
 Rails.application.routes.draw do
-  # If visiting the app root on a custom domain, direct to the public platform page
+  # A page with its own domain is served from the root of that domain
   constraints(CustomDomainConstraint.new) do
-    root to: "public/platforms#show", as: :custom_domain_root
-    # About page on custom domains lives at /about
-    get "about", to: "public/platforms/about#show", as: :custom_domain_about
+    root to: "public/pages#show", as: :custom_domain_root
   end
 
-  # Default root for the primary domain / local development
   root "welcome#index"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  resource :session, except: [ :show, :edit ]
   resource :registration, only: [ :new, :create ]
-  resources :passwords, param: :token
+  resource :session, only: [ :new, :create, :destroy ]
+  resources :passwords, param: :token, only: [ :new, :create, :edit, :update ]
 
-  # Render dynamic PWA files from app/views/pwa/*
-  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
-  # The route that ensures all your website can be hosted on twine.no/@mypage (also /p/ to support a few legacy links)
-  get "@:shortname", to: "public/platforms#show", constraints: { shortname: /[^\/]+/ }, as: :public_site
-  get "p/:shortname", to: "public/platforms#show", as: :legacy_public_site
-  # About page for a platform (both @shortname and /platforms/:shortname forms)
-  get "@:shortname/about", to: "public/platforms/about#show", constraints: { shortname: /[^\/]+/ }, as: :public_site_about
-  get "offline", to: "public/offline_notices#show", as: :offline_notice
-
-  get "e/:guid", to: "public/meetings#show", constraints: { guid: /[^\/]+/ }, as: :public_event
-  get "@:shortname/events", to: "public/meetings#index", constraints: { shortname: /[^\/]+/ }, as: :public_events
-
-  get "g/:guid", to: "public/groups#show", constraints: { guid: /[^\/]+/ }, as: :public_group
-
-  resources :events, only: [ :index, :show ], controller: :meetings
-
-  get "me", to: "users/memberships#show", as: :me
-
-  namespace :users do
-    resources :memberships, only: [] do
-      resources :assessments, only: [ :create ], module: :memberships
-      resource :switch, only: [ :create ], module: :memberships
-    end
-    resource :platform, only: [ :new, :create ]
-    resource :membership_order, only: [ :update ]
+  resource :page, only: [ :new, :create, :edit, :update ]
+  namespace :links do
+    resource :order, only: [ :update ]
   end
+  resources :links, only: [ :create, :update, :destroy ]
 
-  namespace :admin do
-    resource :onboarding, only: [ :show, :update ]
-    resource :dashboard, only: [ :show ]
-    resources :memberships, path: "members"
-    resources :groups, only: [ :new, :create, :edit, :update, :destroy ]
-    resources :groups_memberships, only: [ :create, :destroy ]
-    resources :links, only: [ :new, :create, :update, :destroy ] do
-      collection do
-        patch :sort
-      end
-    end
-    resource :site, only: [ :show, :update ]
-    resource :share, only: [ :show, :update ]
-    resources :meetings do
-      resources :invites, only: [ :create, :index, :show, :destroy ]
-      resources :mass_invites, only: [ :create ]
-      resources :rsvps, only: [ :create, :update ]
-      resources :resend_confirmations, only: [ :create ]
-      resource :surveys, only: [ :new, :create, :edit, :update ]
-    end
-
-    namespace :messages do
-      resources :meeting_invites, only: [ :new, :create ]
-    end
-  end
-
-  namespace :public do
-    resources :rsvps, only: [ :new, :create, :edit, :update ]
-  end
-
-  namespace :member do
-    resource :dashboard, only: [ :show ]
-  end
+  get "@:handle", to: "public/pages#show", constraints: { handle: /[^\/]+/ }, as: :public_page
+  # Pages used to live under /p/, and a few of those addresses are still out there
+  get "p/:handle", to: redirect("/@%{handle}")
 end

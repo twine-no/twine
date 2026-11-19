@@ -1,0 +1,20 @@
+bakery:
+  user: me
+  handle: springbakery
+  name: Spring Bakery
+  bio: Sourdough, cinnamon buns and good coffee.
+  published: true
+
+daves_draft:
+  user: dave
+  handle: dave
+  published: false
+
+# The local party chapter made its page before accounts were limited to one page each.
+# Nobody owns it, and it is served from the chapter's own domain.
+political_chapter:
+  handle: kjelsasap
+  name: Kjelsås Labour Party
+  domain: kjelsasap.lvh.me
+  color: "#ffffff"
+  published: true

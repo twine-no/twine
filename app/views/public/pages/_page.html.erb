@@ -1,0 +1,35 @@
+<%# locals: (page:) %>
+
+<div class="linktree <%= "linktree-blurred" if page.color.blank? %>" style="<%= page_background_style(page) %>">
+  <div class="linktree-content">
+    <div class="mx-auto w-full max-w-lg pt-8">
+      <div class="mb-8 text-center">
+        <% if page.avatar.attached? %>
+          <%= image_tag rails_storage_proxy_path(page.avatar.variant(:thumbnail)), alt: "", class: "avatar" %>
+        <% else %>
+          <%= image_tag "yarn.png", alt: "", class: "avatar avatar-placeholder" %>
+        <% end %>
+
+        <h1 class="text-xl font-bold"><%= page.title %></h1>
+
+        <% if page.bio.present? %>
+          <p class="mt-2"><%= page.bio %></p>
+        <% end %>
+      </div>
+
+      <div class="space-y-4">
+        <% page.links.each do |link| %>
+          <%= link_to link.name, link.url, target: "_blank", rel: "noopener nofollow ugc", class: "linktree-link" %>
+        <% end %>
+      </div>
+    </div>
+
+    <% unless on_custom_domain? %>
+      <div class="flex h-32 items-center justify-center text-sm">
+        <%= link_to root_url, target: "_blank", rel: "noopener" do %>
+          Made with <strong>Twine</strong> 🧶
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

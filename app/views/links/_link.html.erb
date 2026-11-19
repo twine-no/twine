@@ -1,0 +1,32 @@
+<%# locals: (link:) %>
+
+<%= tag.div id: dom_id(link), class: "card link-row" do %>
+  <%= hidden_field_tag "link_ids[]", link.id, id: nil, form: "link_order" %>
+
+  <span class="cursor-grab text-stone-400" title="Drag to reorder" data-sortable-handle>
+    <%= svg_tag "icons/mingcute/dot_grid_line", class: "h-5 w-5" %>
+  </span>
+
+  <%= form_with model: link, class: "link-fields", data: { controller: "submit-on-change" } do |form| %>
+    <%= form.text_field :name,
+                        id: dom_id(link, :name),
+                        class: "form-control",
+                        required: true,
+                        maxlength: 80,
+                        aria: { label: "Title" },
+                        data: { action: "change->submit-on-change#submit" } %>
+    <%= form.text_field :url,
+                        id: dom_id(link, :url),
+                        class: "form-control",
+                        required: true,
+                        autocapitalize: "none",
+                        spellcheck: false,
+                        aria: { label: "Address" },
+                        data: { action: "change->submit-on-change#submit" } %>
+    <%= form.submit "Save", class: "hidden", data: { submit_on_change_target: "submitButton" } %>
+  <% end %>
+
+  <%= button_to link_path(link), method: :delete, class: "button button-secondary", aria: { label: "Delete #{link.name}" } do %>
+    <%= svg_tag "icons/mingcute/delete_2_line", class: "h-5 w-5" %>
+  <% end %>
+<% end %>

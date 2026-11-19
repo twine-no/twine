@@ -1,8 +1,7 @@
 class PasswordsController < ApplicationController
   allow_unauthenticated_access
+  rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_password_url, alert: "Try again later." }
   before_action :set_user_by_token, only: %i[ edit update ]
-
-  layout "logged_out"
 
   def new
   end
@@ -22,7 +21,7 @@ class PasswordsController < ApplicationController
     if @user.update(params.permit(:password, :password_confirmation))
       redirect_to new_session_path, notice: "Password has been reset."
     else
-      redirect_to edit_password_path(params[:token]), alert: "Passwords did not match."
+      redirect_to edit_password_path(params[:token]), alert: @user.errors.full_messages.to_sentence
     end
   end
 
