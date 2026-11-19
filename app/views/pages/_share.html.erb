@@ -1,0 +1,25 @@
+<%# locals: (page:) %>
+
+<div class="card flex flex-wrap items-center justify-between gap-3">
+  <% if page.published? %>
+    <div>
+      <p class="text-sm text-stone-500">Your linktree is live at</p>
+      <%= link_to page_address(page), page_share_url(page), target: "_blank", rel: "noopener", class: "font-semibold underline" %>
+    </div>
+
+    <div class="flex gap-2">
+      <%= button_tag "Copy link",
+                     type: "button",
+                     class: "button button-primary relative",
+                     data: { controller: "clipboard", clipboard_copy_text_value: page_share_url(page), action: "clipboard#copy" } %>
+      <%= button_to "Unpublish", page_path, method: :patch, params: { page: { published: false } }, class: "button button-secondary" %>
+    </div>
+  <% else %>
+    <div>
+      <p class="font-semibold">Your linktree is unpublished</p>
+      <p class="text-sm text-stone-500">Nobody else can see it until you publish it at <%= page_address(page) %>.</p>
+    </div>
+
+    <%= button_to "Publish", page_path, method: :patch, params: { page: { published: true } }, class: "button button-primary" %>
+  <% end %>
+</div>

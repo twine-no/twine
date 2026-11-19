@@ -1,74 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title><%= content_for(:title) || 'Twine' %></title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
-
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-
-  <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
-
-  <%= yield :head %>
-
-  <%# Enable PWA manifest %>
-  <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-
-  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-
-  <%# Includes all stylesheet files in app/assets/stylesheets %>
-  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-  <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  <% turbo_refreshes_with method: :morph, scroll: :preserve %>
+  <%= render "layouts/head",
+             title: content_for(:title) || "Twine – Get a free linktree",
+             description: "One link for everything you share. Free, simple, and made in Norway.",
+             image_url: image_url("logo.png") %>
   <%= javascript_importmap_tags %>
 </head>
 
-<body
-  class="h-full bg-stone-100">
-<div
-  data-controller="sidebar drawer">
-  <%= render 'navigation/desktop_sidebar' %>
+<body class="min-h-screen bg-[#fdf9f5] text-stone-900 antialiased">
+  <header class="mx-auto flex max-w-5xl items-center justify-between px-4 py-5">
+    <%= link_to root_path do %>
+      <%= image_tag "logo.png", alt: "Twine", class: "h-8 w-auto" %>
+    <% end %>
 
-  <div class="lg:pl-72">
-    <%= render 'navigation/top_bar' %>
-    <main
-      data-controller="modal"
-      data-modal-open-on-page-load-value="<%= @modal_content.present? %>"
-      data-action="turbo:load@document->modal#close"
-      class="pt-10 pb-32 min-h-[100vh]"
-    >
+    <nav class="flex items-center gap-2">
+      <% if authenticated? %>
+        <%= button_to "Log out", session_path, method: :delete, class: "button button-secondary" %>
+      <% else %>
+        <%= link_to "Log in", new_session_path, class: "button button-secondary" %>
+        <%= link_to "Sign up free", new_registration_path, class: "button button-primary" %>
+      <% end %>
+    </nav>
+  </header>
 
-      <div class="px-4 sm:px-6 lg:px-8">
-        <% if content_for?(:breadcrumbs) %>
-          <div class="font-medium breadcrumbs">
-            <%= yield :breadcrumbs %>
-          </div>
-        <% end %>
+  <main class="mx-auto max-w-5xl px-4 pb-16">
+    <%= yield %>
+  </main>
 
-        <%= yield %>
-        <div
-          class="fixed inset-x-0 bottom-0 flex flex-col w-full pointer-events-none dynamic-flash-container"
-          data-turbo-temporary
-        >
-          <%= render 'navigation/flash' %>
-        </div>
+  <footer class="mx-auto max-w-5xl px-4 pb-10 text-center text-sm text-stone-500">
+    🇳🇴 Made in Norway · <%= mail_to "hey@twine.no", class: "underline" %>
+  </footer>
 
-        <div>
-          <%= render 'navigation/modal', modal_content: @modal_content %>
-        </div>
-      </div>
-    </main>
+  <div class="dynamic-flash-container" data-turbo-temporary>
+    <%= render "flash" %>
   </div>
-
-  <%= render 'navigation/mobile_menu' %>
-</div>
 </body>
 </html>

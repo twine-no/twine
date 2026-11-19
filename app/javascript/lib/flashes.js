@@ -15,7 +15,7 @@ function setAnimationTimes(contentLength, flashDiv, parentElement, displayTime) 
     }, 10);
 
     setTimeout(() => {
-        parentElement.removeChild(flashDiv);
+        flashDiv.remove();
     }, displayTime);
 }
 

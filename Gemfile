@@ -20,9 +20,6 @@ gem "jbuilder"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 
-# We use it to render the calendar view
-gem "simple_calendar"
-
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
@@ -45,9 +42,6 @@ gem "image_processing", "~> 1.14"
 
 gem "tailwindcss-rails"
 
-# Paginate records and load them automatically as you scroll
-gem "geared_pagination"
-
 # We use Hetzner for object storage, but it's S3 compatible
 gem "aws-sdk-s3", require: false
 
@@ -56,9 +50,6 @@ gem "postmark-rails"
 
 # Letter opener for intercepting emails in development
 gem "letter_opener", group: :development
-
-# .ical files for events
-gem "icalendar"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

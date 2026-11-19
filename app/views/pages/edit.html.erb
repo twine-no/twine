@@ -1,0 +1,28 @@
+<% content_for :title, "Your linktree | Twine" %>
+
+<div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_290px]"
+     data-controller="keep-typing"
+     data-action="turbo:before-morph-element->keep-typing#skipFocusedField">
+  <div class="space-y-8">
+    <%= render "pages/share", page: @page %>
+
+    <section>
+      <h2 class="section-title">Profile</h2>
+      <%= render "pages/form", page: @page %>
+    </section>
+
+    <section>
+      <h2 class="section-title">Links</h2>
+      <%= render "links/list", page: @page %>
+      <%= render "links/form" %>
+    </section>
+  </div>
+
+  <div class="flex justify-center lg:sticky lg:top-6 lg:self-start">
+    <div class="phone">
+      <div class="phone-screen">
+        <%= render "public/pages/page", page: @page %>
+      </div>
+    </div>
+  </div>
+</div>

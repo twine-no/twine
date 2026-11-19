@@ -6,46 +6,32 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "#new redirects to the member dashboard, if member is already signed in" do
-    login_as users(:member), on: platforms(:coffee_shop)
+  test "#new redirects to the editor when already logged in" do
+    login_as users(:me)
     get new_session_path
-    assert_redirected_to member_dashboard_path
+    assert_redirected_to edit_page_url
   end
 
-  test "#new redirects to /me, if admin is already signed in" do
-    login_as users(:admin), on: platforms(:coffee_shop)
-    get new_session_path
-    assert_redirected_to me_path
-  end
-
-  test "#create succeeds if email/password combination exists, logs in admin" do
-    assert_difference -> { users(:admin).sessions.count } do
-      post session_url, params: { email: users(:admin).email, password: "password" }
-      assert_redirected_to me_path
+  test "#create succeeds" do
+    assert_difference -> { users(:dave).sessions.count } do
+      post session_path, params: { email: users(:dave).email, password: "password" }
     end
+    assert_redirected_to edit_page_url
   end
 
-  test "#create succeeds if email/password combination exists, logs in member" do
-    assert_difference -> { users(:member).sessions.count } do
-      post session_url, params: { email: users(:member).email, password: "password" }
-      assert_redirected_to member_dashboard_path
+  test "#create fails when the password is wrong" do
+    assert_no_difference -> { users(:dave).sessions.count } do
+      post session_path, params: { email: users(:dave).email, password: "wrong password" }
     end
+    assert_redirected_to new_session_path
+    assert_equal "Try another email address or password.", flash[:alert]
   end
 
-  test "#create fails and redirects back to login page, if email/password combination does not exist" do
-    assert_no_difference -> { users(:admin).sessions.count } do
-      post session_url, params: { email: users(:admin).email, password: "wrong password" }
-      assert_redirected_to new_session_path
-      assert_equal "Try another email address or password.", flash[:alert]
+  test "#destroy succeeds" do
+    login_as users(:dave)
+    assert_difference -> { users(:dave).sessions.count }, -1 do
+      delete session_path
     end
-  end
-
-  test "#destroy signs the user out" do
-    login_as users(:member), on: platforms(:coffee_shop)
-    assert_difference -> { users(:member).sessions.count }, -1 do
-      delete session_url
-      assert_redirected_to new_session_path
-      assert_equal "You have signed out.", flash[:notice]
-    end
+    assert_redirected_to new_session_path
   end
 end

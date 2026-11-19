@@ -1,0 +1,9 @@
+<%# locals: (model:) %>
+
+<% if model.errors.any? %>
+  <ul class="form-errors" role="alert">
+    <% model.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>

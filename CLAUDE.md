@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Twine is a Rails 8 app for managing organisations, social groups, and businesses. It is multi-tenant: each **Platform** is a separate organisation, and users belong to platforms via **Memberships** with roles (`member`, `admin`, `super_admin`).
+Twine is a Rails 8 app that gives anyone a free linktree: a public page with a list of links, served at `/@username`. A **User** signs up and gets one **Page** (username, name, bio, picture), and a page has many **Links**.
 
 ## Reading and Improving These Guidelines
 
@@ -34,7 +34,7 @@ Twine is a Rails 8 app for managing organisations, social groups, and businesses
    - Run RuboCop: `bundle exec rubocop`.
 5. Repeat 3 and 4 until green
    - Iterate on implementation and re-run tests/linting until both pass.
-   - For UI changes, use the Playwright Node API (headless) to interact with and verify the local server — take screenshots, click buttons, fill forms, and confirm things work in practice. Run scripts from `/tmp/pw_test/` where `playwright` is installed (`node /tmp/pw_test/your_script.js`). Use `chromium.launch()` (headless by default). Inject auth via `bin/dev-session` as a signed cookie.
+   - For UI changes, use the Playwright Node API (headless) to interact with and verify the local server — take screenshots, click buttons, fill forms, and confirm things work in practice. Run scripts from `/tmp/pw_test/` where `playwright` is installed (`node /tmp/pw_test/your_script.js`). Use `chromium.launch()` (headless by default). Log in through the login form as a fixture user (`bin/rails db:seed` loads them, and the password is `password`).
 6. Commit and push
    - When working inside Conductor on a non-main branch: automatically commit and push after tests and linting pass, without waiting to be asked.
    - If test coverage was reduced (e.g. scenarios removed or assertions weakened), note it explicitly in the PR description.

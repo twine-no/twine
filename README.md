@@ -1,15 +1,28 @@
-# Codename: Twine
+# Twine
 
-A simple, free, open-source system to manage your business, organisation or social group.
+A free, simple linktree: one link for everything you share. Made in Norway 🇳🇴
+
+Sign up, pick a username, add your links, and share `twine.no/@yourname`.
 
 ## Inquiries?
 
 This project is maintained by Tomas! Reach out to me on hey@twine.no
 
+## How it works
+
+- A **User** signs up with an email, a password and a username.
+- The user gets one **Page**, with a name, a bio and a picture, served at `/@username`.
+- The page has **Links**, which can be added, edited, deleted and dragged into order from the editor at `/page/edit`.
+- A page can be unpublished, and a page with a `domain` is also served from the root of that domain.
+
+The editor saves each field as soon as it changes, and then refreshes itself with a Turbo morph so the preview follows along.
+
 ## How to get the project up and running
 
-Proper instructions will come later, but it's a Ruby on Rails project, so install Ruby, Rails, run bundle, migrate DB
-etc.
+It's a Ruby on Rails project, so install Ruby and run `bin/setup`. `bin/rails db:seed` loads the test fixtures, so
+you can log in as `example@mail.com` with the password `password`.
+
+Run the tests with `bin/run-tests`.
 
 ## Contribute
 
@@ -20,57 +33,3 @@ It's a good idea to reach out to Tomas first if you have a bigger idea you want 
 
 Protected under the JGTHF (Just Give Tomas a Heads-up First) license, in case you want to use the code
 for something radically different from the scope of this app/project.
-
-## Code
-
-### Turbo & Modals
-
-It's not completely straight forward to make modals work with Turbo. 
-
-When you want to open a page inside a modal, use the `modal_link_to` method instead of `link_to`
-(with tables, you can use `modal_row_link_to` instead of `row_link_to`).
-
-``` 
-modal_link_to("Edit group", edit_admin_group_path(@group), class: "button button-secondary")
-``` 
-
-Inside the modal, render the content inside a `modal_content` Turbo frame, and specify the content inside
-inside a `modal_content` block to apply the standard modal styles.
-
-``` 
-# i.e. views/admin/groups/edit.html.erb
-<%= turbo_frame_tag :modal_content do %>
-  <%= modal_content do %>
-    Put your content here.
-  <% end %>
-<% end %>
-``` 
-
-If you want a form inside the modal to close the modal on form submission,
-you need to specify the following data tags to ensure the HTML modal dialogue 
-doesn't prevent the page from becoming interactive.
-``` 
-# i.e. views/admin/groups/_form.html.erb
-data: {
-    turbo_frame: "_top",
-    action: "turbo:submit-end->modal#close"
-}
-
-# Or for a button_to element
-data: {
-  turbo_frame: "_top",
-},
-form: {
-  data: {
-    action: "turbo:submit-end->modal#close",
-  }
-}
-```
-
-Then simply redirect to the desired page from the controller
-
-``` 
-# controllers/admin/groups/groups_controller.rb
-redirect_to admin_memberships_path(tab: @group.id), notice: "#{@group.name} updated."
-}
-```

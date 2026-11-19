@@ -1,0 +1,27 @@
+<% content_for :title, "Pick a username | Twine" %>
+
+<div class="auth-card">
+  <h1 class="auth-title">Pick a username for your linktree</h1>
+
+  <%= form_with model: @page, url: page_path do |form| %>
+    <%= render "form_errors", model: @page %>
+
+    <div class="form-group">
+      <%= form.label :handle, "Username" %>
+      <div class="handle-field">
+        <span><%= page_address_prefix %></span>
+        <%= form.text_field :handle,
+                            required: true,
+                            minlength: 3,
+                            maxlength: 28,
+                            placeholder: "yourname",
+                            autofocus: true,
+                            autocapitalize: "none",
+                            autocomplete: "off",
+                            spellcheck: false %>
+      </div>
+    </div>
+
+    <%= form.submit "Create my linktree", class: "button button-primary button-xl mt-2 w-full" %>
+  <% end %>
+</div>

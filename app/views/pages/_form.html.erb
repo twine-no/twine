@@ -1,0 +1,47 @@
+<%# locals: (page:) %>
+
+<%= form_with model: page, url: page_path, class: "card", data: { controller: "submit-on-change" } do |form| %>
+  <div class="form-group">
+    <%= form.label :avatar, "Picture" %>
+    <%= form.file_field :avatar,
+                        accept: page_avatar_file_types,
+                        class: "block w-full text-sm",
+                        data: { action: "change->submit-on-change#submit" } %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name,
+                        class: "form-control",
+                        maxlength: 50,
+                        placeholder: "Your name or what you do",
+                        data: { action: "change->submit-on-change#submit" } %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :bio %>
+    <%= form.text_area :bio,
+                       class: "form-control",
+                       rows: 2,
+                       maxlength: 180,
+                       placeholder: "A sentence about you",
+                       data: { action: "change->submit-on-change#submit" } %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :handle, "Username" %>
+    <div class="handle-field">
+      <span><%= page_address_prefix %></span>
+      <%= form.text_field :handle,
+                          required: true,
+                          minlength: 3,
+                          maxlength: 28,
+                          autocapitalize: "none",
+                          autocomplete: "off",
+                          spellcheck: false,
+                          data: { action: "change->submit-on-change#submit" } %>
+    </div>
+  </div>
+
+  <%= form.submit "Save", class: "hidden", data: { submit_on_change_target: "submitButton" } %>
+<% end %>

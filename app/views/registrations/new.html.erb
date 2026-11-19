@@ -1,22 +1,42 @@
-<div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-  <div class="w-full max-w-md bg-white rounded-lg shadow-md p-6">
-    <h2 class="text-2xl font-semibold text-center mb-4">Sign up up to create your platform</h2>
+<% content_for :title, "Sign up | Twine" %>
 
-    <%= form_with url: registration_path, model: @user, local: true, class: "space-y-4" do |form| %>
-      <%= render "navigation/form_errors", model: @user %>
-          <div class="form-group">
-            <%= form.label :email %>
-            <%= form.email_field :email, class: "form-control", required: true %>
-          </div>
-      
-          <div class="form-group">
-            <%= form.label :password, class: "block text-sm font-medium text-gray-700" %>
-            <%= form.password_field :password, class: "form-control", required: true %>
-          </div>
+<div class="auth-card">
+  <h1 class="auth-title">Get your free linktree</h1>
 
-      <div>
-        <%= form.submit "Sign Up", class: "button button-primary button-xl w-full" %>
+  <%= form_with model: @user, url: registration_path do |form| %>
+    <%= render "form_errors", model: @user %>
+
+    <%= form.fields_for :page do |page_form| %>
+      <div class="form-group">
+        <%= page_form.label :handle, "Username" %>
+        <div class="handle-field">
+          <span><%= page_address_prefix %></span>
+          <%= page_form.text_field :handle,
+                                   required: true,
+                                   minlength: 3,
+                                   maxlength: 28,
+                                   placeholder: "yourname",
+                                   autocapitalize: "none",
+                                   autocomplete: "off",
+                                   spellcheck: false %>
+        </div>
       </div>
     <% end %>
-  </div>
+
+    <div class="form-group">
+      <%= form.label :email %>
+      <%= form.email_field :email, required: true, autocomplete: "username", class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :password %>
+      <%= form.password_field :password, required: true, minlength: 8, maxlength: 72, autocomplete: "new-password", class: "form-control" %>
+    </div>
+
+    <%= form.submit "Create my linktree", class: "button button-primary button-xl mt-2 w-full" %>
+  <% end %>
+
+  <p class="auth-footnote">
+    Already have one? <%= link_to "Log in", new_session_path, class: "underline" %>
+  </p>
 </div>

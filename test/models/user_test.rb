@@ -1,26 +1,16 @@
 require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
-  test "#save saves valid member" do
-    user = User.new(
-      first_name: "User",
-      last_name: "Userson",
-      email: "user.userson@email.com",
-      password: "password123"
-    )
-    assert user.save
+  test "#save succeeds with an email and a password" do
+    assert User.new(email: " Astrid@Example.com ", password: "password123").save
+    assert User.exists?(email: "astrid@example.com")
   end
 
-  test "#save prevents saving User without email" do
-    user = User.new(
-      first_name: "User",
-      last_name: "Userson",
-      password: "password123"
-    )
-    assert_not user.save
+  test "#save fails without an email" do
+    assert_not User.new(email: "", password: "password123").save
+  end
 
-    # Doesn't work either
-    user.email = ""
-    assert_not user.save
+  test "#save fails with a password shorter than 8 characters" do
+    assert_not User.new(email: "astrid@example.com", password: "short").save
   end
 end

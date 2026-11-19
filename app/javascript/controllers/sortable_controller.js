@@ -1,26 +1,20 @@
 import {Controller} from "@hotwired/stimulus";
 import Sortable from "sortablejs";
-import {request} from "helpers/request_helpers";
 
+// Lets the list be reordered by dragging, and submits the order form when an item is dropped.
+// The order form picks up the new order from hidden fields that travel with each item.
 export default class extends Controller {
-    static values = {updatePath: String, handle: String};
+    static targets = ["list", "orderForm"];
 
     connect() {
-        this.sortable = Sortable.create(this.element, {
+        this.sortable = Sortable.create(this.listTarget, {
             animation: 150,
-            ghostClass: "bg-gray-200",
-            handle: this.hasHandleValue ? this.handleValue : undefined,
-            onEnd: this.reorder.bind(this),
+            handle: "[data-sortable-handle]",
+            onEnd: () => this.orderFormTarget.requestSubmit(),
         });
     }
 
-    async reorder() {
-        const ids = Array.from(this.element.children).map((el) => el.dataset.id);
-
-        await request("PATCH", this.updatePathValue, {
-            contentType: "application/json",
-            responseKind: "json",
-            body: JSON.stringify({order: ids})
-        });
+    disconnect() {
+        this.sortable.destroy();
     }
 }

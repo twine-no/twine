@@ -1,0 +1,10 @@
+<%# locals: (page:) %>
+
+<div data-controller="sortable">
+  <%= form_with url: links_order_path, method: :patch, id: "link_order", data: { sortable_target: "orderForm" } do |form| %>
+  <% end %>
+
+  <div data-sortable-target="list">
+    <%= render partial: "links/link", collection: page.links %>
+  </div>
+</div>
