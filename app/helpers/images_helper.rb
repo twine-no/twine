@@ -1,6 +1,6 @@
 module ImagesHelper
   def svg_tag(icon_name, options = {})
-    icon_name.sub!(".svg", "")
+    icon_name = icon_name.delete_suffix(".svg")
 
     if Rails.env.production?
       cache_key = "svg-#{icon_name}-#{options.hash}"
