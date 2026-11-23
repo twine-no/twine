@@ -1,4 +1,4 @@
-<%# locals: (name:, selected:, options:, select_options: {}, html_options: {} %>
+<%# locals: (name:, selected:, options:, select_options: {}, html_options: {}) %>
 <div class="relative" data-controller="forms--searchable-select">
   <%= hidden_field_tag name, selected, id: "#{name}_hidden", class: "hidden", data: { "forms--searchable-select-target": "hiddenField" } %>
 
